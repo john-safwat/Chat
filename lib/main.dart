@@ -1,6 +1,7 @@
 import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Presintation/Home/HomeView.dart';
+import 'package:chat/Presintation/Login/LoginView.dart';
 import 'package:chat/Presintation/Register/RegisterView.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           RegisterScreen.routeName :(context) => RegisterScreen(),
-          HomeScreen.routeName:(context)=>HomeScreen()
+          HomeScreen.routeName:(context)=>HomeScreen(),
+          LoginScreen.routeName : (context) => LoginScreen()
         },
         initialRoute: RegisterScreen.routeName,
         theme: MyTheme.light,

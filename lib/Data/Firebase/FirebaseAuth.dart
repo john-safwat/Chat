@@ -17,7 +17,7 @@ class FirebaseAuthConfig {
 
   Future<String> createAccount(UserDTO user)async{
     try{
-      var response = await firebase.createUserWithEmailAndPassword(
+       await firebase.createUserWithEmailAndPassword(
           email: user.email,
           password: user.password
       ).then((value) => value.user!.updateDisplayName(user.name)).timeout(const Duration(seconds: 15));
@@ -39,6 +39,44 @@ class FirebaseAuthConfig {
           break;
         default:
           error = e.toString();
+      }
+      throw MyFirebaseAuthException(error);
+    }catch (e){
+      throw MyFirebaseAuthException(e.toString());
+    }
+  }
+
+  Future<String>loginAccount(String email , String password)async{
+    try{
+      await firebase.signInWithEmailAndPassword(email: email, password: password);
+      return firebase.currentUser!.uid;
+    }on FirebaseAuthException catch(e){
+      String error = '';
+      switch (e.code) {
+      case "ERROR_WRONG_PASSWORD":
+      case "wrong-password":
+      error = "Wrong email/password combination.";
+      break;
+      case "ERROR_USER_NOT_FOUND":
+      case "user-not-found":
+      error = "No user found with this email.";
+      break;
+      case "ERROR_USER_DISABLED":
+      case "user-disabled":
+      error =  "User disabled.";
+      break;
+      case "ERROR_TOO_MANY_REQUESTS":
+      case "operation-not-allowed":
+      error =  "Too many requests to log into this account.";
+      break;
+      case "ERROR_OPERATION_NOT_ALLOWED":
+      case "ERROR_INVALID_EMAIL":
+      case "invalid-email":
+      error =  "Email address is invalid.";
+      break;
+      default:
+      error =  "Login failed. Please try again.";
+      break;
       }
       throw MyFirebaseAuthException(error);
     }catch (e){
