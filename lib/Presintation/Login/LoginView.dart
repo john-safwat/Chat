@@ -53,11 +53,11 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
                     Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.all(40),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      margin: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(

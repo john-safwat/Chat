@@ -1,4 +1,4 @@
-class MyFirebaseAuthException implements Exception{
+class FirebaseAuthRemoteDataSourceException implements Exception{
   String errorMessage ;
-  MyFirebaseAuthException(this.errorMessage);
+  FirebaseAuthRemoteDataSourceException(this.errorMessage);
 }

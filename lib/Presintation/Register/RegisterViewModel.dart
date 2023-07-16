@@ -1,6 +1,7 @@
 import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
+import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
 import 'package:chat/Domain/UseCase/CreateAccountUseCase.dart';
 import 'package:chat/Presintation/Register/RegisterNavigator.dart';
 import 'package:flutter/material.dart';
@@ -62,13 +63,16 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
           navigator!.showSuccessMessage("Account Created Successfully" , goToHomeScreen);
         }catch (e){
           navigator!.hideLoading();
-          if(e is MyFirebaseAuthException){
+          if(e is FirebaseAuthRemoteDataSourceException){
+            navigator!.showFailMessage(e.errorMessage);
+          }else if (e is FirebaseAuthTimeoutException){
             navigator!.showFailMessage(e.errorMessage);
           }else{
             navigator!.showFailMessage(e.toString());
           }
         }
       }else {
+        navigator!.hideLoading();
         navigator!.showFailMessage("Passwords Doesn't Match");
       }
     }
