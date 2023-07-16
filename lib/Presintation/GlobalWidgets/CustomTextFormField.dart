@@ -27,34 +27,39 @@ class MyTextFormField extends StatelessWidget {
         validator: (value) => validator(value),
         cursorHeight: 20,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 15),
+          contentPadding: const EdgeInsets.all(20),
           label: Text(
             label,
             style: textTheme.displayMedium,
           ),
-          border: const UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 1,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide:const BorderSide(
+                width: 2,
                 color: MyTheme.gray,
               )),
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              width: 1,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              width: 2,
               color: MyTheme.gray,
             ),
           ),
-          focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 3,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(
+                width: 2,
                 color: MyTheme.blue,
               )),
-          errorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(
                 width: 2,
                 color: Colors.red,
               )),
-          focusedErrorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(
                 width: 2,
                 color: Colors.red,
               )),
@@ -116,34 +121,39 @@ class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
               color: MyTheme.blue,
             ),
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 15),
+          contentPadding: const EdgeInsets.all(20),
           label: Text(
             widget.label,
             style: textTheme.displayMedium,
           ),
-          border: const UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 1,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide:const BorderSide(
+                width: 2,
                 color: MyTheme.gray,
               )),
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              width: 1,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              width: 2,
               color: MyTheme.gray,
             ),
           ),
-          focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 3,
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(
+                width: 2,
                 color: MyTheme.blue,
               )),
-          errorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(
                 width: 2,
                 color: Colors.red,
               )),
-          focusedErrorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(
                 width: 2,
                 color: Colors.red,
               )),

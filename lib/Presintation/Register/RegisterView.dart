@@ -65,6 +65,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                     ),
                     Container(
                       margin: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -73,7 +74,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 offset: const Offset(5, 5))
                           ],
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(30)),
                       child: Form(
                           key: value.fromKey,
                           child: Column(
@@ -121,7 +122,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                         ))),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 30, vertical: 20),
+                                          horizontal: 30, vertical: 15),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -186,4 +187,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   goToLoginScreen() {
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
+
+
 }
