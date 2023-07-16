@@ -17,8 +17,8 @@ abstract class BaseState <T extends StatefulWidget , VM extends BaseViewModel>ex
   @override
   void dispose() {
     super.dispose();
-    viewModel =null;
     viewModel!.navigator = null;
+    viewModel =null;
   }
 
   VM initialViewModel();
