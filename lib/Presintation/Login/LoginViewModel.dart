@@ -1,6 +1,7 @@
 import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
+import 'package:chat/Domain/Exception/TimeoutException.dart';
 import 'package:chat/Domain/UseCase/loginAccountUseCase.dart';
 import 'package:chat/Presintation/Login/LoginNavigator.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +11,11 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
   LoginViewModel(this.useCase);
 
   final formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmationController = TextEditingController();
 
   AppConfigProvider? provider ;
 
-  // validate on the name if it is not empty and doesn't contain ant spacial characters
   // validate on the email form
   String? emailValidation(String input) {
     if (input.isEmpty) {
@@ -40,23 +38,27 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
     }
     return null;
   }
+
   void login()async{
     if(formKey.currentState!.validate()){
       navigator!.showLoading("Logging In");
       try{
-        var response = useCase.invoke(email: emailController.text, password: passwordController.text);
+        var response = await useCase.invoke(email: emailController.text, password: passwordController.text);
         navigator!.hideLoading();
         navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
       }catch (e){
         navigator!.hideLoading();
-        if(e is MyFirebaseAuthException){
+        if(e is FirebaseAuthRemoteDataSourceException){
           navigator!.showFailMessage(e.errorMessage);
-        }else{
+        }else if (e is FirebaseAuthTimeoutException){
+          navigator!.showFailMessage(e.errorMessage);
+        }else {
           navigator!.showFailMessage(e.toString());
         }
       }
     }
   }
+
   void goToHomeScreen(){
     navigator!.goToHomeScreen();
   }

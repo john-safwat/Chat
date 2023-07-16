@@ -53,111 +53,97 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.all(40),
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(5, 5))
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Form(
-                          key: value.formKey,
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                padding: const EdgeInsets.all(20),
-                                child: Text(
-                                  'Welcome Back!',
+                    Form(
+                        key: value.formKey,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              alignment: Alignment.topLeft,
+                              padding: const EdgeInsets.all(20),
+                              child: Text(
+                                'Welcome Back!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge,
+                              ),
+                            ),
+                            MyTextFormField(
+                              label: "Email",
+                              controller: value.emailController,
+                              inputType: TextInputType.emailAddress,
+                              validator: value.emailValidation,
+                            ),
+                            MyPasswordTextFormField(
+                              label: "Password",
+                              controller: value.passwordController,
+                              inputType: TextInputType.visiblePassword,
+                              validator: value.passwordValidation,
+                            ),
+                            // the create account button in the end of the screen
+                            Container(
+                              margin: const EdgeInsets.all(20),
+                              child: ElevatedButton(
+                                  onPressed: value.login,
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all(
+                                          MyTheme.blue),
+                                      elevation: MaterialStateProperty.all(4),
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(20),
+                                          ))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Log in",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displayLarge!
+                                              .copyWith(color: MyTheme.white),
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          color: MyTheme.white,
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't have account?",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .displayLarge!
-                                      .copyWith(color: MyTheme.blue),
+                                      .displayMedium,
                                 ),
-                              ),
-                              MyTextFormField(
-                                label: "Email",
-                                controller: value.emailController,
-                                inputType: TextInputType.emailAddress,
-                                validator: value.emailValidation,
-                              ),
-                              MyPasswordTextFormField(
-                                label: "Password",
-                                controller: value.passwordController,
-                                inputType: TextInputType.visiblePassword,
-                                validator: value.passwordValidation,
-                              ),
-                              // the create account button in the end of the screen
-                              Container(
-                                margin: const EdgeInsets.all(20),
-                                child: ElevatedButton(
-                                    onPressed: value.login,
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                MyTheme.blue),
-                                        elevation: MaterialStateProperty.all(4),
-                                        shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 30, vertical: 20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Log in",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .displayLarge!
-                                                .copyWith(color: MyTheme.white),
-                                          ),
-                                          const Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: MyTheme.white,
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Don't have account?",
+                                TextButton(
+                                  onPressed: value.goToRegisterScreen,
+                                  child: Text(
+                                    "Register Now!",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .displayMedium,
+                                        .displayMedium!
+                                        .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: MyTheme.blue),
                                   ),
-                                  TextButton(
-                                    onPressed: value.goToRegisterScreen,
-                                    child: Text(
-                                      "Register Now!",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium!
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              color: MyTheme.blue),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                      ),
+                                )
+                              ],
+                            )
+                          ],
+                        )
                     ),
                   ],
                 ),
