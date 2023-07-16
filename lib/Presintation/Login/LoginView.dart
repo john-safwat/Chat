@@ -1,44 +1,35 @@
 import 'package:chat/Core/Base/BaseState.dart';
 import 'package:chat/Core/DI/di.dart';
-import 'package:chat/Core/Dialogs/DialogUtils.dart';
-import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
-import 'package:chat/Domain/UseCase/CreateAccountUseCase.dart';
+import 'package:chat/Domain/UseCase/loginAccountUseCase.dart';
 import 'package:chat/Presintation/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presintation/Home/HomeView.dart';
-import 'package:chat/Presintation/Login/LoginView.dart';
-import 'package:chat/Presintation/Register/RegisterNavigator.dart';
-import 'package:chat/Presintation/Register/RegisterViewModel.dart';
+import 'package:chat/Presintation/Login/LoginNavigator.dart';
+import 'package:chat/Presintation/Login/LoginViewModel.dart';
+import 'package:chat/Presintation/Register/RegisterView.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatefulWidget {
-  static const String routeName = 'RegisterScreen';
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  static const String routeName = 'LoginScreen';
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
-    implements RegisterNavigator {
+class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
+    implements LoginNavigator {
   @override
-  RegisterViewModel initialViewModel() {
-    return RegisterViewModel(CreateAccountUseCase(injectAuthRepo()));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    viewModel!.provider =
-        Provider.of<AppConfigProvider>(context, listen: false);
+  LoginViewModel initialViewModel() {
+    return LoginViewModel(LoginAccountUseCase(injectAuthRepo()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RegisterViewModel>(
-      create: (context) => viewModel!,
-      child: Consumer<RegisterViewModel>(
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Consumer<LoginViewModel>(
         builder: (context, value, child) => Stack(
           children: [
             Container(
@@ -56,7 +47,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
             Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
-                title: const Text("Create Account"),
+                title: const Text("Login"),
               ),
               body: SingleChildScrollView(
                 child: Column(
@@ -65,8 +56,8 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                       height: 50,
                     ),
                     Container(
-                      margin: const EdgeInsets.all(20),
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(40),
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -75,17 +66,22 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 offset: const Offset(5, 5))
                           ],
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(30)),
+                          borderRadius: BorderRadius.circular(20)),
                       child: Form(
-                          key: value.fromKey,
+                          key: value.formKey,
                           child: Column(
+                            // mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // the text Fields
-                              MyTextFormField(
-                                label: "Name",
-                                controller: value.nameController,
-                                inputType: TextInputType.name,
-                                validator: value.nameValidation,
+                              Container(
+                                alignment: Alignment.topLeft,
+                                padding: const EdgeInsets.all(20),
+                                child: Text(
+                                  'Welcome Back!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge!
+                                      .copyWith(color: MyTheme.blue),
+                                ),
                               ),
                               MyTextFormField(
                                 label: "Email",
@@ -99,18 +95,11 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 inputType: TextInputType.visiblePassword,
                                 validator: value.passwordValidation,
                               ),
-                              MyPasswordTextFormField(
-                                label: "Confirm Password",
-                                controller:
-                                    value.passwordConfirmationController,
-                                inputType: TextInputType.visiblePassword,
-                                validator: value.passwordValidation,
-                              ),
                               // the create account button in the end of the screen
                               Container(
                                 margin: const EdgeInsets.all(20),
                                 child: ElevatedButton(
-                                    onPressed: value.register,
+                                    onPressed: value.login,
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
@@ -123,13 +112,13 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                         ))),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 30, vertical: 15),
+                                          horizontal: 30, vertical: 20),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Create Account",
+                                            "Log in",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .displayLarge!
@@ -147,15 +136,15 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Already Have Account ?",
+                                    "Don't have account?",
                                     style: Theme.of(context)
                                         .textTheme
                                         .displayMedium,
                                   ),
                                   TextButton(
-                                    onPressed: value.goToLoginScreen,
+                                    onPressed: value.goToRegisterScreen,
                                     child: Text(
-                                      "Login!",
+                                      "Register Now!",
                                       style: Theme.of(context)
                                           .textTheme
                                           .displayMedium!
@@ -167,12 +156,13 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 ],
                               )
                             ],
-                          )),
+                          )
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -185,9 +175,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   }
 
   @override
-  goToLoginScreen() {
-    Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+  goToRegisterScreen() {
+    Navigator.pushReplacementNamed(context, RegisterScreen.routeName);
   }
-
-
 }
