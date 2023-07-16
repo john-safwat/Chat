@@ -1,12 +1,12 @@
 import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:flutter/material.dart';
 
-class MyTextFormFiled extends StatelessWidget {
+class MyTextFormField extends StatelessWidget {
   String label;
   TextEditingController controller;
   TextInputType inputType;
   Function validator;
-  MyTextFormFiled(
+  MyTextFormField(
       {required this.label,
         required this.controller,
         required this.inputType,
@@ -64,12 +64,12 @@ class MyTextFormFiled extends StatelessWidget {
   }
 }
 
-class MyPasswordTextFormFiled extends StatefulWidget {
+class MyPasswordTextFormField extends StatefulWidget {
   String label;
   TextEditingController controller;
   TextInputType inputType;
   Function validator;
-  MyPasswordTextFormFiled(
+  MyPasswordTextFormField(
       {required this.label,
         required this.controller,
         required this.inputType,
@@ -77,11 +77,11 @@ class MyPasswordTextFormFiled extends StatefulWidget {
         super.key});
 
   @override
-  State<MyPasswordTextFormFiled> createState() =>
-      _MyPasswordTextFormFiledState();
+  State<MyPasswordTextFormField> createState() =>
+      _MyPasswordTextFormFieldState();
 }
 
-class _MyPasswordTextFormFiledState extends State<MyPasswordTextFormFiled> {
+class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
   bool visiabel = false;
 
   @override

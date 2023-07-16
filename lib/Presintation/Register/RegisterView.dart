@@ -1,5 +1,6 @@
 import 'package:chat/Core/Base/BaseState.dart';
 import 'package:chat/Core/DI/di.dart';
+import 'package:chat/Core/Dialogs/DialogUtils.dart';
 import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/UseCase/CreateAccountUseCase.dart';
@@ -18,8 +19,8 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends BaseState<RegisterScreen , RegisterViewModel> implements RegisterNavigator{
-
+class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
+    implements RegisterNavigator {
   @override
   RegisterViewModel initialViewModel() {
     return RegisterViewModel(CreateAccountUseCase(injectAuthRepo()));
@@ -28,7 +29,8 @@ class _RegisterScreenState extends BaseState<RegisterScreen , RegisterViewModel>
   @override
   void initState() {
     super.initState();
-    viewModel!.provider = Provider.of<AppConfigProvider>(context , listen: false);
+    viewModel!.provider =
+        Provider.of<AppConfigProvider>(context, listen: false);
   }
 
   @override
@@ -76,27 +78,29 @@ class _RegisterScreenState extends BaseState<RegisterScreen , RegisterViewModel>
                           key: value.fromKey,
                           child: Column(
                             children: [
-                              MyTextFormFiled(
+                              // the text Fields
+                              MyTextFormField(
                                 label: "Name",
                                 controller: value.nameController,
                                 inputType: TextInputType.name,
                                 validator: value.nameValidation,
                               ),
-                              MyTextFormFiled(
+                              MyTextFormField(
                                 label: "Email",
                                 controller: value.emailController,
                                 inputType: TextInputType.emailAddress,
                                 validator: value.emailValidation,
                               ),
-                              MyPasswordTextFormFiled(
+                              MyPasswordTextFormField(
                                 label: "Password",
                                 controller: value.passwordController,
                                 inputType: TextInputType.visiblePassword,
                                 validator: value.passwordValidation,
                               ),
-                              MyPasswordTextFormFiled(
+                              MyPasswordTextFormField(
                                 label: "Confirm Password",
-                                controller: value.passwordConfirmationController,
+                                controller:
+                                    value.passwordConfirmationController,
                                 inputType: TextInputType.visiblePassword,
                                 validator: value.passwordValidation,
                               ),
@@ -108,7 +112,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen , RegisterViewModel>
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
-                                                MyTheme.white),
+                                                MyTheme.blue),
                                         elevation: MaterialStateProperty.all(4),
                                         shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
@@ -127,15 +131,38 @@ class _RegisterScreenState extends BaseState<RegisterScreen , RegisterViewModel>
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .displayLarge!
-                                                .copyWith(color: MyTheme.blue),
+                                                .copyWith(color: MyTheme.white),
                                           ),
                                           const Icon(
                                             Icons.arrow_forward_ios_rounded,
-                                            color: MyTheme.blue,
+                                            color: MyTheme.white,
                                           ),
                                         ],
                                       ),
                                     )),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Don't Have Account ?",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
+                                  ),
+                                  TextButton(
+                                    onPressed: value.goToLoginScreen,
+                                    child: Text(
+                                      "Create One",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: MyTheme.blue),
+                                    ),
+                                  )
+                                ],
                               )
                             ],
                           )),
@@ -155,7 +182,8 @@ class _RegisterScreenState extends BaseState<RegisterScreen , RegisterViewModel>
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 
-
-
+  @override
+  goToLoginScreen() {
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+  }
 }
-
