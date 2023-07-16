@@ -10,5 +10,4 @@ class CreateAccountUseCase {
     var response = await repository.createUser(Users(name: name, email: email, password: password));
     return response;
   }
-
 }

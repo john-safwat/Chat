@@ -1,4 +1,3 @@
-
 import 'package:chat/Domain/Models/User/Users.dart';
 import 'package:chat/Domain/Repository/FirebaseAuthContract.dart';
 
@@ -13,5 +12,9 @@ class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
     return response;
   }
 
-
+  @override
+  Future<String> loginUser(String email, String password) async{
+    var response = await remoteDataSource.loginUser(email, password);
+    return response;
+  }
 }
