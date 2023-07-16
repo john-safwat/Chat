@@ -1,3 +1,5 @@
+import 'package:chat/Core/Dialogs/NegativeActionButton.dart';
+import 'package:chat/Core/Dialogs/PosActionButton.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -49,31 +51,11 @@ class MyDialogUtils {
 
     // add the button to the action list if it doesn't equal null
     if(negativeActionTitle != null){
-      actionList.add(
-          Expanded(
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(MyTheme.white),
-                  shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side:const BorderSide(width: 2, color: MyTheme.blue),
-                      )
-                  )
-              ),
-              onPressed: (){
-                Navigator.pop(context);
-                if (negativeAction != null){
-                  negativeAction();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.blue)),
-              ),
-            ),
-          )
-      );
+      if(negativeAction != null){
+        actionList.add(NegativeActionButton(negativeActionTitle: negativeActionTitle , negativeAction: negativeAction,));
+      }else {
+        actionList.add(NegativeActionButton(negativeActionTitle: negativeActionTitle));
+      }
     }
 
     // add the button to the action list if it doesn't equal null
@@ -81,30 +63,11 @@ class MyDialogUtils {
       if (actionList.isNotEmpty){
         actionList.add(const SizedBox(width: 20,));
       }
-      actionList.add(
-          Expanded(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyTheme.blue),
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )
-                    )
-                ),
-                onPressed: (){
-                  Navigator.pop(context);
-                  if (posAction != null){
-                    posAction();
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(posActionTitle,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white)),
-                )
-            ),
-          )
-      );
+      if(posAction != null){
+        actionList.add(PosActionButton(posActionTitle: posActionTitle , posAction: posAction,));
+      }else{
+        actionList.add(PosActionButton(posActionTitle: posActionTitle));
+      }
     }
 
 
@@ -173,32 +136,11 @@ class MyDialogUtils {
 
     // add the button to the action list if it doesn't equal null
     if(negativeActionTitle != null){
-      actionList.add(
-          Expanded(
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(MyTheme.white),
-                  shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side:const BorderSide(width: 2, color: MyTheme.blue),
-                      )
-                  )
-              ),
-              onPressed: (){
-                Navigator.pop(context);
-
-                if (negativeAction != null){
-                  negativeAction();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white),),
-              ),
-            ),
-          )
-      );
+      if(negativeAction != null){
+        actionList.add(NegativeActionButton(negativeActionTitle: negativeActionTitle , negativeAction: negativeAction,));
+      }else {
+        actionList.add(NegativeActionButton(negativeActionTitle: negativeActionTitle));
+      }
     }
 
     // add the button to the action list if it doesn't equal null
@@ -206,31 +148,13 @@ class MyDialogUtils {
       if (actionList.isNotEmpty){
         actionList.add(const SizedBox(width: 20,));
       }
-      actionList.add(
-          Expanded(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyTheme.blue),
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )
-                    )
-                ),
-                onPressed: (){
-                  Navigator.pop(context);
-                  if (posAction != null){
-                    posAction();
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(posActionTitle,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white)),
-                )
-            ),
-          )
-      );
+      if(posAction != null){
+        actionList.add(PosActionButton(posActionTitle: posActionTitle , posAction: posAction,));
+      }else{
+        actionList.add(PosActionButton(posActionTitle: posActionTitle));
+      }
     }
+
 
     showDialog(
         context: context,
@@ -295,31 +219,11 @@ class MyDialogUtils {
 
     // add the button to the action list if it doesn't equal null
     if(negativeActionTitle != null){
-      actionList.add(
-          Expanded(
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(MyTheme.white),
-                  shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: const BorderSide(width: 2, color: MyTheme.blue),
-                      )
-                  )
-              ),
-              onPressed: (){
-                Navigator.pop(context);
-                if (negativeAction != null){
-                  negativeAction();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white),),
-              ),
-            ),
-          )
-      );
+      if(negativeAction != null){
+        actionList.add(NegativeActionButton(negativeActionTitle: negativeActionTitle , negativeAction: negativeAction,));
+      }else {
+        actionList.add(NegativeActionButton(negativeActionTitle: negativeActionTitle));
+      }
     }
 
     // add the button to the action list if it doesn't equal null
@@ -327,30 +231,11 @@ class MyDialogUtils {
       if (actionList.isNotEmpty){
         actionList.add(const SizedBox(width: 20,));
       }
-      actionList.add(
-          Expanded(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyTheme.blue),
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )
-                    )
-                ),
-                onPressed: (){
-                  Navigator.pop(context);
-                  if (posAction != null){
-                    posAction();
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(posActionTitle,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white),),
-                )
-            ),
-          )
-      );
+      if(posAction != null){
+        actionList.add(PosActionButton(posActionTitle: posActionTitle , posAction: posAction,));
+      }else{
+        actionList.add(PosActionButton(posActionTitle: posActionTitle));
+      }
     }
 
     showDialog(

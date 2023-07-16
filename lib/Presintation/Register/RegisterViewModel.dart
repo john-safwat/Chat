@@ -78,4 +78,7 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
     navigator!.goToHomeScreen();
   }
 
+  void goToLoginScreen(){
+    navigator!.goToLoginScreen();
+  }
 }
