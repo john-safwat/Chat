@@ -27,6 +27,8 @@ class MyTextFormField extends StatelessWidget {
         validator: (value) => validator(value),
         cursorHeight: 20,
         decoration: InputDecoration(
+          fillColor: MyTheme.white,
+          filled: true,
           contentPadding: const EdgeInsets.all(20),
           label: Text(
             label,
@@ -105,6 +107,8 @@ class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
         validator: (value) => widget.validator(value),
         cursorHeight: 20,
         decoration: InputDecoration(
+          fillColor: MyTheme.white,
+          filled: true,
           suffixIcon: InkWell(
             onTap: () {
               setState(() {

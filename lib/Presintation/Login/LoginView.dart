@@ -1,13 +1,16 @@
 import 'package:chat/Core/Base/BaseState.dart';
 import 'package:chat/Core/DI/di.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
-import 'package:chat/Domain/UseCase/loginAccountUseCase.dart';
+import 'package:chat/Domain/UseCase/LoginAccountUseCase.dart';
+import 'package:chat/Domain/UseCase/SignInWithGoogleUseCase.dart';
 import 'package:chat/Presintation/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presintation/Home/HomeView.dart';
 import 'package:chat/Presintation/Login/LoginNavigator.dart';
 import 'package:chat/Presintation/Login/LoginViewModel.dart';
 import 'package:chat/Presintation/Register/RegisterView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,7 +25,10 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
     implements LoginNavigator {
   @override
   LoginViewModel initialViewModel() {
-    return LoginViewModel(LoginAccountUseCase(injectAuthRepo()));
+    return LoginViewModel(
+      LoginAccountUseCase(injectAuthRepo()),
+      SignInWithGoogleUseCase(injectAuthRepo())
+    );
   }
 
   @override
@@ -154,7 +160,11 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
                                     ),
                                   )
                                 ],
-                              )
+                              ),
+                              SignInButton(
+                                Buttons.Google,
+                                onPressed: value.loginWithGoogle
+                              ),
                             ],
                           )
                       ),

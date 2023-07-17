@@ -89,4 +89,47 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
       throw FirebaseAuthRemoteDataSourceException(e.toString());
     }
   }
+
+  @override
+  Future<String> signInWithGoogle() async{
+    try {
+      var response = await firebaseAuthConfig.signInWithGoogle();
+      return response;
+    } on FirebaseAuthException catch (e) {
+      String error = '';
+      switch (e.code) {
+        case "ERROR_WRONG_PASSWORD":
+        case "wrong-password":
+          error = "Wrong email/password combination.";
+          break;
+        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
+          error = "No user found with this email.";
+          break;
+        case "ERROR_USER_DISABLED":
+        case "user-disabled":
+          error = "User disabled.";
+          break;
+        case "ERROR_TOO_MANY_REQUESTS":
+        case "operation-not-allowed":
+          error = "Too many requests to log into this account.";
+          break;
+        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
+          error = "Email address is invalid.";
+          break;
+        default:
+          error = "Login failed. Please try again.";
+          break;
+      }
+      throw FirebaseAuthRemoteDataSourceException(error);
+    }on TimeoutException catch(e){
+      throw FirebaseAuthTimeoutException("This Operation has Timed out");
+    } on IOException catch (e){
+      throw FirebaseAuthRemoteDataSourceException("Check Your Internet Connection");
+    }catch (e) {
+      throw FirebaseAuthRemoteDataSourceException(e.toString());
+    }
+  }
 }
