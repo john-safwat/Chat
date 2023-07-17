@@ -3,6 +3,7 @@ import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Presintation/Home/HomeView.dart';
 import 'package:chat/Presintation/Login/LoginView.dart';
 import 'package:chat/Presintation/Register/RegisterView.dart';
+import 'package:chat/Presintation/Search/SearchView.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
         routes: {
           RegisterScreen.routeName :(context) => RegisterScreen(),
           HomeScreen.routeName:(context)=> HomeScreen(),
-          LoginScreen.routeName : (context) => LoginScreen()
+          LoginScreen.routeName : (context) => LoginScreen(),
+          SearchView.routeName :(_) => SearchView(),
         },
         initialRoute: LoginScreen.routeName,
         theme: MyTheme.light,

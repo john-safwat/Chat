@@ -26,6 +26,8 @@ class MyDialogUtils {
               Text(
                 message,
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.blue),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               )
             ],
           ),
