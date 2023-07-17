@@ -48,6 +48,8 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
       navigator!.showLoading("Logging In");
       try{
         var response = await loginAccountUseCase.invoke(email: emailController.text, password: passwordController.text);
+        provider!.updateUid(response);
+        await provider!.updateUidInSharedPref(response);
         navigator!.hideLoading();
         navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
       }catch (e){
@@ -64,11 +66,13 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
   }
 
   // login with google
-
   void loginWithGoogle()async{
     navigator!.showLoading("Logging In");
     try{
       var response = await signInWithGoogleUseCase.invoke();
+      print(response);
+      provider!.updateUid(response);
+      await provider!.updateUidInSharedPref(response);
       navigator!.hideLoading();
       navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
     }catch (e){

@@ -59,6 +59,8 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
       if(passwordController.text == passwordConfirmationController.text){
         try{
           var response = await useCase.invoke(email: emailController.text, name: nameController.text, password: passwordController.text);
+          provider!.updateUid(response);
+          await provider!.updateUidInSharedPref(response);
           navigator!.hideLoading();
           navigator!.showSuccessMessage("Account Created Successfully" , goToHomeScreen);
         }catch (e){
