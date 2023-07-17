@@ -5,10 +5,13 @@ class MyTheme {
   static const Color white = Color(0xFFFFFFFF);
   static const Color blue = Color(0xFF3598DB);
   static const Color gray = Color(0xFFBDBDBD);
+  static const Color black = Color(0xFF303030);
 
   static ThemeData light = ThemeData(
     primaryColor: white,
     hintColor: blue,
+
+    scaffoldBackgroundColor: Colors.transparent,
 
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,

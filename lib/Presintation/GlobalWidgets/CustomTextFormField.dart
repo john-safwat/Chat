@@ -18,6 +18,15 @@ class MyTextFormField extends StatelessWidget {
     var textTheme = Theme.of(context).textTheme;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: MyTheme.gray.withOpacity(0.3),
+            offset: const Offset(0, 3),
+            blurRadius: 10,
+          )
+        ]
+      ),
       child: TextFormField(
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -30,27 +39,24 @@ class MyTextFormField extends StatelessWidget {
           fillColor: MyTheme.white,
           filled: true,
           contentPadding: const EdgeInsets.all(20),
-          label: Text(
-            label,
-            style: textTheme.displayMedium,
-          ),
+          hintText: label,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:const BorderSide(
                 width: 2,
-                color: MyTheme.gray,
+                color: MyTheme.white,
               )),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
               width: 2,
-              color: MyTheme.gray,
+              color: MyTheme.white,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                width: 2,
+                width: 1,
                 color: MyTheme.blue,
               )),
           errorBorder: OutlineInputBorder(
@@ -96,7 +102,15 @@ class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
     var textTheme = Theme.of(context).textTheme;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: MyTheme.gray.withOpacity(0.3),
+              offset: const Offset(0, 3),
+              blurRadius: 10,
+            )
+          ]
+      ),
       child: TextFormField(
         controller: widget.controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -126,27 +140,24 @@ class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
             ),
           ),
           contentPadding: const EdgeInsets.all(20),
-          label: Text(
-            widget.label,
-            style: textTheme.displayMedium,
-          ),
+          hintText: widget.label,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:const BorderSide(
                 width: 2,
-                color: MyTheme.gray,
+                color: MyTheme.white,
               )),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
               width: 2,
-              color: MyTheme.gray,
+              color: MyTheme.white,
             ),
           ),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                width: 2,
+                width: 1,
                 color: MyTheme.blue,
               )),
           errorBorder: OutlineInputBorder(

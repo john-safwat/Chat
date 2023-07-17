@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConfigProvider extends ChangeNotifier {
 
@@ -8,5 +9,12 @@ class AppConfigProvider extends ChangeNotifier {
     this.uid = uid;
     notifyListeners();
   }
+
+  Future<void> updateUidInSharedPref(String uid)async{
+    // Obtain shared preferences.
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("uid", uid);
+  }
+
 
 }

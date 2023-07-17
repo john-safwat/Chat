@@ -21,27 +21,25 @@ class FirebaseAuthConfig {
         email: user.email,
         password: user.password
     ).then((value) => value.user!.updateDisplayName(user.name)).timeout(const Duration(seconds: 15));
-    return firebase.currentUser!.uid;
+    return firebase.currentUser?.uid??"";
   }
 
   Future<String>loginAccount(String email , String password)async{
     await firebase.signInWithEmailAndPassword(email: email, password: password);
-    return firebase.currentUser!.uid;
+    return firebase.currentUser?.uid??"";
   }
 
+
   Future<String> signInWithGoogle()async{
-
+    await GoogleSignIn().signOut();
     final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-
     final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
-
     final user = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-    
-    firebase.signInWithCredential(user);
 
+    firebase.signInWithCredential(user);
     return firebase.currentUser?.uid??"";
   }
 
