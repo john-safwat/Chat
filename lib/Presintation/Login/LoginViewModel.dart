@@ -2,13 +2,15 @@ import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
-import 'package:chat/Domain/UseCase/loginAccountUseCase.dart';
+import 'package:chat/Domain/UseCase/LoginAccountUseCase.dart';
+import 'package:chat/Domain/UseCase/SignInWithGoogleUseCase.dart';
 import 'package:chat/Presintation/Login/LoginNavigator.dart';
 import 'package:flutter/material.dart';
 
 class LoginViewModel extends BaseViewModel<LoginNavigator>{
-  LoginAccountUseCase useCase;
-  LoginViewModel(this.useCase);
+  LoginAccountUseCase loginAccountUseCase;
+  SignInWithGoogleUseCase signInWithGoogleUseCase;
+  LoginViewModel(this.loginAccountUseCase , this.signInWithGoogleUseCase);
 
   final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
@@ -39,11 +41,13 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
     }
     return null;
   }
+
+  // login with email and password
   void login()async{
     if(formKey.currentState!.validate()){
       navigator!.showLoading("Logging In");
       try{
-        var response = await useCase.invoke(email: emailController.text, password: passwordController.text);
+        var response = await loginAccountUseCase.invoke(email: emailController.text, password: passwordController.text);
         navigator!.hideLoading();
         navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
       }catch (e){
@@ -58,6 +62,27 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
       }
     }
   }
+
+  // login with google
+
+  void loginWithGoogle()async{
+    navigator!.showLoading("Logging In");
+    try{
+      var response = await signInWithGoogleUseCase.invoke();
+      navigator!.hideLoading();
+      navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
+    }catch (e){
+      navigator!.hideLoading();
+      if(e is FirebaseAuthRemoteDataSourceException){
+        navigator!.showFailMessage(e.errorMessage);
+      }else if (e is FirebaseAuthTimeoutException){
+        navigator!.showFailMessage(e.errorMessage);
+      }else{
+        navigator!.showFailMessage(e.toString());
+      }
+    }
+  }
+
   void goToHomeScreen(){
     navigator!.goToHomeScreen();
   }

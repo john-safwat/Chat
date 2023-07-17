@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           RegisterScreen.routeName :(context) => RegisterScreen(),
-          HomeScreen.routeName:(context)=>HomeScreen(),
+          HomeScreen.routeName:(context)=> HomeScreen(),
           LoginScreen.routeName : (context) => LoginScreen()
         },
-        initialRoute: RegisterScreen.routeName,
+        initialRoute: LoginScreen.routeName,
         theme: MyTheme.light,
       ),
     );

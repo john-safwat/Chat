@@ -17,4 +17,10 @@ class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
     var response = await remoteDataSource.loginUser(email, password);
     return response;
   }
+
+  @override
+  Future<String> signInWithGoogle() async{
+    var response = await remoteDataSource.signInWithGoogle();
+    return response;
+  }
 }
