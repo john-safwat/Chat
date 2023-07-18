@@ -7,4 +7,8 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     navigator!.goToSearchScreen();
   }
 
+
+  void goToCreateRoomScreen(){
+    navigator!.goToCreateRoomScreen();
+  }
 }
