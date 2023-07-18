@@ -7,6 +7,7 @@ import 'package:chat/Presintation/Search/SearchView.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 
@@ -15,12 +16,15 @@ void main()async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  var response = prefs.getString("uid");
 
-  runApp(MyApp());
+  runApp(MyApp(userId: response??"",));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  String userId;
+  MyApp({super.key , required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName : (context) => LoginScreen(),
           SearchView.routeName :(_) => SearchView(),
         },
-        initialRoute: LoginScreen.routeName,
+        initialRoute: userId.isEmpty?LoginScreen.routeName: HomeScreen.routeName,
         theme: MyTheme.light,
       ),
     );
