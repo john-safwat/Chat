@@ -1,5 +1,6 @@
 import 'package:chat/Core/Providers/AppConfigProvider.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
+import 'package:chat/Presintation/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presintation/Home/HomeView.dart';
 import 'package:chat/Presintation/Login/LoginView.dart';
 import 'package:chat/Presintation/Register/RegisterView.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
           RegisterScreen.routeName :(context) => RegisterScreen(),
           HomeScreen.routeName:(context)=> HomeScreen(),
           LoginScreen.routeName : (context) => LoginScreen(),
-          SearchView.routeName :(_) => SearchView(),
+          SearchView.routeName :(context) => SearchView(),
+          CreateRoomView.routeName :(context) => CreateRoomView()
         },
         initialRoute: LoginScreen.routeName,
         theme: MyTheme.light,

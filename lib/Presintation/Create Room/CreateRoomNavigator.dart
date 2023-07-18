@@ -1,5 +1,5 @@
 import 'package:chat/Core/Base/BaseNavigator.dart';
 
-abstract class SearchNavigator extends BaseNavigator{
+abstract class CreateRoomNavigator extends BaseNavigator {
   goToHomeScreen();
 }

@@ -3,4 +3,8 @@ import 'package:chat/Presintation/Search/SearchNavigator.dart';
 
 class SearchViewModel extends BaseViewModel<SearchNavigator>{
 
+
+  void goToHomeScreen(){
+    navigator!.goToHomeScreen();
+  }
 }

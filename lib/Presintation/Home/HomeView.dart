@@ -1,5 +1,6 @@
 import 'package:chat/Core/Base/BaseState.dart';
 import 'package:chat/Core/Theme/MyTheme.dart';
+import 'package:chat/Presintation/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presintation/Home/HomeNavigator.dart';
 import 'package:chat/Presintation/Home/HomeViewModel.dart';
 import 'package:chat/Presintation/Search/SearchView.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
     implements HomeNavigator {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -49,7 +51,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                   InkWell(
                       onTap: value.goToSearchScreen,
                       child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
                         child: Icon(
                           EvaIcons.search,
                           color: MyTheme.white,
@@ -59,7 +61,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
               ),
               drawer: const Drawer(),
               floatingActionButton: FloatingActionButton(
-                onPressed: () {},
+                onPressed: value.goToCreateRoomScreen,
                 backgroundColor: MyTheme.blue,
                 child: const Icon(
                   EvaIcons.plus,
@@ -81,5 +83,10 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   @override
   goToSearchScreen() {
     Navigator.pushNamed(context, SearchView.routeName);
+  }
+
+  @override
+  goToCreateRoomScreen() {
+    Navigator.pushNamed(context, CreateRoomView.routeName);
   }
 }
