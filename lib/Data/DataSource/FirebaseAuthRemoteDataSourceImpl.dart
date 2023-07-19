@@ -13,7 +13,7 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
   FirebaseAuthRemoteDataSourceImpl(this.firebaseAuthConfig);
 
   @override
-  Future<String> createUser(UserDTO user) async {
+  Future<User> createUser(UserDTO user) async {
     try {
       var response = await firebaseAuthConfig
           .createAccount(user)
@@ -48,7 +48,7 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
   }
 
   @override
-  Future<String> loginUser(String email, String password) async {
+  Future<User> loginUser(String email, String password) async {
     try {
       var response = await firebaseAuthConfig.loginAccount(email, password).timeout(const Duration(seconds: 15));
       return response;
@@ -91,7 +91,7 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
   }
 
   @override
-  Future<String> signInWithGoogle() async{
+  Future<User> signInWithGoogle() async{
     try {
       var response = await firebaseAuthConfig.signInWithGoogle();
       return response;
@@ -115,6 +115,47 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
           error = "Too many requests to log into this account.";
           break;
         case "ERROR_OPERATION_NOT_ALLOWED":
+        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
+          error = "Email address is invalid.";
+          break;
+        default:
+          error = "Login failed. Please try again.";
+          break;
+      }
+      throw FirebaseAuthRemoteDataSourceException(error);
+    }on TimeoutException catch(e){
+      throw FirebaseAuthTimeoutException("This Operation has Timed out");
+    } on IOException catch (e){
+      throw FirebaseAuthRemoteDataSourceException("Check Your Internet Connection");
+    }catch (e) {
+      throw FirebaseAuthRemoteDataSourceException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> signOut() async{
+    try{
+      await firebaseAuthConfig.signOut();
+      return "Signed Out Successfully";
+    }on FirebaseAuthException catch (e) {
+      String error = '';
+      switch (e.code) {
+        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
+          error = "No user found with this email.";
+          break;
+        case "ERROR_USER_DISABLED":
+        case "user-disabled":
+          error = "User disabled.";
+          break;
+        case "ERROR_TOO_MANY_REQUESTS":
+        case "operation-not-allowed":
+          error = "Too many requests to log into this account.";
+          break;
+        case "ERROR_OPERATION_NOT_ALLOWED":
+          error = "Operation Not Allowed";
+          break;
         case "ERROR_INVALID_EMAIL":
         case "invalid-email":
           error = "Email address is invalid.";
