@@ -59,23 +59,22 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
       if(passwordController.text == passwordConfirmationController.text){
         try{
           var response = await useCase.invoke(email: emailController.text, name: nameController.text, password: passwordController.text);
-          provider!.updateUid(response);
-          await provider!.updateUidInSharedPref(response);
+          provider!.updateUser(response);
           navigator!.hideLoading();
-          navigator!.showSuccessMessage("Account Created Successfully" , goToHomeScreen);
+          navigator!.showSuccessMessage(message: "Account Created Successfully" , posActionTitle: "Ok" , posAction: goToHomeScreen);
         }catch (e){
           navigator!.hideLoading();
           if(e is FirebaseAuthRemoteDataSourceException){
-            navigator!.showFailMessage(e.errorMessage);
+            navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
           }else if (e is FirebaseAuthTimeoutException){
-            navigator!.showFailMessage(e.errorMessage);
+            navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
           }else{
-            navigator!.showFailMessage(e.toString());
+            navigator!.showFailMessage(message: e.toString() , posActionTitle: "Try Again");
           }
         }
       }else {
         navigator!.hideLoading();
-        navigator!.showFailMessage("Passwords Doesn't Match");
+        navigator!.showFailMessage(message: "Passwords Doesn't Match" , posActionTitle: "Try Again");
       }
     }
   }

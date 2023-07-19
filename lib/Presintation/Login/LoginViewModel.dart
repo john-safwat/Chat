@@ -48,18 +48,17 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
       navigator!.showLoading("Logging In");
       try{
         var response = await loginAccountUseCase.invoke(email: emailController.text, password: passwordController.text);
-        provider!.updateUid(response);
-        await provider!.updateUidInSharedPref(response);
+        provider!.updateUser(response);
         navigator!.hideLoading();
-        navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
+        navigator!.showSuccessMessage(message: "Logged in Successfully" , posActionTitle: "Ok" , posAction: goToHomeScreen);
       }catch (e){
         navigator!.hideLoading();
         if(e is FirebaseAuthRemoteDataSourceException){
-          navigator!.showFailMessage(e.errorMessage);
+          navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
         }else if (e is FirebaseAuthTimeoutException){
-          navigator!.showFailMessage(e.errorMessage);
+          navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
         }else{
-          navigator!.showFailMessage(e.toString());
+          navigator!.showFailMessage(message: e.toString(), posActionTitle: "Try Again");
         }
       }
     }
@@ -70,19 +69,17 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
     navigator!.showLoading("Logging In");
     try{
       var response = await signInWithGoogleUseCase.invoke();
-      print(response);
-      provider!.updateUid(response);
-      await provider!.updateUidInSharedPref(response);
+      provider!.updateUser(response);
       navigator!.hideLoading();
-      navigator!.showSuccessMessage("Logged in Successfully", goToHomeScreen);
+      navigator!.showSuccessMessage(message: "Logged in Successfully" , posActionTitle: "Ok" , posAction: goToHomeScreen);
     }catch (e){
       navigator!.hideLoading();
       if(e is FirebaseAuthRemoteDataSourceException){
-        navigator!.showFailMessage(e.errorMessage);
+        navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
       }else if (e is FirebaseAuthTimeoutException){
-        navigator!.showFailMessage(e.errorMessage);
+        navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
       }else{
-        navigator!.showFailMessage(e.toString());
+        navigator!.showFailMessage(message: e.toString(), posActionTitle: "Try Again");
       }
     }
   }
