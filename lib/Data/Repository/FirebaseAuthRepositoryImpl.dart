@@ -1,5 +1,6 @@
 import 'package:chat/Domain/Models/User/Users.dart';
 import 'package:chat/Domain/Repository/FirebaseAuthContract.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
 
@@ -7,20 +8,33 @@ class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
   FirebaseAuthRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<String> createUser(Users user) async{
+  Future<User> createUser(Users user) async{
     var response = await remoteDataSource.createUser(user.toDataSource());
     return response;
   }
 
   @override
-  Future<String> loginUser(String email, String password) async{
+  Future<User> loginUser(String email, String password) async{
     var response = await remoteDataSource.loginUser(email, password);
     return response;
   }
 
   @override
-  Future<String> signInWithGoogle() async{
+  Future<User> signInWithGoogle() async{
     var response = await remoteDataSource.signInWithGoogle();
     return response;
   }
+
+  @override
+  Future<String> signOut() async{
+    var response =  await remoteDataSource.signOut();
+    return response;
+  }
+
+  @override
+  Future<String> resetPassword(String email) async{
+    var response = await remoteDataSource.resetPassword(email);
+    return response;
+  }
+
 }
