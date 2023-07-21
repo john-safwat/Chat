@@ -5,6 +5,6 @@ class SearchViewModel extends BaseViewModel<SearchNavigator>{
 
 
   void goToHomeScreen(){
-    navigator!.goToHomeScreen();
+    navigator!.removeContext();
   }
 }

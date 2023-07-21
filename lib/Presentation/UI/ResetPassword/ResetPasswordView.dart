@@ -7,6 +7,7 @@ import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordNavigator.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordViewModel.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   static const String routeName = 'resetScreen';
@@ -40,70 +41,72 @@ class _ResetPasswordScreenState
             style: TextStyle(color: MyTheme.white),
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12 , vertical: 12),
-              child: Icon(EvaIcons.lock , color: MyTheme.blue , size: 150),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Forgot Password?",
-                style: Theme.of(context)
-                    .textTheme
-                    .displayLarge!
-                    .copyWith(color: MyTheme.blue),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // const Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 12 , vertical: 12),
+              //   child: Icon(EvaIcons.lock , color: MyTheme.blue , size: 150),
+              // ),
+              SvgPicture.asset(
+                "assets/SVG/Forgot password.svg",
+                width: 300,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: Text(
-                textAlign: TextAlign.center,
-                "Don't worry! it happens \nPlease Enter the email associated with your account ",
-                style: Theme.of(context)
-                    .textTheme
-                    .displayMedium!
-                    .copyWith(color: MyTheme.black),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Forgot Password?",
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(color: MyTheme.blue),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              child: MyTextFormField(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  "Don't worry! it happens \nPlease Enter the email associated with your account ",
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium!
+                      .copyWith(color: MyTheme.black),
+                ),
+              ),
+              MyTextFormField(
                 controller: viewModel!.emailResetController,
                 inputType: TextInputType.emailAddress,
                 label: "Email Address",
                 validator: viewModel!.emailValidation,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-              child: ElevatedButton(
-                  onPressed: viewModel!.resetPassword,
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(MyTheme.blue),
-                      elevation: MaterialStateProperty.all(4),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
-                    child: Text(
-                      "Send Code",
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayMedium!
-                          .copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: MyTheme.white
-                      ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                child: ElevatedButton(
+                    onPressed: viewModel!.resetPassword,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(MyTheme.blue),
+                        elevation: MaterialStateProperty.all(4),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20),
+                      child: Text(
+                        "Send Code",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: MyTheme.white
+                        ),
 
-                    ),
-                  )),
-            ),
-          ],
+                      ),
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     ]);

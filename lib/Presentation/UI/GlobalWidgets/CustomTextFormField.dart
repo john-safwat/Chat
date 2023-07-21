@@ -7,12 +7,14 @@ class MyTextFormField extends StatelessWidget {
   TextInputType inputType;
   Function validator;
   int? maxLinesNumber;
+  bool contained;
   MyTextFormField(
       {required this.label,
         required this.controller,
         required this.inputType,
         required this.validator,
-        this.maxLinesNumber,
+        this.maxLinesNumber = 1,
+        this.contained = false,
         super.key});
 
   @override
@@ -30,7 +32,7 @@ class MyTextFormField extends StatelessWidget {
         ]
       ),
       child: TextFormField(
-        maxLines: maxLinesNumber ?? 1,
+        maxLines: maxLinesNumber,
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         style: textTheme.displayMedium,
@@ -45,15 +47,15 @@ class MyTextFormField extends StatelessWidget {
           hintText: label,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
-              borderSide:const BorderSide(
-                width: 2,
-                color: MyTheme.white,
+              borderSide: BorderSide(
+                width: 1,
+                color: contained? MyTheme.blue :MyTheme.white,
               )),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 2,
-              color: MyTheme.white,
+            borderSide: BorderSide(
+              width: 1,
+              color:contained? MyTheme.blue :MyTheme.white,
             ),
           ),
           focusedBorder: OutlineInputBorder(
