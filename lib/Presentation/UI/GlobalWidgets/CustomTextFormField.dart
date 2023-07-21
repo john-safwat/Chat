@@ -6,11 +6,13 @@ class MyTextFormField extends StatelessWidget {
   TextEditingController controller;
   TextInputType inputType;
   Function validator;
+  int? maxLinesNumber;
   MyTextFormField(
       {required this.label,
         required this.controller,
         required this.inputType,
         required this.validator,
+        this.maxLinesNumber,
         super.key});
 
   @override
@@ -28,6 +30,7 @@ class MyTextFormField extends StatelessWidget {
         ]
       ),
       child: TextFormField(
+        maxLines: maxLinesNumber ?? 1,
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         style: textTheme.displayMedium,
