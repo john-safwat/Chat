@@ -1,10 +1,10 @@
-import 'package:chat/Core/Providers/AppConfigProvider.dart';
-import 'package:chat/Core/Theme/MyTheme.dart';
-import 'package:chat/Presintation/Create%20Room/CreateRoomView.dart';
-import 'package:chat/Presintation/Home/HomeView.dart';
-import 'package:chat/Presintation/Login/LoginView.dart';
-import 'package:chat/Presintation/Register/RegisterView.dart';
-import 'package:chat/Presintation/Search/SearchView.dart';
+import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
+import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
+import 'package:chat/Presentation/UI/Home/HomeView.dart';
+import 'package:chat/Presentation/UI/Login/LoginView.dart';
+import 'package:chat/Presentation/UI/Register/RegisterView.dart';
+import 'package:chat/Presentation/UI/Search/SearchView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
