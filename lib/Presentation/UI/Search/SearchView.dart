@@ -110,9 +110,4 @@ class _SearchViewState extends BaseState<SearchView , SearchViewModel> implement
   SearchViewModel initialViewModel() {
     return SearchViewModel();
   }
-
-  @override
-  goToHomeScreen() {
-    Navigator.pop(context);
-  }
 }

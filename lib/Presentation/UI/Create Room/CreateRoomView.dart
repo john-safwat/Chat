@@ -89,10 +89,10 @@ class _CreateRoomViewState
                                 ),
                                 // the image of group of people
                                 Padding(
-                                  padding: const EdgeInsets.all(40.0),
+                                  padding: const EdgeInsets.all(20.0),
                                   child: Image.asset(
                                     'assets/images/group.png',
-                                    width: double.infinity,
+                                    width: 200,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -101,7 +101,9 @@ class _CreateRoomViewState
                                     label: "Enter Group Name",
                                     controller: value.groupNameController,
                                     inputType: TextInputType.name,
-                                    validator: value.nameValidation),
+                                    validator: value.nameValidation,
+                                    contained: true,
+                                ),
 
                                 // the title of the categories
                                 Padding(
@@ -119,6 +121,7 @@ class _CreateRoomViewState
                                   decoration: BoxDecoration(
                                     color: MyTheme.white,
                                     borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(width: 1 , color: MyTheme.blue),
                                     boxShadow: [
                                       BoxShadow(
                                         color: MyTheme.gray.withOpacity(0.3),
@@ -146,10 +149,11 @@ class _CreateRoomViewState
                                 // the Group description
                                 MyTextFormField(
                                     label: "Enter Group Description",
-                                    controller: value.groupNameController,
+                                    controller: value.groupDescriptionController,
                                     inputType: TextInputType.name,
                                     validator: value.nameValidation,
                                     maxLinesNumber: 6,
+                                    contained: true,
                                 ),
 
                               ],

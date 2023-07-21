@@ -46,6 +46,7 @@ dependencies:
   shared_preferences: ^2.2.0
   firebase_database: ^10.2.4
   cloud_firestore: ^4.8.3
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/SVG/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
