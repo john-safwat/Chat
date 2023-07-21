@@ -8,6 +8,7 @@ import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';
 import 'package:chat/Presentation/UI/Login/LoginNavigator.dart';
 import 'package:chat/Presentation/UI/Login/LoginViewModel.dart';
+import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordView.dart';
 import 'package:chat/Presentation/UI/Register/RegisterView.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +138,26 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
                               inputType: TextInputType.visiblePassword,
                               validator: value.passwordValidation,
                             ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                      onPressed: goToResetScreen,
+                                      child: Text(
+                                        "Forget Password",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayMedium!
+                                            .copyWith(
+                                                color: MyTheme.blue.withOpacity(0.8),
+                                                fontWeight: FontWeight.bold,),
+                                      ))
+                                ],
+                              ),
+                            ),
                             // the create account button in the end of the screen
                             Container(
                               margin: const EdgeInsets.all(20),
@@ -217,5 +238,10 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
   @override
   goToRegisterScreen() {
     Navigator.pushReplacementNamed(context, RegisterScreen.routeName);
+  }
+
+  @override
+  goToResetScreen() {
+    Navigator.pushNamed(context, ResetPasswordScreen.routeName);
   }
 }

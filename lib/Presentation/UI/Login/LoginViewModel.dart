@@ -49,10 +49,10 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
       try{
         var response = await loginAccountUseCase.invoke(email: emailController.text, password: passwordController.text);
         provider!.updateUser(response);
-        navigator!.hideLoading();
+        navigator!.removeContext();
         navigator!.showSuccessMessage(message: "Logged in Successfully" , posActionTitle: "Ok" , posAction: goToHomeScreen);
       }catch (e){
-        navigator!.hideLoading();
+        navigator!.removeContext();
         if(e is FirebaseAuthRemoteDataSourceException){
           navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
         }else if (e is FirebaseAuthTimeoutException){
@@ -70,10 +70,10 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
     try{
       var response = await signInWithGoogleUseCase.invoke();
       provider!.updateUser(response);
-      navigator!.hideLoading();
+      navigator!.removeContext();
       navigator!.showSuccessMessage(message: "Logged in Successfully" , posActionTitle: "Ok" , posAction: goToHomeScreen);
     }catch (e){
-      navigator!.hideLoading();
+      navigator!.removeContext();
       if(e is FirebaseAuthRemoteDataSourceException){
         navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
       }else if (e is FirebaseAuthTimeoutException){
@@ -90,5 +90,9 @@ class LoginViewModel extends BaseViewModel<LoginNavigator>{
 
   void goToRegisterScreen(){
     navigator!.goToRegisterScreen();
+  }
+
+  void goToResetScreen(){
+    navigator!.goToResetScreen();
   }
 }

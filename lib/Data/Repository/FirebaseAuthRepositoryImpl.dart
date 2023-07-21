@@ -30,4 +30,11 @@ class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
     var response =  await remoteDataSource.signOut();
     return response;
   }
+
+  @override
+  Future<String> resetPassword(String email) async{
+    var response = await remoteDataSource.resetPassword(email);
+    return response;
+  }
+
 }
