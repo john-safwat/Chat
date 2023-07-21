@@ -5,6 +5,7 @@ import 'package:chat/Presentation/UI/Create%20Room/CreateRoomNavigator.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomViewModel.dart';
 import 'package:chat/Presentation/UI/Create%20Room/Widgets/DropdownButtonWidget.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class _CreateRoomViewState
   @override
   void initState() {
     super.initState();
-    viewModel!.selectedItem = viewModel!.categories.first;
+    viewModel!.selectedRoomCategory = viewModel!.categories.first;
   }
 
   @override
@@ -104,16 +105,6 @@ class _CreateRoomViewState
                                     validator: value.nameValidation,
                                     contained: true,
                                 ),
-
-                                // the title of the categories
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-                                  child: Row(
-                                    children: [
-                                      Text("Category" , style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ),
                                 // the drop down to select the group type
                                 Container(
                                   width: double.infinity,
@@ -132,10 +123,12 @@ class _CreateRoomViewState
                                   ),
                                   padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
                                   child: DropdownButton<RoomCategory>(
-                                    icon: Container(),
+                                    icon: const Icon(EvaIcons.arrowDown ),
+                                    iconEnabledColor: MyTheme.blue,
+                                    isExpanded: true,
                                     underline: Container(),
                                     borderRadius: BorderRadius.circular(20),
-                                    value: viewModel!.selectedItem,
+                                    value: viewModel!.selectedRoomCategory,
                                     items: viewModel!.categories.map<DropdownMenuItem<RoomCategory>>(
                                             (category) => DropdownMenuItem<RoomCategory>(
                                                 value: category,
@@ -144,6 +137,39 @@ class _CreateRoomViewState
                                     onChanged: (value) {
                                       viewModel!.changeSelectedItem(value!);
                                     },
+                                  ),
+                                ),
+                                // the room type dropdown
+                                Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: MyTheme.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(width: 1 ,color: MyTheme.blue),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: MyTheme.gray.withOpacity(0.3),
+                                        offset: const Offset(0 , 5),
+                                        blurRadius: 10
+                                      )
+                                    ]
+                                  ),
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    underline: Container(),
+                                    value: viewModel!.selectedType,
+                                    borderRadius: BorderRadius.circular(20),
+                                    icon: const Icon(EvaIcons.arrowDown ),
+                                    iconEnabledColor: MyTheme.blue,
+                                    items: viewModel!.types.map<DropdownMenuItem<String>>(
+                                            (e) => DropdownMenuItem<String>(
+                                              value: e,
+                                              child: Text(e , style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.blue),),
+                                            )
+                                    ).toList(),
+                                    onChanged: (value) => viewModel!.changeSelectedType(value!),
                                   ),
                                 ),
                                 // the Group description
@@ -172,8 +198,4 @@ class _CreateRoomViewState
     );
   }
 
-  @override
-  goToHomeScreen() {
-    Navigator.pop(context);
-  }
 }

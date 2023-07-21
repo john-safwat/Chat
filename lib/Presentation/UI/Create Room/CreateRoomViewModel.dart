@@ -11,22 +11,26 @@ class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
   TextEditingController groupNameController = TextEditingController();
   TextEditingController groupDescriptionController = TextEditingController();
 
-  void goToHomeScreen(){
-    navigator!.goToHomeScreen();
-  }
-
   // the categories
   List<RoomCategory> categories = RoomCategory.getAllCategories();
-
   // the initial item
-  late RoomCategory selectedItem ;
-
-
+  late RoomCategory selectedRoomCategory ;
   // function to change the dropdown selected item
   void changeSelectedItem(RoomCategory newItem){
-    selectedItem = newItem;
+    selectedRoomCategory = newItem;
     notifyListeners();
   }
+
+  // list of rooms type
+  List<String> types = ["Public" , "Private"];
+  // the initial type
+  String selectedType = 'Public' ;
+  // function to change the room type
+  void changeSelectedType(String newType){
+    selectedType = newType;
+    notifyListeners();
+  }
+  
 
   // validate on the name if it is not empty and doesn't contain ant spacial characters
   String? nameValidation(String name){
