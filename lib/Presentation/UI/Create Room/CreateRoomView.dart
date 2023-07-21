@@ -181,7 +181,23 @@ class _CreateRoomViewState
                                     maxLinesNumber: 6,
                                     contained: true,
                                 ),
-
+                                Container(
+                                  width: double.infinity,
+                                  margin:const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(MyTheme.blue),
+                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ))
+                                    ),
+                                    onPressed: (){},
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text("Create Room" , style: Theme.of(context).textTheme.displayLarge!.copyWith(color: MyTheme.white),),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),

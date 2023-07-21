@@ -5,7 +5,6 @@ import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordNavigator.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordViewModel.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
