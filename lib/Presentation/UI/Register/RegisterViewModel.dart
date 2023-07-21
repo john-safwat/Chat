@@ -60,10 +60,10 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
         try{
           var response = await useCase.invoke(email: emailController.text, name: nameController.text, password: passwordController.text);
           provider!.updateUser(response);
-          navigator!.hideLoading();
+          navigator!.removeContext();
           navigator!.showSuccessMessage(message: "Account Created Successfully" , posActionTitle: "Ok" , posAction: goToHomeScreen);
         }catch (e){
-          navigator!.hideLoading();
+          navigator!.removeContext();
           if(e is FirebaseAuthRemoteDataSourceException){
             navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
           }else if (e is FirebaseAuthTimeoutException){
@@ -73,7 +73,7 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
           }
         }
       }else {
-        navigator!.hideLoading();
+        navigator!.removeContext();
         navigator!.showFailMessage(message: "Passwords Doesn't Match" , posActionTitle: "Try Again");
       }
     }

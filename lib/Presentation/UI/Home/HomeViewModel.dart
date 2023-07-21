@@ -29,10 +29,10 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     try{
       var response = await signOutUseCase.invoke();
       provider!.removeUser();
-      navigator!.hideLoading();
+      navigator!.removeContext();
       navigator!.goToLoginScreen();
     }catch (e){
-      navigator!.hideLoading();
+      navigator!.removeContext();
       if(e is FirebaseAuthRemoteDataSourceException){
         navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Try Again");
       }else if (e is FirebaseAuthTimeoutException){

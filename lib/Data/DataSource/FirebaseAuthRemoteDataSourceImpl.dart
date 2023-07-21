@@ -173,4 +173,23 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
       throw FirebaseAuthRemoteDataSourceException(e.toString());
     }
   }
+
+  @override
+  Future<String> resetPassword(String email)async{
+    try{
+      var response = await firebaseAuthConfig.resetPasswordEmail(email);
+      return "Email Sent to $email";
+    }on FirebaseAuthException catch (e) {
+      throw FirebaseAuthRemoteDataSourceException("Please try again later");
+    }on TimeoutException catch(e){
+      throw FirebaseAuthTimeoutException("This Operation has Timed out");
+    } on IOException catch (e){
+      throw FirebaseAuthRemoteDataSourceException("Check Your Internet Connection");
+    }catch (e) {
+      throw FirebaseAuthRemoteDataSourceException(e.toString());
+    }
+  }
+
+
 }
+

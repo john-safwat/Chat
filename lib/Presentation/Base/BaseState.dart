@@ -24,7 +24,7 @@ abstract class BaseState<T extends StatefulWidget, VM extends BaseViewModel>
   VM initialViewModel();
 
   @override
-  hideLoading() {
+  removeContext() {
     MyDialogUtils.hideDialog(context);
   }
 

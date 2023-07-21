@@ -23,5 +23,5 @@ abstract class BaseNavigator {
     String? negativeActionTitle,
     VoidCallback? negativeAction,
   });
-  hideLoading();
+  removeContext();
 }
