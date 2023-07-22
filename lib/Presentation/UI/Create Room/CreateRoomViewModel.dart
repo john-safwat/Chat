@@ -1,7 +1,8 @@
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/Models/RoomCategory.dart';
+import 'package:chat/Presentation/Models/RoomType.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomNavigator.dart';
-import 'package:chat/Presentation/UI/Create%20Room/Widgets/DropdownButtonWidget.dart';
+import 'package:chat/Presentation/UI/Create%20Room/Widgets/CategoryDropdownButtonWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
@@ -22,11 +23,11 @@ class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
   }
 
   // list of rooms type
-  List<String> types = ["Public" , "Private"];
+  List<RoomType> types = RoomType.getTypesList();
   // the initial type
-  String selectedType = 'Public' ;
+  late RoomType selectedType ;
   // function to change the room type
-  void changeSelectedType(String newType){
+  void changeSelectedType(RoomType newType){
     selectedType = newType;
     notifyListeners();
   }
