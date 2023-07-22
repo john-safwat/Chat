@@ -2,9 +2,9 @@ import 'package:chat/Presentation/Models/RoomCategory.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:flutter/material.dart';
 
-class DropdownButtonWidget extends StatelessWidget {
+class CategoryDropdownButtonWidget extends StatelessWidget {
   RoomCategory category;
-  DropdownButtonWidget({required this.category ,super.key});
+  CategoryDropdownButtonWidget({required this.category ,super.key});
 
   @override
   Widget build(BuildContext context) {

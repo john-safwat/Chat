@@ -1,9 +1,11 @@
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/Models/RoomCategory.dart';
+import 'package:chat/Presentation/Models/RoomType.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomNavigator.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomViewModel.dart';
-import 'package:chat/Presentation/UI/Create%20Room/Widgets/DropdownButtonWidget.dart';
+import 'package:chat/Presentation/UI/Create%20Room/Widgets/CategoryDropdownButtonWidget.dart';
+import 'package:chat/Presentation/UI/Create%20Room/Widgets/TypeDropdownButtonWidget.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class _CreateRoomViewState
   void initState() {
     super.initState();
     viewModel!.selectedRoomCategory = viewModel!.categories.first;
+    viewModel!.selectedType = viewModel!.types.first;
   }
 
   @override
@@ -105,6 +108,15 @@ class _CreateRoomViewState
                                     validator: value.nameValidation,
                                     contained: true,
                                 ),
+                                // the Group description
+                                MyTextFormField(
+                                  label: "Enter Group Description",
+                                  controller: value.groupDescriptionController,
+                                  inputType: TextInputType.name,
+                                  validator: value.nameValidation,
+                                  maxLinesNumber: 5,
+                                  contained: true,
+                                ),
                                 // the drop down to select the group type
                                 Container(
                                   width: double.infinity,
@@ -113,13 +125,6 @@ class _CreateRoomViewState
                                     color: MyTheme.white,
                                     borderRadius: BorderRadius.circular(15),
                                     border: Border.all(width: 1 , color: MyTheme.blue),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: MyTheme.gray.withOpacity(0.3),
-                                        offset: const Offset(0, 5),
-                                        blurRadius: 15
-                                      )
-                                    ]
                                   ),
                                   padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
                                   child: DropdownButton<RoomCategory>(
@@ -132,7 +137,7 @@ class _CreateRoomViewState
                                     items: viewModel!.categories.map<DropdownMenuItem<RoomCategory>>(
                                             (category) => DropdownMenuItem<RoomCategory>(
                                                 value: category,
-                                                child: DropdownButtonWidget(category: category,),
+                                                child: CategoryDropdownButtonWidget(category: category,),
                                             )).toList(),
                                     onChanged: (value) {
                                       viewModel!.changeSelectedItem(value!);
@@ -148,38 +153,22 @@ class _CreateRoomViewState
                                     color: MyTheme.white,
                                     borderRadius: BorderRadius.circular(15),
                                     border: Border.all(width: 1 ,color: MyTheme.blue),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: MyTheme.gray.withOpacity(0.3),
-                                        offset: const Offset(0 , 5),
-                                        blurRadius: 10
-                                      )
-                                    ]
                                   ),
-                                  child: DropdownButton<String>(
+                                  child: DropdownButton<RoomType>(
                                     isExpanded: true,
                                     underline: Container(),
                                     value: viewModel!.selectedType,
                                     borderRadius: BorderRadius.circular(20),
                                     icon: const Icon(EvaIcons.arrowDown ),
                                     iconEnabledColor: MyTheme.blue,
-                                    items: viewModel!.types.map<DropdownMenuItem<String>>(
-                                            (e) => DropdownMenuItem<String>(
+                                    items: viewModel!.types.map<DropdownMenuItem<RoomType>>(
+                                            (e) => DropdownMenuItem<RoomType>(
                                               value: e,
-                                              child: Text(e , style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.blue),),
+                                              child: TypeDropdownButtonWidget(roomType: e,),
                                             )
                                     ).toList(),
                                     onChanged: (value) => viewModel!.changeSelectedType(value!),
                                   ),
-                                ),
-                                // the Group description
-                                MyTextFormField(
-                                    label: "Enter Group Description",
-                                    controller: value.groupDescriptionController,
-                                    inputType: TextInputType.name,
-                                    validator: value.nameValidation,
-                                    maxLinesNumber: 6,
-                                    contained: true,
                                 ),
                                 Container(
                                   width: double.infinity,

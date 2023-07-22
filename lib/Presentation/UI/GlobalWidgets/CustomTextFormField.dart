@@ -23,7 +23,7 @@ class MyTextFormField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow:contained? []: [
           BoxShadow(
             color: MyTheme.gray.withOpacity(0.3),
             offset: const Offset(0, 3),
