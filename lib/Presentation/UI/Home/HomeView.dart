@@ -31,8 +31,6 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   @override
   void initState() {
     super.initState();
-    viewModel!.provider =
-        Provider.of<AppConfigProvider>(context, listen: false);
   }
 
   @override

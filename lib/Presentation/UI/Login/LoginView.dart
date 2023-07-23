@@ -33,8 +33,6 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
   @override
   void initState() {
     super.initState();
-    viewModel!.provider =
-        Provider.of<AppConfigProvider>(context, listen: false);
   }
 
   @override

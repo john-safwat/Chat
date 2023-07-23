@@ -7,7 +7,6 @@ import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 
 class HomeViewModel extends BaseViewModel<HomeNavigator>{
 
-  AppConfigProvider? provider;
   SignOutUseCase signOutUseCase;
   HomeViewModel(this.signOutUseCase);
 

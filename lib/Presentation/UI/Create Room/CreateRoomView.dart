@@ -1,4 +1,6 @@
+import 'package:chat/Domain/UseCase/AddRoomUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
+import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Models/RoomCategory.dart';
 import 'package:chat/Presentation/Models/RoomType.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
@@ -23,7 +25,7 @@ class _CreateRoomViewState
     implements CreateRoomNavigator {
   @override
   CreateRoomViewModel initialViewModel() {
-    return CreateRoomViewModel();
+    return CreateRoomViewModel(AddRoomUseCase(injectRoomDataRepo()));
   }
   @override
   void initState() {
@@ -83,6 +85,7 @@ class _CreateRoomViewState
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 30),
                           child: Form(
+                            key: value.fromKey,
                             child: Column(
                               children: [
                                 // the title in the top of the page
@@ -113,7 +116,7 @@ class _CreateRoomViewState
                                   label: "Enter Group Description",
                                   controller: value.groupDescriptionController,
                                   inputType: TextInputType.name,
-                                  validator: value.nameValidation,
+                                  validator: value.descriptionValidation,
                                   maxLinesNumber: 5,
                                   contained: true,
                                 ),
@@ -180,7 +183,7 @@ class _CreateRoomViewState
                                         borderRadius: BorderRadius.circular(15),
                                       ))
                                     ),
-                                    onPressed: (){},
+                                    onPressed: value.addRoom,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text("Create Room" , style: Theme.of(context).textTheme.displayLarge!.copyWith(color: MyTheme.white),),
