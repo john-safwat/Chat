@@ -29,8 +29,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   @override
   void initState() {
     super.initState();
-    viewModel!.provider =
-        Provider.of<AppConfigProvider>(context, listen: false);
   }
 
   @override
