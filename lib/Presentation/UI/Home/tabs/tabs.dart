@@ -1,14 +1,17 @@
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Tabs extends StatelessWidget {
   Stream<QuerySnapshot<RoomDTO>> rooms;
   Tabs(this.rooms);
   @override
   Widget build(BuildContext context) {
+    var viewModel = Provider.of<HomeViewModel>(context);
     return Expanded(
       child: StreamBuilder<QuerySnapshot<RoomDTO>>(
         stream: rooms,
@@ -38,26 +41,31 @@ class Tabs extends StatelessWidget {
                   ],
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(
-                    "assets/icons/${roomsList[index].category}.png",
-                    height: 80,
-                  ),
-                  Text(
-                    roomsList[index].name,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Text(
-                    roomsList[index].numberOfMembers.toString(),
-                    style: Theme.of(context).textTheme.displaySmall,
-                  )
-                ],
+              child: InkWell(
+                onTap: (){
+                  viewModel.goTOJoinRoomScreen();
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      "assets/icons/${roomsList[index].category}.png",
+                      height: 80,
+                    ),
+                    Text(
+                      roomsList[index].name,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Text(
+                      roomsList[index].numberOfMembers.toString(),
+                      style: Theme.of(context).textTheme.displaySmall,
+                    )
+                  ],
+                ),
               ),
             ),
-          );}
-
+          );
+         }
         }
       ),
     );

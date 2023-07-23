@@ -2,6 +2,7 @@ import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';
+import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordView.dart';
 import 'package:chat/Presentation/UI/Register/RegisterView.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName : (context) => LoginScreen(),
           SearchView.routeName :(context) => SearchView(),
           CreateRoomView.routeName :(context) => CreateRoomView(),
-          ResetPasswordScreen.routeName : (context) => ResetPasswordScreen()
+          ResetPasswordScreen.routeName : (context) => ResetPasswordScreen(),
+          JoinRoomScreen.routeName : (_) => JoinRoomScreen()
         },
         initialRoute: user == null?LoginScreen.routeName: HomeScreen.routeName,
         theme: MyTheme.light,
