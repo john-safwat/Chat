@@ -17,7 +17,6 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator>{
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmationController = TextEditingController();
 
-  AppConfigProvider? provider ;
 
   // validate on the name if it is not empty and doesn't contain ant spacial characters
   String? nameValidation(String name){

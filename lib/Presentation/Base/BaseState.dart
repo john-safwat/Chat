@@ -1,7 +1,9 @@
 import 'package:chat/Presentation/Base/BaseNavigator.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/Dialogs/DialogUtils.dart';
+import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 abstract class BaseState<T extends StatefulWidget, VM extends BaseViewModel>
     extends State<T> implements BaseNavigator {
@@ -12,12 +14,14 @@ abstract class BaseState<T extends StatefulWidget, VM extends BaseViewModel>
     super.initState();
     viewModel = initialViewModel();
     viewModel!.navigator = this;
+    viewModel!.provider = Provider.of<AppConfigProvider>(context,listen: false);
   }
 
   @override
   void dispose() {
     super.dispose();
     viewModel!.navigator = null;
+    viewModel!.provider = null;
     viewModel = null;
   }
 
