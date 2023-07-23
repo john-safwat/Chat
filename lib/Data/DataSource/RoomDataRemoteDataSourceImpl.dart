@@ -81,4 +81,9 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
       throw FirebaseFireStoreDatabaseException("UnKnown Error");
     }
   }
+
+  @override
+  Stream<QuerySnapshot<RoomDTO>> getPublicRooms() {
+    return database.getPublicRooms();
+  }
 }
