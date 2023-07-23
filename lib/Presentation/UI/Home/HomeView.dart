@@ -8,6 +8,7 @@ import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
 import 'package:chat/Presentation/UI/Home/tabs/tabs.dart';
+import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/Search/SearchView.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -195,5 +196,10 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
             .copyWith(color: MyTheme.white),
       ),
     );
+  }
+
+  @override
+  goToJoinRoomScreen() {
+    Navigator.pushNamed(context, JoinRoomScreen.routeName);
   }
 }

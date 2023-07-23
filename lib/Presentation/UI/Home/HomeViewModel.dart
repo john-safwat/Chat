@@ -46,4 +46,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   Stream<QuerySnapshot<RoomDTO>> getPublicRooms(){
     return getPublicRoomsUseCase.invoke();
   }
+  void goTOJoinRoomScreen(){
+    navigator!.goToJoinRoomScreen();
+  }
 }
