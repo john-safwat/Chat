@@ -1,3 +1,5 @@
+import 'package:chat/Domain/Models/Room/Room.dart';
+
 class RoomDTO{
 
   String id;
@@ -6,6 +8,7 @@ class RoomDTO{
   String category ;
   String type ;
   String ownerId;
+  int numberOfMembers;
 
   RoomDTO({
     required this.id ,
@@ -13,7 +16,8 @@ class RoomDTO{
     required this.description,
     required this.category,
     required this.type,
-    required this.ownerId
+    required this.ownerId,
+    required this.numberOfMembers
   });
 
   RoomDTO.fromFireStore(Map<String , dynamic> json):this(
@@ -22,7 +26,8 @@ class RoomDTO{
     description: json['description'],
     category: json['category'],
     type: json['type'],
-    ownerId: json['ownerId']
+    ownerId: json['ownerId'],
+    numberOfMembers: json['numberOfMembers']
   );
 
   Map<String , dynamic> toFireStore(){
@@ -32,8 +37,13 @@ class RoomDTO{
       'description' : description ,
       'category' : category ,
       'type' : type ,
-      "ownerId" : ownerId
+      'ownerId' : ownerId,
+      'numberOfMembers' : numberOfMembers
     };
+  }
+
+  Room toPresentation(){
+    return Room(id: id, name: name, description: description, category: category, type: type, ownerId: ownerId);
   }
 
 }
