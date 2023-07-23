@@ -1,3 +1,4 @@
+import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/getPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
@@ -150,8 +151,8 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                 body: TabBarView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Column(children: [Tabs(value.getPublicRooms())]),
-                    Column(children: [Tabs(value.getPublicRooms())]),
+                    Column(children: [Tabs(value.getPublicRooms() , viewModel!.goToJoinRoomScreen)]),
+                    Column(children: [Tabs(value.getPublicRooms() , viewModel!.goToJoinRoomScreen)]),
                   ],
                 ),
                 floatingActionButton: FloatingActionButton(
@@ -199,7 +200,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   }
 
   @override
-  goToJoinRoomScreen() {
-    Navigator.pushNamed(context, JoinRoomScreen.routeName);
+  goToJoinRoomScreen(Room room) {
+    Navigator.pushNamed(context, JoinRoomScreen.routeName , arguments: room);
   }
 }
