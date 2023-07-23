@@ -43,10 +43,6 @@ class _ResetPasswordScreenState
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // const Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: 12 , vertical: 12),
-              //   child: Icon(EvaIcons.lock , color: MyTheme.blue , size: 150),
-              // ),
               SvgPicture.asset(
                 "assets/SVG/Forgot password.svg",
                 width: 300,
