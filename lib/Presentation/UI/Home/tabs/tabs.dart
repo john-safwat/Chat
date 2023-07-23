@@ -50,7 +50,7 @@ class Tabs extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Text(
-                    roomsList[index].numberOfMembers.toString(),
+                    "${roomsList[index].numberOfMembers.toString()} Member",
                     style: Theme.of(context).textTheme.displaySmall,
                   )
                 ],

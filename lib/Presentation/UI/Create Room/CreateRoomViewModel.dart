@@ -74,7 +74,7 @@ class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
             provider!.user!.uid
             );
         navigator!.removeContext();
-        navigator!.showSuccessMessage(message: response , posActionTitle: "Ok");
+        navigator!.showSuccessMessage(message: response , posActionTitle: "Ok" , posAction: goToHomeScreen);
       }catch(e){
         navigator!.removeContext();
         if (e is FirebaseFireStoreDatabaseTimeoutException){
@@ -86,6 +86,10 @@ class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
         }
       }
     }
+  }
+
+  void goToHomeScreen(){
+    navigator!.removeContext();
   }
 
 }
