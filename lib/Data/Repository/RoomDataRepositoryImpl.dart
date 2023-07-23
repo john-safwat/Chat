@@ -19,4 +19,10 @@ class RoomDataRepositoryImpl implements RoomDataRepository{
     return dataSource.getPublicRooms();
   }
 
+  @override
+  Future<String> addRoomMember(String roomId, int membersNumber, String uid) async{
+    var response = await dataSource.addRoomMember(roomId, membersNumber, uid);
+    return response;
+  }
+
 }

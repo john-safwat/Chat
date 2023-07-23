@@ -5,9 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class RoomDataRemoteDataSource {
   Future<String> addRoom(RoomDTO room);
   Stream<QuerySnapshot<RoomDTO>>getPublicRooms();
+  Future<String> addRoomMember(String roomId , int membersNumber , String uid);
 }
 
 abstract class RoomDataRepository{
   Future<String> addRoom(Room room);
   Stream<QuerySnapshot<RoomDTO>>getPublicRooms();
+  Future<String> addRoomMember(String roomId , int membersNumber , String uid);
 }

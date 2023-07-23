@@ -148,6 +148,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                   ),
                 ),
                 body: TabBarView(
+                  physics: const BouncingScrollPhysics(),
                   children: [
                     Column(children: [Tabs(value.getPublicRooms())]),
                     Column(children: [Tabs(value.getPublicRooms())]),
