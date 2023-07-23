@@ -34,9 +34,9 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
   }
 
   @override
-  Future<String> addRoomMember(String roomId, int membersNumber, String uid) async{
+  Future<String> addRoomMember(String roomId, String uid) async{
     try{
-      await database.addRoomUser(roomId , membersNumber , uid).timeout(const Duration(seconds: 15));
+      await database.addRoomUser(roomId , uid).timeout(const Duration(seconds: 15));
       return "Welcome\nYou Joint Successfully";
     }on FirebaseException catch(e){
       var error = errorHandler.handleFirebaseFireStoreError(e.code);
@@ -46,5 +46,20 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
     }catch (e){
       throw FirebaseFireStoreDatabaseException("UnKnown Error");
     }
+  }
+
+  @override
+  Future<void> updateRoomData(RoomDTO room) async{
+    try{
+      await database.updateRoomData(room);
+    }on FirebaseException catch(e){
+      var error = errorHandler.handleFirebaseFireStoreError(e.code);
+      throw FirebaseFireStoreDatabaseException(error);
+    }on TimeoutException catch(e){
+      throw FirebaseFireStoreDatabaseTimeoutException("This Operation Has Timed Out");
+    }catch (e){
+      throw FirebaseFireStoreDatabaseException("UnKnown Error");
+    }
+
   }
 }

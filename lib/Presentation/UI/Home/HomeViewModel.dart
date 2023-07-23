@@ -1,6 +1,7 @@
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
+import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/getPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
@@ -27,7 +28,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   void signOut()async{
     navigator!.showLoading("Logging You out");
     try{
-      var response = await signOutUseCase.invoke();
+      await signOutUseCase.invoke();
       provider!.removeUser();
       navigator!.removeContext();
       navigator!.goToLoginScreen();
@@ -46,7 +47,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   Stream<QuerySnapshot<RoomDTO>> getPublicRooms(){
     return getPublicRoomsUseCase.invoke();
   }
-  void goTOJoinRoomScreen(){
-    navigator!.goToJoinRoomScreen();
+  void goToJoinRoomScreen(Room room){
+    navigator!.goToJoinRoomScreen(room);
   }
 }
