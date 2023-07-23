@@ -1,4 +1,5 @@
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
+import 'package:chat/Domain/UseCase/getPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
@@ -25,12 +26,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
     implements HomeNavigator {
   @override
   HomeViewModel initialViewModel() {
-    return HomeViewModel(SignOutUseCase(injectAuthRepo()));
-  }
-
-  @override
-  void initState() {
-    super.initState();
+    return HomeViewModel(SignOutUseCase(injectAuthRepo()) , GetPublicRoomsUseCase(injectRoomDataRepo()));
   }
 
   @override
@@ -152,8 +148,8 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                 ),
                 body: TabBarView(
                   children: [
-                    Column(children: [Tabs()]),
-                    Column(children: [Tabs()]),
+                    Column(children: [Tabs(value.getPublicRooms())]),
+                    Column(children: [Tabs(value.getPublicRooms())]),
                   ],
                 ),
                 floatingActionButton: FloatingActionButton(

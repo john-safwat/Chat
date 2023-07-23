@@ -27,4 +27,10 @@ class RoomsDatabase {
     await doc.set(room);
   }
 
+  Stream<QuerySnapshot<RoomDTO>> getPublicRooms(){
+    var ref = getCollectionReference();
+    var data = ref.where("type" , isEqualTo: "Public").snapshots();
+    return data;
+  }
+
 }
