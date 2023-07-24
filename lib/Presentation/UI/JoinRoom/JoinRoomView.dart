@@ -138,6 +138,6 @@ class _JoinRoomScreenState extends BaseState<JoinRoomScreen, JoinRoomViewModel>
 
   @override
   goToChatRoom() {
-    Navigator.pushNamed(context, ChatView.routeName , arguments: room!);
+    Navigator.pushReplacementNamed(context, ChatView.routeName , arguments: room!);
   }
 }
