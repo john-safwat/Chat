@@ -1,0 +1,679 @@
+@startuml
+set namespaceSeparator ::
+
+class "chat::Data::DataSource::FirebaseAuthRemoteDataSourceImpl.dart::FirebaseAuthRemoteDataSourceImpl" {
+  +FirebaseAuthConfig firebaseAuthConfig
+  +ErrorHandler errorHandler
+  +dynamic createUser()
+  +dynamic loginUser()
+  +dynamic signInWithGoogle()
+  +dynamic signOut()
+  +dynamic resetPassword()
+}
+
+"chat::Data::DataSource::FirebaseAuthRemoteDataSourceImpl.dart::FirebaseAuthRemoteDataSourceImpl" o-- "chat::Data::Firebase::FirebaseAuth.dart::FirebaseAuthConfig"
+"chat::Data::DataSource::FirebaseAuthRemoteDataSourceImpl.dart::FirebaseAuthRemoteDataSourceImpl" o-- "chat::Data::Firebase::ErrorHandeler.dart::ErrorHandler"
+"chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRemoteDataSource" <|-- "chat::Data::DataSource::FirebaseAuthRemoteDataSourceImpl.dart::FirebaseAuthRemoteDataSourceImpl"
+
+class "chat::Data::DataSource::RoomDataRemoteDataSourceImpl.dart::RoomDataRemoteDataSourceImpl" {
+  +RoomsDatabase database
+  +ErrorHandler errorHandler
+  +dynamic addRoom()
+  +Stream<QuerySnapshot<RoomDTO>> getPublicRooms()
+  +dynamic addRoomMember()
+  +dynamic updateRoomData()
+}
+
+"chat::Data::DataSource::RoomDataRemoteDataSourceImpl.dart::RoomDataRemoteDataSourceImpl" o-- "chat::Data::Firebase::RoomsDatabase.dart::RoomsDatabase"
+"chat::Data::DataSource::RoomDataRemoteDataSourceImpl.dart::RoomDataRemoteDataSourceImpl" o-- "chat::Data::Firebase::ErrorHandeler.dart::ErrorHandler"
+"chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRemoteDataSource" <|-- "chat::Data::DataSource::RoomDataRemoteDataSourceImpl.dart::RoomDataRemoteDataSourceImpl"
+
+class "chat::Data::Firebase::ErrorHandeler.dart::ErrorHandler" {
+  {static} -ErrorHandler? _instance
+  {static} +ErrorHandler getErrorHandler()
+  +String handleRegisterError()
+  +String handleLoginError()
+  +String handleFirebaseFireStoreError()
+}
+
+"chat::Data::Firebase::ErrorHandeler.dart::ErrorHandler" o-- "chat::Data::Firebase::ErrorHandeler.dart::ErrorHandler"
+
+class "chat::Data::Firebase::FirebaseAuth.dart::FirebaseAuthConfig" {
+  {static} -FirebaseAuthConfig? _instance
+  +FirebaseAuth firebase
+  {static} +FirebaseAuthConfig getFirebaseAuthConfig()
+  +dynamic createAccount()
+  +dynamic loginAccount()
+  +dynamic signInWithGoogle()
+  +dynamic signOut()
+  +dynamic resetPasswordEmail()
+}
+
+"chat::Data::Firebase::FirebaseAuth.dart::FirebaseAuthConfig" o-- "chat::Data::Firebase::FirebaseAuth.dart::FirebaseAuthConfig"
+"chat::Data::Firebase::FirebaseAuth.dart::FirebaseAuthConfig" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"
+
+class "chat::Data::Firebase::RoomsDatabase.dart::RoomsDatabase" {
+  {static} -RoomsDatabase? _instance
+  {static} +dynamic getRoomDatabase()
+  +CollectionReference<RoomDTO> getRoomCollectionReference()
+  +dynamic addRoom()
+  +dynamic updateRoomData()
+  +Stream<QuerySnapshot<RoomDTO>> getPublicRooms()
+  +CollectionReference<String> getRoomUserCollectionReference()
+  +dynamic addRoomUser()
+}
+
+"chat::Data::Firebase::RoomsDatabase.dart::RoomsDatabase" o-- "chat::Data::Firebase::RoomsDatabase.dart::RoomsDatabase"
+
+class "chat::Data::Models::Room::RoomDTO.dart::RoomDTO" {
+  +String id
+  +String name
+  +String description
+  +String category
+  +String type
+  +String ownerId
+  +int numberOfMembers
+  +Map<String, dynamic> toFireStore()
+  +Room toDomain()
+}
+
+class "chat::Data::Models::User::UserDTO.dart::UserDTO" {
+  +String uid
+  +String name
+  +String email
+  +String password
+  +Map<String, dynamic> toFirebase()
+}
+
+class "chat::Data::Repository::FirebaseAuthRepositoryImpl.dart::FirebaseAuthRepositoryImpl" {
+  +FirebaseAuthRemoteDataSource remoteDataSource
+  +dynamic createUser()
+  +dynamic loginUser()
+  +dynamic signInWithGoogle()
+  +dynamic signOut()
+  +dynamic resetPassword()
+}
+
+"chat::Data::Repository::FirebaseAuthRepositoryImpl.dart::FirebaseAuthRepositoryImpl" o-- "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRemoteDataSource"
+"chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository" <|-- "chat::Data::Repository::FirebaseAuthRepositoryImpl.dart::FirebaseAuthRepositoryImpl"
+
+class "chat::Data::Repository::RoomDataRepositoryImpl.dart::RoomDataRepositoryImpl" {
+  +RoomDataRemoteDataSource dataSource
+  +dynamic addRoom()
+  +Stream<QuerySnapshot<RoomDTO>> getPublicRooms()
+  +dynamic addRoomMember()
+  +dynamic updateRoomData()
+}
+
+"chat::Data::Repository::RoomDataRepositoryImpl.dart::RoomDataRepositoryImpl" o-- "chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRemoteDataSource"
+"chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRepository" <|-- "chat::Data::Repository::RoomDataRepositoryImpl.dart::RoomDataRepositoryImpl"
+
+class "chat::Domain::Exception::FirebaseAuthException.dart::FirebaseAuthRemoteDataSourceException" {
+  +String errorMessage
+}
+
+"dart::core::Exception" <|-- "chat::Domain::Exception::FirebaseAuthException.dart::FirebaseAuthRemoteDataSourceException"
+
+class "chat::Domain::Exception::FirebaseAuthTimeoutException.dart::FirebaseAuthTimeoutException" {
+  +String errorMessage
+}
+
+"dart::core::Exception" <|-- "chat::Domain::Exception::FirebaseAuthTimeoutException.dart::FirebaseAuthTimeoutException"
+
+class "chat::Domain::Exception::FirebaseFirestoreDatabaseException.dart::FirebaseFireStoreDatabaseException" {
+  +String errorMessage
+}
+
+"dart::core::Exception" <|-- "chat::Domain::Exception::FirebaseFirestoreDatabaseException.dart::FirebaseFireStoreDatabaseException"
+
+class "chat::Domain::Exception::FirebaseFireStoreDatabaseTimeoutException.dart::FirebaseFireStoreDatabaseTimeoutException" {
+  +String errorMessage
+}
+
+"dart::core::Exception" <|-- "chat::Domain::Exception::FirebaseFireStoreDatabaseTimeoutException.dart::FirebaseFireStoreDatabaseTimeoutException"
+
+class "chat::Domain::Models::Room::Room.dart::Room" {
+  +String id
+  +String name
+  +String description
+  +String category
+  +String type
+  +String ownerId
+  +int numberOfMembers
+  +RoomDTO toDataSource()
+}
+
+class "chat::Domain::Models::User::Users.dart::Users" {
+  +String uid
+  +String name
+  +String email
+  +String password
+  +UserDTO toDataSource()
+}
+
+abstract class "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRemoteDataSource" {
+  +dynamic createUser()
+  +dynamic loginUser()
+  +dynamic signInWithGoogle()
+  +dynamic signOut()
+  +dynamic resetPassword()
+}
+
+abstract class "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository" {
+  +dynamic createUser()
+  +dynamic loginUser()
+  +dynamic signInWithGoogle()
+  +dynamic signOut()
+  +dynamic resetPassword()
+}
+
+abstract class "chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRemoteDataSource" {
+  +dynamic addRoom()
+  +Stream<QuerySnapshot<RoomDTO>> getPublicRooms()
+  +dynamic addRoomMember()
+  +dynamic updateRoomData()
+}
+
+abstract class "chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRepository" {
+  +dynamic addRoom()
+  +Stream<QuerySnapshot<RoomDTO>> getPublicRooms()
+  +dynamic addRoomMember()
+  +dynamic updateRoomData()
+}
+
+class "chat::Domain::UseCase::AddRoomUseCase.dart::AddRoomUseCase" {
+  +RoomDataRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::AddRoomUseCase.dart::AddRoomUseCase" o-- "chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRepository"
+
+class "chat::Domain::UseCase::AddUserToRoomUseCase.dart::AddUserToRoomUseCase" {
+  +RoomDataRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::AddUserToRoomUseCase.dart::AddUserToRoomUseCase" o-- "chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRepository"
+
+class "chat::Domain::UseCase::CreateAccountUseCase.dart::CreateAccountUseCase" {
+  +FirebaseAuthRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::CreateAccountUseCase.dart::CreateAccountUseCase" o-- "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository"
+
+class "chat::Domain::UseCase::getPublicRoomsUseCase.dart::GetPublicRoomsUseCase" {
+  +RoomDataRepository repository
+  +Stream<QuerySnapshot<RoomDTO>> invoke()
+}
+
+"chat::Domain::UseCase::getPublicRoomsUseCase.dart::GetPublicRoomsUseCase" o-- "chat::Domain::Repository::RoomsRepositoryContract.dart::RoomDataRepository"
+
+class "chat::Domain::UseCase::LoginAccountUseCase.dart::LoginAccountUseCase" {
+  +FirebaseAuthRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::LoginAccountUseCase.dart::LoginAccountUseCase" o-- "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository"
+
+class "chat::Domain::UseCase::ResetPasswordUseCase.dart::ResetPasswordUseCase" {
+  +FirebaseAuthRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::ResetPasswordUseCase.dart::ResetPasswordUseCase" o-- "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository"
+
+class "chat::Domain::UseCase::SignInWithGoogleUseCase.dart::SignInWithGoogleUseCase" {
+  +FirebaseAuthRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::SignInWithGoogleUseCase.dart::SignInWithGoogleUseCase" o-- "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository"
+
+class "chat::Domain::UseCase::SignOutUseCase.dart::SignOutUseCase" {
+  +FirebaseAuthRepository repository
+  +dynamic invoke()
+}
+
+"chat::Domain::UseCase::SignOutUseCase.dart::SignOutUseCase" o-- "chat::Domain::Repository::FirebaseAuthContract.dart::FirebaseAuthRepository"
+
+class "chat::firebase_options.dart::DefaultFirebaseOptions" {
+  {static} +FirebaseOptions web
+  {static} +FirebaseOptions android
+  {static} +FirebaseOptions ios
+  {static} +FirebaseOptions macos
+  {static} +FirebaseOptions currentPlatform
+}
+
+"chat::firebase_options.dart::DefaultFirebaseOptions" o-- "firebase_core_platform_interface::firebase_core_platform_interface.dart::FirebaseOptions"
+
+class "chat::main.dart::MyApp" {
+  +User? user
+  +Widget build()
+}
+
+"chat::main.dart::MyApp" o-- "firebase_auth::firebase_auth.dart::User"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::main.dart::MyApp"
+
+abstract class "chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" {
+  +dynamic showLoading()
+  +dynamic showSuccessMessage()
+  +dynamic showFailMessage()
+  +dynamic showQuestionMessage()
+  +dynamic removeContext()
+}
+
+abstract class "chat::Presentation::Base::BaseState.dart::BaseState" {
+  +VM? viewModel
+  +void initState()
+  +void dispose()
+  +VM initialViewModel()
+  +dynamic removeContext()
+  +dynamic showLoading()
+  +dynamic showFailMessage()
+  +dynamic showSuccessMessage()
+  +dynamic showQuestionMessage()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "chat::Presentation::Base::BaseState.dart::BaseState"
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::Base::BaseState.dart::BaseState"
+
+abstract class "chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" {
+  +N? navigator
+  +AppConfigProvider? provider
+}
+
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" o-- "chat::Presentation::Providers::AppConfigProvider.dart::AppConfigProvider"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "chat::Presentation::Base::BaseViewModel.dart::BaseViewModel"
+
+class "chat::Presentation::Dialogs::DialogUtils.dart::MyDialogUtils" {
+  {static} +dynamic showLoadingDialog()
+  {static} +dynamic hideDialog()
+  {static} +dynamic showFailMessage()
+  {static} +dynamic showSuccessMessage()
+  {static} +dynamic showQuestionMessage()
+}
+
+class "chat::Presentation::Dialogs::NegativeActionButton.dart::NegativeActionButton" {
+  +void Function()? negativeAction
+  +String negativeActionTitle
+  +Widget build()
+}
+
+"chat::Presentation::Dialogs::NegativeActionButton.dart::NegativeActionButton" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::Presentation::Dialogs::NegativeActionButton.dart::NegativeActionButton"
+
+class "chat::Presentation::Dialogs::PosActionButton.dart::PosActionButton" {
+  +void Function()? posAction
+  +String posActionTitle
+  +Widget build()
+}
+
+"chat::Presentation::Dialogs::PosActionButton.dart::PosActionButton" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::Presentation::Dialogs::PosActionButton.dart::PosActionButton"
+
+class "chat::Presentation::Models::RoomCategory.dart::RoomCategory" {
+  +String id
+  +String name
+  +String image
+  {static} +List<RoomCategory> getAllCategories()
+}
+
+class "chat::Presentation::Models::RoomType.dart::RoomType" {
+  +IconData icon
+  +String title
+  {static} +List<RoomType> getTypesList()
+}
+
+"chat::Presentation::Models::RoomType.dart::RoomType" o-- "flutter::src::widgets::icon_data.dart::IconData"
+
+class "chat::Presentation::Providers::AppConfigProvider.dart::AppConfigProvider" {
+  +User? user
+  +void updateUser()
+  +void removeUser()
+}
+
+"chat::Presentation::Providers::AppConfigProvider.dart::AppConfigProvider" o-- "firebase_auth::firebase_auth.dart::User"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "chat::Presentation::Providers::AppConfigProvider.dart::AppConfigProvider"
+
+class "chat::Presentation::Theme::MyTheme.dart::MyTheme" {
+  {static} +Color white
+  {static} +Color blue
+  {static} +Color gray
+  {static} +Color black
+  {static} +ThemeData light
+}
+
+"chat::Presentation::Theme::MyTheme.dart::MyTheme" o-- "dart::ui::Color"
+"chat::Presentation::Theme::MyTheme.dart::MyTheme" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+abstract class "chat::Presentation::UI::Create%20Room::CreateRoomNavigator.dart::CreateRoomNavigator" {
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::Create%20Room::CreateRoomNavigator.dart::CreateRoomNavigator"
+
+class "chat::Presentation::UI::Create%20Room::CreateRoomView.dart::CreateRoomView" {
+  {static} +String routeName
+  +State<CreateRoomView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::Create%20Room::CreateRoomView.dart::CreateRoomView"
+
+class "chat::Presentation::UI::Create%20Room::CreateRoomView.dart::_CreateRoomViewState" {
+  +CreateRoomViewModel initialViewModel()
+  +void initState()
+  +Widget build()
+}
+
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::Create%20Room::CreateRoomView.dart::_CreateRoomViewState"
+"chat::Presentation::UI::Create%20Room::CreateRoomNavigator.dart::CreateRoomNavigator" <|-- "chat::Presentation::UI::Create%20Room::CreateRoomView.dart::_CreateRoomViewState"
+
+class "chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel" {
+  +AddRoomUseCase addRoomUseCase
+  +GlobalKey<FormState> fromKey
+  +TextEditingController groupNameController
+  +TextEditingController groupDescriptionController
+  +List<RoomCategory> categories
+  +RoomCategory selectedRoomCategory
+  +List<RoomType> types
+  +RoomType selectedType
+  +void changeSelectedItem()
+  +void changeSelectedType()
+  +String? nameValidation()
+  +String? descriptionValidation()
+  +void addRoom()
+  +void goToHomeScreen()
+}
+
+"chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel" o-- "chat::Domain::UseCase::AddRoomUseCase.dart::AddRoomUseCase"
+"chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel" o-- "chat::Presentation::Models::RoomCategory.dart::RoomCategory"
+"chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel" o-- "chat::Presentation::Models::RoomType.dart::RoomType"
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::Create%20Room::CreateRoomViewModel.dart::CreateRoomViewModel"
+
+class "chat::Presentation::UI::Create%20Room::Widgets::CategoryDropdownButtonWidget.dart::CategoryDropdownButtonWidget" {
+  +RoomCategory category
+  +Widget build()
+}
+
+"chat::Presentation::UI::Create%20Room::Widgets::CategoryDropdownButtonWidget.dart::CategoryDropdownButtonWidget" o-- "chat::Presentation::Models::RoomCategory.dart::RoomCategory"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::Presentation::UI::Create%20Room::Widgets::CategoryDropdownButtonWidget.dart::CategoryDropdownButtonWidget"
+
+class "chat::Presentation::UI::Create%20Room::Widgets::TypeDropdownButtonWidget.dart::TypeDropdownButtonWidget" {
+  +RoomType roomType
+  +Widget build()
+}
+
+"chat::Presentation::UI::Create%20Room::Widgets::TypeDropdownButtonWidget.dart::TypeDropdownButtonWidget" o-- "chat::Presentation::Models::RoomType.dart::RoomType"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::Presentation::UI::Create%20Room::Widgets::TypeDropdownButtonWidget.dart::TypeDropdownButtonWidget"
+
+class "chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyTextFormField" {
+  +String label
+  +TextEditingController controller
+  +TextInputType inputType
+  +Function validator
+  +int? maxLinesNumber
+  +bool contained
+  +Widget build()
+}
+
+"chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyTextFormField" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyTextFormField" o-- "flutter::src::services::text_input.dart::TextInputType"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyTextFormField"
+
+class "chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyPasswordTextFormField" {
+  +String label
+  +TextEditingController controller
+  +TextInputType inputType
+  +Function validator
+  +State<MyPasswordTextFormField> createState()
+}
+
+"chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyPasswordTextFormField" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyPasswordTextFormField" o-- "flutter::src::services::text_input.dart::TextInputType"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::MyPasswordTextFormField"
+
+class "chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::_MyPasswordTextFormFieldState" {
+  +bool visiabel
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "chat::Presentation::UI::GlobalWidgets::CustomTextFormField.dart::_MyPasswordTextFormFieldState"
+
+abstract class "chat::Presentation::UI::Home::HomeNavigator.dart::HomeNavigator" {
+  +dynamic goToSearchScreen()
+  +dynamic goToCreateRoomScreen()
+  +dynamic goToLoginScreen()
+  +dynamic goToJoinRoomScreen()
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::Home::HomeNavigator.dart::HomeNavigator"
+
+class "chat::Presentation::UI::Home::HomeView.dart::HomeScreen" {
+  {static} +String routeName
+  +State<HomeScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::Home::HomeView.dart::HomeScreen"
+
+class "chat::Presentation::UI::Home::HomeView.dart::_HomeScreenState" {
+  +HomeViewModel initialViewModel()
+  +Widget build()
+  +dynamic goToSearchScreen()
+  +dynamic goToCreateRoomScreen()
+  +dynamic goToLoginScreen()
+  +Widget tabBarButtonWidget()
+  +dynamic goToJoinRoomScreen()
+}
+
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::Home::HomeView.dart::_HomeScreenState"
+"chat::Presentation::UI::Home::HomeNavigator.dart::HomeNavigator" <|-- "chat::Presentation::UI::Home::HomeView.dart::_HomeScreenState"
+
+class "chat::Presentation::UI::Home::HomeViewModel.dart::HomeViewModel" {
+  +GetPublicRoomsUseCase getPublicRoomsUseCase
+  +SignOutUseCase signOutUseCase
+  +void goToSearchScreen()
+  +void goToCreateRoomScreen()
+  +void onSignOutPress()
+  +void signOut()
+  +Stream<QuerySnapshot<RoomDTO>> getPublicRooms()
+  +void goToJoinRoomScreen()
+}
+
+"chat::Presentation::UI::Home::HomeViewModel.dart::HomeViewModel" o-- "chat::Domain::UseCase::getPublicRoomsUseCase.dart::GetPublicRoomsUseCase"
+"chat::Presentation::UI::Home::HomeViewModel.dart::HomeViewModel" o-- "chat::Domain::UseCase::SignOutUseCase.dart::SignOutUseCase"
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::Home::HomeViewModel.dart::HomeViewModel"
+
+class "chat::Presentation::UI::Home::tabs::tabs.dart::Tabs" {
+  +Stream<QuerySnapshot<RoomDTO>> rooms
+  +Function goToJoinRoomScreen
+  +Widget build()
+}
+
+"chat::Presentation::UI::Home::tabs::tabs.dart::Tabs" o-- "dart::async::Stream<QuerySnapshot<RoomDTO>>"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "chat::Presentation::UI::Home::tabs::tabs.dart::Tabs"
+
+abstract class "chat::Presentation::UI::JoinRoom::JoinRoomNavigator.dart::JoinRoomNavigator" {
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::JoinRoom::JoinRoomNavigator.dart::JoinRoomNavigator"
+
+class "chat::Presentation::UI::JoinRoom::JoinRoomView.dart::JoinRoomScreen" {
+  {static} +String routeName
+  +State<JoinRoomScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::JoinRoom::JoinRoomView.dart::JoinRoomScreen"
+
+class "chat::Presentation::UI::JoinRoom::JoinRoomView.dart::_JoinRoomScreenState" {
+  +Room? room
+  +Widget build()
+  +JoinRoomViewModel initialViewModel()
+}
+
+"chat::Presentation::UI::JoinRoom::JoinRoomView.dart::_JoinRoomScreenState" o-- "chat::Domain::Models::Room::Room.dart::Room"
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::JoinRoom::JoinRoomView.dart::_JoinRoomScreenState"
+"chat::Presentation::UI::JoinRoom::JoinRoomNavigator.dart::JoinRoomNavigator" <|-- "chat::Presentation::UI::JoinRoom::JoinRoomView.dart::_JoinRoomScreenState"
+
+class "chat::Presentation::UI::JoinRoom::JoinRoomViewModel.dart::JoinRoomViewModel" {
+  +AddUserToRoomUseCase addUserToRoomUseCase
+  +void joinRoom()
+  +void goToHomeScreen()
+}
+
+"chat::Presentation::UI::JoinRoom::JoinRoomViewModel.dart::JoinRoomViewModel" o-- "chat::Domain::UseCase::AddUserToRoomUseCase.dart::AddUserToRoomUseCase"
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::JoinRoom::JoinRoomViewModel.dart::JoinRoomViewModel"
+
+abstract class "chat::Presentation::UI::Login::LoginNavigator.dart::LoginNavigator" {
+  +dynamic goToHomeScreen()
+  +dynamic goToRegisterScreen()
+  +dynamic goToResetScreen()
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::Login::LoginNavigator.dart::LoginNavigator"
+
+class "chat::Presentation::UI::Login::LoginView.dart::LoginScreen" {
+  {static} +String routeName
+  +State<LoginScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::Login::LoginView.dart::LoginScreen"
+
+class "chat::Presentation::UI::Login::LoginView.dart::_LoginScreenState" {
+  +LoginViewModel initialViewModel()
+  +void initState()
+  +Widget build()
+  +dynamic goToHomeScreen()
+  +dynamic goToRegisterScreen()
+  +dynamic goToResetScreen()
+}
+
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::Login::LoginView.dart::_LoginScreenState"
+"chat::Presentation::UI::Login::LoginNavigator.dart::LoginNavigator" <|-- "chat::Presentation::UI::Login::LoginView.dart::_LoginScreenState"
+
+class "chat::Presentation::UI::Login::LoginViewModel.dart::LoginViewModel" {
+  +LoginAccountUseCase loginAccountUseCase
+  +SignInWithGoogleUseCase signInWithGoogleUseCase
+  +GlobalKey<FormState> formKey
+  +TextEditingController emailController
+  +TextEditingController passwordController
+  +String? emailValidation()
+  +String? passwordValidation()
+  +void login()
+  +void loginWithGoogle()
+  +void goToHomeScreen()
+  +void goToRegisterScreen()
+  +void goToResetScreen()
+}
+
+"chat::Presentation::UI::Login::LoginViewModel.dart::LoginViewModel" o-- "chat::Domain::UseCase::LoginAccountUseCase.dart::LoginAccountUseCase"
+"chat::Presentation::UI::Login::LoginViewModel.dart::LoginViewModel" o-- "chat::Domain::UseCase::SignInWithGoogleUseCase.dart::SignInWithGoogleUseCase"
+"chat::Presentation::UI::Login::LoginViewModel.dart::LoginViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"chat::Presentation::UI::Login::LoginViewModel.dart::LoginViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::Login::LoginViewModel.dart::LoginViewModel"
+
+abstract class "chat::Presentation::UI::Register::RegisterNavigator.dart::RegisterNavigator" {
+  +dynamic goToHomeScreen()
+  +dynamic goToLoginScreen()
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::Register::RegisterNavigator.dart::RegisterNavigator"
+
+class "chat::Presentation::UI::Register::RegisterView.dart::RegisterScreen" {
+  {static} +String routeName
+  +State<RegisterScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::Register::RegisterView.dart::RegisterScreen"
+
+class "chat::Presentation::UI::Register::RegisterView.dart::_RegisterScreenState" {
+  +RegisterViewModel initialViewModel()
+  +void initState()
+  +Widget build()
+  +dynamic goToHomeScreen()
+  +dynamic goToLoginScreen()
+}
+
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::Register::RegisterView.dart::_RegisterScreenState"
+"chat::Presentation::UI::Register::RegisterNavigator.dart::RegisterNavigator" <|-- "chat::Presentation::UI::Register::RegisterView.dart::_RegisterScreenState"
+
+class "chat::Presentation::UI::Register::RegisterViewModel.dart::RegisterViewModel" {
+  +CreateAccountUseCase useCase
+  +GlobalKey<FormState> fromKey
+  +TextEditingController nameController
+  +TextEditingController emailController
+  +TextEditingController passwordController
+  +TextEditingController passwordConfirmationController
+  +String? nameValidation()
+  +String? emailValidation()
+  +String? passwordValidation()
+  +void register()
+  +void goToHomeScreen()
+  +void goToLoginScreen()
+}
+
+"chat::Presentation::UI::Register::RegisterViewModel.dart::RegisterViewModel" o-- "chat::Domain::UseCase::CreateAccountUseCase.dart::CreateAccountUseCase"
+"chat::Presentation::UI::Register::RegisterViewModel.dart::RegisterViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"chat::Presentation::UI::Register::RegisterViewModel.dart::RegisterViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::Register::RegisterViewModel.dart::RegisterViewModel"
+
+abstract class "chat::Presentation::UI::ResetPassword::ResetPasswordNavigator.dart::ResetPasswordNavigator" {
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::ResetPassword::ResetPasswordNavigator.dart::ResetPasswordNavigator"
+
+class "chat::Presentation::UI::ResetPassword::ResetPasswordView.dart::ResetPasswordScreen" {
+  {static} +String routeName
+  +State<ResetPasswordScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::ResetPassword::ResetPasswordView.dart::ResetPasswordScreen"
+
+class "chat::Presentation::UI::ResetPassword::ResetPasswordView.dart::_ResetPasswordScreenState" {
+  +Widget build()
+  +ResetPasswordViewModel initialViewModel()
+}
+
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::ResetPassword::ResetPasswordView.dart::_ResetPasswordScreenState"
+"chat::Presentation::UI::ResetPassword::ResetPasswordNavigator.dart::ResetPasswordNavigator" <|-- "chat::Presentation::UI::ResetPassword::ResetPasswordView.dart::_ResetPasswordScreenState"
+
+class "chat::Presentation::UI::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" {
+  +TextEditingController emailResetController
+  +ResetPasswordUseCase useCase
+  +String? emailValidation()
+  +void resetPassword()
+}
+
+"chat::Presentation::UI::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"chat::Presentation::UI::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" o-- "chat::Domain::UseCase::ResetPasswordUseCase.dart::ResetPasswordUseCase"
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel"
+
+abstract class "chat::Presentation::UI::Search::SearchNavigator.dart::SearchNavigator" {
+}
+
+"chat::Presentation::Base::BaseNavigator.dart::BaseNavigator" <|-- "chat::Presentation::UI::Search::SearchNavigator.dart::SearchNavigator"
+
+class "chat::Presentation::UI::Search::SearchView.dart::SearchView" {
+  {static} +String routeName
+  +State<SearchView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "chat::Presentation::UI::Search::SearchView.dart::SearchView"
+
+class "chat::Presentation::UI::Search::SearchView.dart::_SearchViewState" {
+  +Widget build()
+  +SearchViewModel initialViewModel()
+}
+
+"chat::Presentation::Base::BaseState.dart::BaseState" <|-- "chat::Presentation::UI::Search::SearchView.dart::_SearchViewState"
+"chat::Presentation::UI::Search::SearchNavigator.dart::SearchNavigator" <|-- "chat::Presentation::UI::Search::SearchView.dart::_SearchViewState"
+
+class "chat::Presentation::UI::Search::SearchViewModel.dart::SearchViewModel" {
+  +void goToHomeScreen()
+}
+
+"chat::Presentation::Base::BaseViewModel.dart::BaseViewModel" <|-- "chat::Presentation::UI::Search::SearchViewModel.dart::SearchViewModel"
+
+
+@enduml

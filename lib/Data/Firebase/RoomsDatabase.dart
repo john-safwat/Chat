@@ -43,7 +43,7 @@ class RoomsDatabase {
 
   // get the collection reference of the user in the room
   CollectionReference<String> getRoomUserCollectionReference(String roomId){
-    return FirebaseFirestore.instance.collection("Rooms").doc(roomId).collection("Room_$roomId").withConverter(
+    return FirebaseFirestore.instance.collection("Rooms").doc(roomId).collection("Room").withConverter(
       fromFirestore: (snapshot, options) => snapshot.data().toString(),
       toFirestore: (value, options) => {
         'user': value,
