@@ -15,7 +15,7 @@ class JoinRoomViewModel extends BaseViewModel<JoinRoomNavigator>{
     try{
       var response = await addUserToRoomUseCase.invoke(room, provider!.user!.uid);
       navigator!.removeContext();
-      navigator!.showSuccessMessage(message: response  , posAction: goToHomeScreen, posActionTitle:"Ok" );
+      navigator!.showSuccessMessage(message: response  , posAction: goToChatScreen, posActionTitle:"Ok" );
     }catch (e){
       navigator!.removeContext();
       if (e is FirebaseFireStoreDatabaseTimeoutException){
@@ -28,7 +28,7 @@ class JoinRoomViewModel extends BaseViewModel<JoinRoomNavigator>{
     }
   }
 
-  void goToHomeScreen(){
-    navigator!.removeContext();
+  void goToChatScreen(){
+    navigator!.goToChatRoom();
   }
 }

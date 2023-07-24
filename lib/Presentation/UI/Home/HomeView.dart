@@ -1,10 +1,12 @@
 import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
-import 'package:chat/Domain/UseCase/getPublicRoomsUseCase.dart';
+import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
@@ -28,7 +30,11 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
     implements HomeNavigator {
   @override
   HomeViewModel initialViewModel() {
-    return HomeViewModel(SignOutUseCase(injectAuthRepo()) , GetPublicRoomsUseCase(injectRoomDataRepo()));
+    return HomeViewModel(
+      SignOutUseCase(injectAuthRepo()),
+      GetPublicRoomsUseCase(injectRoomDataRepo()),
+      GetUserRoomsUseCase(injectRoomDataRepo())
+    );
   }
 
   @override
@@ -151,8 +157,16 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                 body: TabBarView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Column(children: [Tabs(value.getPublicRooms() , viewModel!.goToJoinRoomScreen)]),
-                    Column(children: [Tabs(value.getPublicRooms() , viewModel!.goToJoinRoomScreen)]),
+                    Column(children: [
+                      Tabs(value.getUserRooms(), viewModel!.goToChatScreen)
+                    ]),
+                    Column(children: [
+                      Tabs(
+                        value.getPublicRooms(),
+                        viewModel!.goToJoinRoomScreen,
+                        filterData: viewModel!.filterData,
+                      )
+                    ]),
                   ],
                 ),
                 floatingActionButton: FloatingActionButton(
@@ -201,6 +215,11 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
 
   @override
   goToJoinRoomScreen(Room room) {
-    Navigator.pushNamed(context, JoinRoomScreen.routeName , arguments: room);
+    Navigator.pushNamed(context, JoinRoomScreen.routeName, arguments: room);
+  }
+
+  @override
+  goToChatScreen(Room room) {
+    Navigator.pushNamed(context, ChatView.routeName, arguments: room);
   }
 }

@@ -7,7 +7,7 @@ class RoomDTO {
   String category;
   String type;
   String ownerId;
-  int numberOfMembers;
+  List<String> users ;
 
   RoomDTO(
       {required this.id,
@@ -16,7 +16,8 @@ class RoomDTO {
       required this.category,
       required this.type,
       required this.ownerId,
-      required this.numberOfMembers});
+      required this.users,
+  });
 
   RoomDTO.fromFireStore(Map<String, dynamic> json)
       : this(
@@ -26,7 +27,8 @@ class RoomDTO {
             category: json['category'],
             type: json['type'],
             ownerId: json['ownerId'],
-            numberOfMembers: json['numberOfMembers']);
+            users: List<String>.from(json['users']),
+  );
 
   Map<String, dynamic> toFireStore() {
     return {
@@ -36,7 +38,8 @@ class RoomDTO {
       'category': category,
       'type': type,
       'ownerId': ownerId,
-      'numberOfMembers': numberOfMembers
+      'users':users
+
     };
   }
 
@@ -48,7 +51,7 @@ class RoomDTO {
         category: category,
         type: type,
         ownerId: ownerId,
-        numberOfMembers: numberOfMembers,
+        users: users
     );
   }
 }

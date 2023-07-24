@@ -3,6 +3,7 @@ import 'package:chat/Domain/UseCase/AddUserToRoomUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomNavigator.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomViewModel.dart';
 import 'package:flutter/material.dart';
@@ -133,5 +134,10 @@ class _JoinRoomScreenState extends BaseState<JoinRoomScreen, JoinRoomViewModel>
   @override
   JoinRoomViewModel initialViewModel() {
     return JoinRoomViewModel(AddUserToRoomUseCase(injectRoomDataRepo()));
+  }
+
+  @override
+  goToChatRoom() {
+    Navigator.pushNamed(context, ChatView.routeName , arguments: room!);
   }
 }

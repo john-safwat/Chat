@@ -9,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class Tabs extends StatelessWidget {
   Stream<QuerySnapshot<RoomDTO>> rooms;
-  Function goToJoinRoomScreen;
-  Tabs(this.rooms, this.goToJoinRoomScreen);
+  Function navigate;
+  Function? filterData;
+  Tabs(this.rooms, this.navigate ,{this.filterData});
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -25,8 +26,10 @@ class Tabs extends StatelessWidget {
             } else if (snapshot.hasError) {
               return const Center(child: Text("Can't load data"));
             } else {
-              List<Room> roomsList =
-                  snapshot.data!.docs.map((e) => e.data().toDomain()).toList();
+              List<Room> roomsList = snapshot.data!.docs.map((e) => e.data().toDomain()).toList();
+              if(filterData != null){
+                roomsList = filterData!(roomsList);
+              }
               if (roomsList.isEmpty) {
                 return Center(
                   child: Text(
@@ -47,7 +50,7 @@ class Tabs extends StatelessWidget {
                   itemCount: roomsList.length,
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
-                      goToJoinRoomScreen(roomsList[index]);
+                      navigate(roomsList[index]);
                     },
                     child: Stack(
                       alignment: Alignment.bottomCenter,
@@ -114,7 +117,7 @@ class Tabs extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  "${roomsList[index].numberOfMembers.toString()} Member",
+                                  "${roomsList[index].users.length} Member",
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: Colors.white,

@@ -1,5 +1,6 @@
 import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
@@ -36,13 +37,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          RegisterScreen.routeName :(context) => RegisterScreen(),
-          HomeScreen.routeName:(context)=> HomeScreen(),
-          LoginScreen.routeName : (context) => LoginScreen(),
-          SearchView.routeName :(context) => SearchView(),
-          CreateRoomView.routeName :(context) => CreateRoomView(),
-          ResetPasswordScreen.routeName : (context) => ResetPasswordScreen(),
-          JoinRoomScreen.routeName : (_) => JoinRoomScreen()
+          RegisterScreen.routeName :(_) => RegisterScreen(),
+          HomeScreen.routeName:(_)=> HomeScreen(),
+          LoginScreen.routeName : (_) => LoginScreen(),
+          SearchView.routeName :(_) => SearchView(),
+          CreateRoomView.routeName :(_) => CreateRoomView(),
+          ResetPasswordScreen.routeName : (_) => ResetPasswordScreen(),
+          JoinRoomScreen.routeName : (_) => JoinRoomScreen(),
+          ChatView.routeName :(_) => ChatView()
         },
         initialRoute: user == null?LoginScreen.routeName: HomeScreen.routeName,
         theme: MyTheme.light,

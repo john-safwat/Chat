@@ -25,7 +25,6 @@ class RoomsDatabase {
     var doc = ref.doc();
     room.id = doc.id;
     await doc.set(room);
-    await addRoomUser(room.id, room.ownerId);
   }
 
   Future<void> updateRoomData(RoomDTO room)async{
@@ -41,21 +40,12 @@ class RoomsDatabase {
     return data;
   }
 
-  // get the collection reference of the user in the room
-  CollectionReference<String> getRoomUserCollectionReference(String roomId){
-    return FirebaseFirestore.instance.collection("Rooms").doc(roomId).collection("Room").withConverter(
-      fromFirestore: (snapshot, options) => snapshot.data().toString(),
-      toFirestore: (value, options) => {
-        'user': value,
-      },
-    );
+  // get the data of the rooms
+  Stream<QuerySnapshot<RoomDTO>> getUserRooms(String uid){
+    var ref = getRoomCollectionReference();
+    var data = ref.where("users" , arrayContains: uid).snapshots();
+    return data;
   }
 
-  // add room member function
-  Future<void> addRoomUser(String roomId, String uid)async{
-    var ref = getRoomUserCollectionReference(roomId);
-    var doc = ref.doc(uid);
-    await doc.set(uid);
-  }
 
 }

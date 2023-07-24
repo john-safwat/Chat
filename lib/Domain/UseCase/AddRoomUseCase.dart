@@ -15,6 +15,7 @@ class AddRoomUseCase {
             category: category,
             type: type,
             ownerId: ownerId,
+            users:[ownerId],
         ));
     return response;
   }

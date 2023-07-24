@@ -7,7 +7,7 @@ class Room {
   String category;
   String type;
   String ownerId;
-  int numberOfMembers;
+  List<String> users;
 
   Room({
     required this.id,
@@ -16,7 +16,7 @@ class Room {
     required this.category,
     required this.type,
     required this.ownerId,
-    this.numberOfMembers = 1
+    required this.users,
   });
 
   RoomDTO toDataSource() {
@@ -27,7 +27,7 @@ class Room {
        category: category,
        type: type,
        ownerId:ownerId,
-       numberOfMembers: numberOfMembers
+       users: users
     );
   }
 }
