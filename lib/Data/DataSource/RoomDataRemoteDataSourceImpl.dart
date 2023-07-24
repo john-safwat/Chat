@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:chat/Data/Firebase/ErrorHandeler.dart';
 import 'package:chat/Data/Firebase/RoomsDatabase.dart';
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
@@ -34,9 +33,9 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
   }
 
   @override
-  Future<String> addRoomMember(String roomId, String uid) async{
+  Future<String> addRoomMember(RoomDTO room) async{
     try{
-      await database.addRoomUser(roomId , uid).timeout(const Duration(seconds: 15));
+      await database.updateRoomData(room).timeout(const Duration(seconds: 15));
       return "Welcome\nYou Joint Successfully";
     }on FirebaseException catch(e){
       var error = errorHandler.handleFirebaseFireStoreError(e.code);
@@ -49,17 +48,8 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
   }
 
   @override
-  Future<void> updateRoomData(RoomDTO room) async{
-    try{
-      await database.updateRoomData(room);
-    }on FirebaseException catch(e){
-      var error = errorHandler.handleFirebaseFireStoreError(e.code);
-      throw FirebaseFireStoreDatabaseException(error);
-    }on TimeoutException catch(e){
-      throw FirebaseFireStoreDatabaseTimeoutException("This Operation Has Timed Out");
-    }catch (e){
-      throw FirebaseFireStoreDatabaseException("UnKnown Error");
-    }
-
+  Stream<QuerySnapshot<RoomDTO>> getUserRooms(String uid) {
+    return database.getUserRooms(uid);
   }
+
 }

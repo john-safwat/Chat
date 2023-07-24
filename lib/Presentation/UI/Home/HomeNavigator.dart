@@ -6,4 +6,5 @@ abstract class HomeNavigator extends BaseNavigator{
   goToCreateRoomScreen();
   goToLoginScreen();
   goToJoinRoomScreen(Room room);
+  goToChatScreen(Room room);
 }

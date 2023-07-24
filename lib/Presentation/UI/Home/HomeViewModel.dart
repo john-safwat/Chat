@@ -2,16 +2,18 @@ import 'package:chat/Data/Models/Room/RoomDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
-import 'package:chat/Domain/UseCase/getPublicRoomsUseCase.dart';
+import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeViewModel extends BaseViewModel<HomeNavigator>{
-  GetPublicRoomsUseCase getPublicRoomsUseCase;
   SignOutUseCase signOutUseCase;
-  HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase);
+  GetPublicRoomsUseCase getPublicRoomsUseCase;
+  GetUserRoomsUseCase getUserRoomsUseCase;
+  HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase , this.getUserRoomsUseCase);
 
   void goToSearchScreen(){
     navigator!.goToSearchScreen();
@@ -23,6 +25,12 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
 
   void onSignOutPress()async{
     navigator!.showQuestionMessage(message: "Are You Sure you want to Sign out?" , posActionTitle: "Ok" , posAction: signOut , negativeActionTitle: "Cancel");
+  }
+  void goToJoinRoomScreen(Room room){
+    navigator!.goToJoinRoomScreen(room);
+  }
+  void goToChatScreen(Room room){
+    navigator!.goToChatScreen(room);
   }
 
   void signOut()async{
@@ -47,7 +55,18 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   Stream<QuerySnapshot<RoomDTO>> getPublicRooms(){
     return getPublicRoomsUseCase.invoke();
   }
-  void goToJoinRoomScreen(Room room){
-    navigator!.goToJoinRoomScreen(room);
+  Stream<QuerySnapshot<RoomDTO>> getUserRooms(){
+    return getUserRoomsUseCase.invoke(provider!.user!.uid);
+  }
+
+
+  List<Room> filterData(List<Room> rooms){
+    for(int i =0 ; i< rooms.length ; i++){
+      if(rooms[i].users.contains(provider!.user!.uid)){
+        rooms.removeWhere((element) => element.id == rooms[i].id);
+        i--;
+      }
+    }
+    return rooms;
   }
 }
