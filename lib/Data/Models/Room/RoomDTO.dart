@@ -1,4 +1,5 @@
 import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RoomDTO {
   String id;
@@ -8,6 +9,7 @@ class RoomDTO {
   String type;
   String ownerId;
   List<String> users ;
+  int dateTime;
 
   RoomDTO(
       {required this.id,
@@ -17,6 +19,7 @@ class RoomDTO {
       required this.type,
       required this.ownerId,
       required this.users,
+      required this.dateTime
   });
 
   RoomDTO.fromFireStore(Map<String, dynamic> json)
@@ -28,6 +31,7 @@ class RoomDTO {
             type: json['type'],
             ownerId: json['ownerId'],
             users: List<String>.from(json['users']),
+            dateTime:  json['dateTime']
   );
 
   Map<String, dynamic> toFireStore() {
@@ -38,8 +42,8 @@ class RoomDTO {
       'category': category,
       'type': type,
       'ownerId': ownerId,
-      'users':users
-
+      'users':users,
+      'dateTime': dateTime
     };
   }
 
@@ -51,7 +55,8 @@ class RoomDTO {
         category: category,
         type: type,
         ownerId: ownerId,
-        users: users
+        users: users,
+        dateTime:  DateTime.fromMillisecondsSinceEpoch(dateTime)
     );
   }
 }
