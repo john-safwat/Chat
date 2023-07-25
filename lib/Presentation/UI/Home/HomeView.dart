@@ -164,7 +164,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                       Tabs(
                         value.getPublicRooms(),
                         viewModel!.goToJoinRoomScreen,
-                        filterData: viewModel!.filterData,
+                        filterData: viewModel!.filterBrowseData,
                       )
                     ]),
                   ],

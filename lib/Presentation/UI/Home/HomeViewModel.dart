@@ -60,7 +60,12 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   }
 
 
-  List<Room> filterData(List<Room> rooms){
+  List<Room> filterBrowseData(List<Room> rooms){
+    rooms = removeUsersJoinedRoom(rooms);
+    return rooms;
+  }
+
+  List<Room> removeUsersJoinedRoom(List<Room> rooms){
     for(int i =0 ; i< rooms.length ; i++){
       if(rooms[i].users.contains(provider!.user!.uid)){
         rooms.removeWhere((element) => element.id == rooms[i].id);
@@ -69,4 +74,5 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     }
     return rooms;
   }
+
 }

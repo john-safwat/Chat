@@ -9,9 +9,9 @@ import 'package:chat/Presentation/UI/Create%20Room/CreateRoomNavigator.dart';
 import 'package:chat/Presentation/UI/Create%20Room/Widgets/CategoryDropdownButtonWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
-
   AddRoomUseCase addRoomUseCase ;
   CreateRoomViewModel(this.addRoomUseCase);
 
@@ -71,7 +71,8 @@ class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
             groupDescriptionController.text,
             selectedRoomCategory.id,
             selectedType.title,
-            provider!.user!.uid
+            provider!.user!.uid,
+            DateTime.now()
             );
         navigator!.removeContext();
         navigator!.showSuccessMessage(message: response , posActionTitle: "Ok" , posAction: goToHomeScreen);

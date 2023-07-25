@@ -8,6 +8,7 @@ class Room {
   String type;
   String ownerId;
   List<String> users;
+  DateTime dateTime;
 
   Room({
     required this.id,
@@ -17,6 +18,7 @@ class Room {
     required this.type,
     required this.ownerId,
     required this.users,
+    required this.dateTime
   });
 
   RoomDTO toDataSource() {
@@ -27,7 +29,8 @@ class Room {
        category: category,
        type: type,
        ownerId:ownerId,
-       users: users
+       users: users,
+      dateTime: dateTime.millisecondsSinceEpoch
     );
   }
 }
