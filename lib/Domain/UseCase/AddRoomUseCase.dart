@@ -6,7 +6,7 @@ class AddRoomUseCase {
   AddRoomUseCase(this.repository);
 
   Future<String> invoke(String id , String name , String description , String category ,
-      String type , String ownerId ,DateTime dateTime)async{
+      String type , String ownerId ,int dateTime)async{
     var response  = await repository.addRoom(
         Room(
             id: id,

@@ -1,20 +1,24 @@
+import 'package:animated_expandable_fab/animated_expandable_fab.dart';
+import 'package:animated_expandable_fab/expandable_fab/expandable_fab.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
-import 'package:chat/Presentation/UI/Home/tabs/tabs.dart';
+import 'package:chat/Presentation/UI/Home/Widgets/Drower.dart';
+import 'package:chat/Presentation/UI/Home/Widgets/tabs.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/Search/SearchView.dart';
+import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +30,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
+class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleTickerProviderStateMixin
     implements HomeNavigator {
   @override
   HomeViewModel initialViewModel() {
@@ -37,12 +41,28 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
     );
   }
 
+  late Animation<double> animation;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 260),
+    );
+    final curvedAnimation = CurvedAnimation(
+      curve: Curves.easeInOut,
+      parent: animationController,
+    );
+    animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => viewModel,
-      child: Consumer<HomeViewModel>(
-        builder: (context, value, child) => Stack(
+      child: Stack(
           children: [
             Container(
               height: double.infinity,
@@ -60,19 +80,6 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
-                  bottom: TabBar(
-                    physics: const BouncingScrollPhysics(),
-                    indicator: UnderlineTabIndicator(
-                      borderSide:
-                          const BorderSide(width: 2, color: MyTheme.white),
-                      insets: const EdgeInsets.symmetric(horizontal: 20),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    tabs: [
-                      tabBarButtonWidget("My Rooms"),
-                      tabBarButtonWidget("Browse")
-                    ],
-                  ),
                   title: Text(
                     "Home",
                     style: Theme.of(context)
@@ -82,7 +89,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                   ),
                   actions: [
                     InkWell(
-                        onTap: value.goToSearchScreen,
+                        onTap: viewModel!.goToSearchScreen,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15.0),
                           child: Icon(
@@ -92,95 +99,78 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                         ))
                   ],
                 ),
-                drawer: Drawer(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 200,
-                        decoration: const BoxDecoration(
-                          color: MyTheme.blue,
-                        ),
-                        child: Text(
-                          viewModel!.provider?.user?.displayName ??
-                              "UnFound Name",
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(color: MyTheme.white),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        child: ElevatedButton(
-                          onPressed: value.onSignOutPress,
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              )),
-                              elevation: MaterialStateProperty.all(0),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.red)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Sign Out",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayMedium!
-                                      .copyWith(color: MyTheme.white),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const Icon(
-                                  EvaIcons.logOut,
-                                  color: MyTheme.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                drawer: HomeScreenDrawer(user: viewModel!.provider!.user! , onSignOutPress: viewModel!.onSignOutPress),
+                body:ContainedTabBarView(
+                  onChange: (index) {
+                    viewModel!.changeSelectedTabIndex(index);
+                  },
+                  tabBarViewProperties:const TabBarViewProperties(
+                    physics: BouncingScrollPhysics()
                   ),
-                ),
-                body: TabBarView(
-                  physics: const BouncingScrollPhysics(),
-                  children: [
+                  tabBarProperties:const TabBarProperties(
+                    indicatorColor: MyTheme.white,
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 20),
+                  ),
+                  tabs: [
+                    tabBarButtonWidget("My Rooms"),
+                    tabBarButtonWidget("Browse"),
+                  ],
+                  views: [
                     Column(children: [
-                      Tabs(value.getUserRooms(), viewModel!.goToChatScreen)
+                      Tabs(viewModel!.getUserRooms(), viewModel!.goToChatScreen)
                     ]),
                     Column(children: [
                       Tabs(
-                        value.getPublicRooms(),
+                        viewModel!.getPublicRooms(),
                         viewModel!.goToJoinRoomScreen,
                         filterData: viewModel!.filterBrowseData,
                       )
                     ]),
                   ],
                 ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: value.goToCreateRoomScreen,
-                  backgroundColor: MyTheme.blue,
-                  child: const Icon(
-                    EvaIcons.plus,
-                    color: MyTheme.white,
+                floatingActionButton: Consumer<HomeViewModel>(
+                  builder: (context, value, child) => FloatingActionBubble(
+                    items: [
+                      BubbleMenu(
+                        title: "Crate Room",
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.white),
+                        iconColor: MyTheme.white,
+                        bubbleColor: MyTheme.blue,
+                        icon: EvaIcons.messageSquare,
+                        onPressed: value.goToCreateRoomScreen
+                      ),
+                      BubbleMenu(
+                        title: "Join Room",
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.white),
+                        iconColor: MyTheme.white,
+                        bubbleColor: MyTheme.blue,
+                        icon: EvaIcons.messageCircle,
+                        onPressed: (){}
+                      ),
+                    ],
+                    onPressed: () => animationController.isCompleted ? animationController.reverse() : animationController.forward(),
+                    iconColor: MyTheme.white,
+                    iconData: EvaIcons.messageCircle,
+                    backgroundColor: MyTheme.blue,
+                    animation: animation,
                   ),
                 ),
               ),
             ),
           ],
         ),
+    );
+  }
+
+  Widget tabBarButtonWidget(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: MyTheme.white),
       ),
     );
   }
@@ -198,19 +188,6 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   @override
   goToLoginScreen() {
     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-  }
-
-  Widget tabBarButtonWidget(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Text(
-        title,
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(color: MyTheme.white),
-      ),
-    );
   }
 
   @override

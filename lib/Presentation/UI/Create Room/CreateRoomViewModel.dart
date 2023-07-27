@@ -72,7 +72,7 @@ class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{
             selectedRoomCategory.id,
             selectedType.title,
             provider!.user!.uid,
-            DateTime.now()
+            DateTime.now().millisecondsSinceEpoch
             );
         navigator!.removeContext();
         navigator!.showSuccessMessage(message: response , posActionTitle: "Ok" , posAction: goToHomeScreen);

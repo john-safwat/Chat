@@ -8,7 +8,7 @@ class Room {
   String type;
   String ownerId;
   List<String> users;
-  DateTime dateTime;
+  int dateTime;
 
   Room({
     required this.id,
@@ -30,7 +30,7 @@ class Room {
        type: type,
        ownerId:ownerId,
        users: users,
-      dateTime: dateTime.millisecondsSinceEpoch
+      dateTime: dateTime
     );
   }
 }

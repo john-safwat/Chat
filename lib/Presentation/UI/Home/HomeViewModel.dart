@@ -15,6 +15,13 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   GetUserRoomsUseCase getUserRoomsUseCase;
   HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase , this.getUserRoomsUseCase);
 
+  // to control the action and the title of the floating action button
+  int selectedTabIndex = 0;
+  void changeSelectedTabIndex(int index){
+    selectedTabIndex = index;
+    notifyListeners();
+  }
+
   void goToSearchScreen(){
     navigator!.goToSearchScreen();
   }
@@ -62,6 +69,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
 
   List<Room> filterBrowseData(List<Room> rooms){
     rooms = removeUsersJoinedRoom(rooms);
+    rooms = sortRoomsByCreatedDate(rooms);
     return rooms;
   }
 
@@ -70,6 +78,24 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
       if(rooms[i].users.contains(provider!.user!.uid)){
         rooms.removeWhere((element) => element.id == rooms[i].id);
         i--;
+      }
+    }
+    return rooms;
+  }
+
+  List<Room> sortRoomsByCreatedDate(List<Room> rooms){
+    for(int i = 0 ; i< rooms.length-1 ; i++){
+      var swapped= false;
+      for(int j = 0 ; j<rooms.length - i -1 ; j++ ){
+        if(rooms[j].dateTime < rooms[j+1].dateTime){
+          var temp = rooms[j];
+          rooms[j] = rooms[j+1];
+          rooms[j+1] = temp;
+          swapped = true;
+        }
+      }
+      if (swapped == false) {
+        break;
       }
     }
     return rooms;
