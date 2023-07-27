@@ -8,12 +8,14 @@ import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomeViewModel extends BaseViewModel<HomeNavigator>{
   SignOutUseCase signOutUseCase;
   GetPublicRoomsUseCase getPublicRoomsUseCase;
   GetUserRoomsUseCase getUserRoomsUseCase;
   HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase , this.getUserRoomsUseCase);
+  TextEditingController idController = TextEditingController();
 
   // to control the action and the title of the floating action button
   int selectedTabIndex = 0;
@@ -101,4 +103,11 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     return rooms;
   }
 
+  String? bottomSheetIdValidation(String id){
+    if(id.isEmpty){
+      return "required field";
+    }else{
+      return null;
+    }
+  }
 }

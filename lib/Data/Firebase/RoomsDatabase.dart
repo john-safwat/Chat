@@ -47,5 +47,4 @@ class RoomsDatabase {
     return data;
   }
 
-
 }

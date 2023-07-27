@@ -1,5 +1,6 @@
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Presentation/Base/BaseNavigator.dart';
+import 'package:flutter/material.dart';
 
 abstract class HomeNavigator extends BaseNavigator{
   goToSearchScreen();
@@ -7,4 +8,5 @@ abstract class HomeNavigator extends BaseNavigator{
   goToLoginScreen();
   goToJoinRoomScreen(Room room);
   goToChatScreen(Room room);
+  void showMyModalBottomSheet({required BuildContext context , required TextEditingController idController});
 }

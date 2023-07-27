@@ -9,6 +9,7 @@ import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
+import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
 import 'package:chat/Presentation/UI/Home/Widgets/Drower.dart';
@@ -145,7 +146,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleT
                         iconColor: MyTheme.white,
                         bubbleColor: MyTheme.blue,
                         icon: EvaIcons.messageCircle,
-                        onPressed: (){}
+                        onPressed: () => showMyModalBottomSheet(context: context , idController: viewModel!.idController),
                       ),
                     ],
                     onPressed: () => animationController.isCompleted ? animationController.reverse() : animationController.forward(),
@@ -172,6 +173,71 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleT
             .bodyMedium!
             .copyWith(color: MyTheme.white),
       ),
+    );
+  }
+  @override
+  void showMyModalBottomSheet({required BuildContext context , required TextEditingController idController})async{
+    await showModalBottomSheet(context: context , builder: (context) => Wrap(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Column(
+              children: [
+                MyTextFormField(
+                  controller: idController,
+                  label: "Enter Room's ID",
+                  inputType: TextInputType.text,
+                  validator: viewModel!.bottomSheetIdValidation
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: ElevatedButton(
+                      onPressed: (){},
+                      style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(
+                              MyTheme.blue),
+                          elevation: MaterialStateProperty.all(4),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ))),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 20),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "join room",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: MyTheme.white),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: MyTheme.white,
+                            ),
+                          ],
+                        ),
+                      )),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20) , topRight: Radius.circular(20))
+      ),
+      isScrollControlled: true
     );
   }
 
