@@ -15,6 +15,10 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   GetUserRoomsUseCase getUserRoomsUseCase;
   HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase , this.getUserRoomsUseCase);
 
+  List<Room> myRooms = [];
+  List<Room> browseRooms = [];
+
+  int comingRooms = 0;
   // to control the action and the title of the floating action button
   int selectedTabIndex = 0;
   void changeSelectedTabIndex(int index){
@@ -66,24 +70,51 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     return getUserRoomsUseCase.invoke(provider!.user!.uid);
   }
 
-
-  List<Room> filterBrowseData(List<Room> rooms){
-    rooms = removeUsersJoinedRoom(rooms);
-    rooms = sortRoomsByCreatedDate(rooms);
-    return rooms;
-  }
-
-  List<Room> removeUsersJoinedRoom(List<Room> rooms){
-    for(int i =0 ; i< rooms.length ; i++){
-      if(rooms[i].users.contains(provider!.user!.uid)){
-        rooms.removeWhere((element) => element.id == rooms[i].id);
+  void removeUsersJoinedRoom(){
+    for(int i =0 ; i< browseRooms.length ; i++){
+      if(browseRooms[i].users.contains(provider!.user!.uid)){
+        browseRooms.removeWhere((element) => element.id == browseRooms[i].id);
         i--;
       }
     }
-    return rooms;
+    for(int i = 0 ; i< browseRooms.length-1 ; i++){
+      var swapped= false;
+      for(int j = 0 ; j<browseRooms.length - i -1 ; j++ ){
+        if(browseRooms[j].dateTime < browseRooms[j+1].dateTime){
+          var temp = browseRooms[j];
+          browseRooms[j] = browseRooms[j+1];
+          browseRooms[j+1] = temp;
+          swapped = true;
+        }
+      }
+      if (swapped == false) {
+        break;
+      }
+    }
   }
 
-  List<Room> sortRoomsByCreatedDate(List<Room> rooms){
+  void sortRoomsByOldRooms(){
+    var rooms = browseRooms;
+    for(int i = 0 ; i< rooms.length-1 ; i++){
+      var swapped= false;
+      for(int j = 0 ; j<rooms.length - i -1 ; j++ ){
+        if(rooms[j].dateTime > rooms[j+1].dateTime){
+          var temp = rooms[j];
+          rooms[j] = rooms[j+1];
+          rooms[j+1] = temp;
+          swapped = true;
+        }
+      }
+      if (swapped == false) {
+        break;
+      }
+    }
+    browseRooms = rooms;
+    notifyListeners();
+  }
+
+  void sortRoomsByNewRooms(){
+    var rooms = browseRooms;
     for(int i = 0 ; i< rooms.length-1 ; i++){
       var swapped= false;
       for(int j = 0 ; j<rooms.length - i -1 ; j++ ){
@@ -98,7 +129,29 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
         break;
       }
     }
-    return rooms;
+    browseRooms = rooms;
+    notifyListeners();
+  }
+
+  void sortRoomsByNumberOfMembers(){
+    var rooms = browseRooms;
+
+    for(int i = 0 ; i< rooms.length-1 ; i++){
+      var swapped= false;
+      for(int j = 0 ; j<rooms.length - i -1 ; j++ ){
+        if(rooms[j].users.length < rooms[j+1].users.length){
+          var temp = rooms[j];
+          rooms[j] = rooms[j+1];
+          rooms[j+1] = temp;
+          swapped = true;
+        }
+      }
+      if (swapped == false) {
+        break;
+      }
+    }
+    browseRooms = rooms;
+    notifyListeners();
   }
 
 }

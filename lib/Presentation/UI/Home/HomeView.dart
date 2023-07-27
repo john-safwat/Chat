@@ -11,8 +11,9 @@ import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
+import 'package:chat/Presentation/UI/Home/Widgets/BrowseRoomsTab.dart';
 import 'package:chat/Presentation/UI/Home/Widgets/Drower.dart';
-import 'package:chat/Presentation/UI/Home/Widgets/tabs.dart';
+import 'package:chat/Presentation/UI/Home/Widgets/MyRoomsTab.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/Search/SearchView.dart';
@@ -30,15 +31,15 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleTickerProviderStateMixin
+class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
+    with SingleTickerProviderStateMixin
     implements HomeNavigator {
   @override
   HomeViewModel initialViewModel() {
     return HomeViewModel(
-      SignOutUseCase(injectAuthRepo()),
-      GetPublicRoomsUseCase(injectRoomDataRepo()),
-      GetUserRoomsUseCase(injectRoomDataRepo())
-    );
+        SignOutUseCase(injectAuthRepo()),
+        GetPublicRoomsUseCase(injectRoomDataRepo()),
+        GetUserRoomsUseCase(injectRoomDataRepo()));
   }
 
   late Animation<double> animation;
@@ -49,7 +50,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleT
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 260),
+      duration: const Duration(milliseconds: 200),
     );
     final curvedAnimation = CurvedAnimation(
       curve: Curves.easeInOut,
@@ -63,102 +64,153 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleT
     return ChangeNotifierProvider(
       create: (context) => viewModel,
       child: Stack(
-          children: [
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: MyTheme.white,
+        children: [
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: MyTheme.white,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Image.asset(
+              'assets/images/bgShape.png',
+              fit: BoxFit.cover,
             ),
-            SizedBox(
-              width: double.infinity,
-              child: Image.asset(
-                'assets/images/bgShape.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    "Home",
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(color: MyTheme.white),
-                  ),
-                  actions: [
-                    InkWell(
-                        onTap: viewModel!.goToSearchScreen,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Icon(
-                            EvaIcons.search,
-                            color: MyTheme.white,
-                          ),
-                        ))
-                  ],
+          ),
+          DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Home",
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium!
+                      .copyWith(color: MyTheme.white),
                 ),
-                drawer: HomeScreenDrawer(user: viewModel!.provider!.user! , onSignOutPress: viewModel!.onSignOutPress),
-                body:ContainedTabBarView(
-                  onChange: (index) {
-                    viewModel!.changeSelectedTabIndex(index);
-                  },
-                  tabBarViewProperties:const TabBarViewProperties(
-                    physics: BouncingScrollPhysics()
-                  ),
-                  tabBarProperties:const TabBarProperties(
-                    indicatorColor: MyTheme.white,
-                    indicatorPadding: EdgeInsets.symmetric(horizontal: 20),
-                  ),
-                  tabs: [
-                    tabBarButtonWidget("My Rooms"),
-                    tabBarButtonWidget("Browse"),
-                  ],
-                  views: [
-                    Column(children: [
-                      Tabs(viewModel!.getUserRooms(), viewModel!.goToChatScreen)
-                    ]),
-                    Column(children: [
-                      Tabs(
-                        viewModel!.getPublicRooms(),
-                        viewModel!.goToJoinRoomScreen,
-                        filterData: viewModel!.filterBrowseData,
+                actions: [
+                  InkWell(
+                      onTap: viewModel!.goToSearchScreen,
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Icon(
+                          EvaIcons.search,
+                          color: MyTheme.white,
+                        ),
+                      ))
+                ],
+              ),
+              drawer: HomeScreenDrawer(
+                  user: viewModel!.provider!.user!,
+                  onSignOutPress: viewModel!.onSignOutPress),
+              body: ContainedTabBarView(
+                onChange: (index) {
+                  viewModel!.changeSelectedTabIndex(index);
+                },
+                tabBarViewProperties: const TabBarViewProperties(
+                    physics: BouncingScrollPhysics()),
+                tabBarProperties: const TabBarProperties(
+                  indicatorColor: MyTheme.white,
+                  indicatorPadding: EdgeInsets.symmetric(horizontal: 20),
+                ),
+                tabs: [
+                  tabBarButtonWidget("My Rooms"),
+                  tabBarButtonWidget("Browse"),
+                ],
+                views: [
+                  Column(children: [
+                    MyRoomsTab(viewModel!.getUserRooms(), viewModel!.goToChatScreen)
+                  ]),
+                  Column(children: [
+                    BrowseRoomsTab(viewModel!.getPublicRooms(), viewModel!.goToJoinRoomScreen )
+                  ]),
+                ],
+              ),
+              floatingActionButton: Consumer<HomeViewModel>(
+                builder: (context, value, child) => value.selectedTabIndex == 0
+                    ? FloatingActionBubble(
+                        items: [
+                          BubbleMenu(
+                              title: "Crate Room",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: MyTheme.white),
+                              iconColor: MyTheme.white,
+                              bubbleColor: MyTheme.blue,
+                              icon: EvaIcons.messageCircle,
+                              onPressed: value.goToCreateRoomScreen),
+                          BubbleMenu(
+                              title: "Join Room",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: MyTheme.white),
+                              iconColor: MyTheme.white,
+                              bubbleColor: MyTheme.blue,
+                              icon: EvaIcons.messageCircle,
+                              onPressed: () {}),
+                        ],
+                        onPressed: () => animationController.isCompleted
+                            ? animationController.reverse()
+                            : animationController.forward(),
+                        iconColor: MyTheme.white,
+                        iconData: EvaIcons.messageCircle,
+                        backgroundColor: MyTheme.blue,
+                        animation: animation,
                       )
-                    ]),
-                  ],
-                ),
-                floatingActionButton: Consumer<HomeViewModel>(
-                  builder: (context, value, child) => FloatingActionBubble(
-                    items: [
-                      BubbleMenu(
-                        title: "Crate Room",
-                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.white),
+                    : FloatingActionBubble(
+                        items: [
+                          BubbleMenu(
+                              title: "New",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: MyTheme.white),
+                              iconColor: MyTheme.white,
+                              bubbleColor: MyTheme.blue,
+                              icon: EvaIcons.plus,
+                              onPressed:(){
+                                viewModel!.sortRoomsByNewRooms();
+                              }),
+                          BubbleMenu(
+                              title: "Popular",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: MyTheme.white),
+                              iconColor: MyTheme.white,
+                              bubbleColor: MyTheme.blue,
+                              icon: EvaIcons.peopleOutline,
+                              onPressed: (){
+                                viewModel!.sortRoomsByNumberOfMembers();
+                              }),
+                          BubbleMenu(
+                              title: "Oldest",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: MyTheme.white),
+                              iconColor: MyTheme.white,
+                              bubbleColor: MyTheme.blue,
+                              icon: EvaIcons.calendarOutline,
+                              onPressed: (){
+                                viewModel!.sortRoomsByOldRooms();
+                              }),
+                        ],
+                        onPressed: () => animationController.isCompleted
+                            ? animationController.reverse()
+                            : animationController.forward(),
                         iconColor: MyTheme.white,
-                        bubbleColor: MyTheme.blue,
-                        icon: EvaIcons.messageSquare,
-                        onPressed: value.goToCreateRoomScreen
+                        iconData: EvaIcons.barChart,
+                        backgroundColor: MyTheme.blue,
+                        animation: animation,
                       ),
-                      BubbleMenu(
-                        title: "Join Room",
-                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.white),
-                        iconColor: MyTheme.white,
-                        bubbleColor: MyTheme.blue,
-                        icon: EvaIcons.messageCircle,
-                        onPressed: (){}
-                      ),
-                    ],
-                    onPressed: () => animationController.isCompleted ? animationController.reverse() : animationController.forward(),
-                    iconColor: MyTheme.white,
-                    iconData: EvaIcons.messageCircle,
-                    backgroundColor: MyTheme.blue,
-                    animation: animation,
-                  ),
-                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 
