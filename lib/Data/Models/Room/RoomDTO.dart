@@ -56,7 +56,7 @@ class RoomDTO {
         type: type,
         ownerId: ownerId,
         users: users,
-        dateTime:  DateTime.fromMillisecondsSinceEpoch(dateTime)
+        dateTime: dateTime
     );
   }
 }
