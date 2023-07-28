@@ -4,6 +4,7 @@ import 'package:chat/Data/Firebase/RoomsDatabase.dart';
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseFireStoreDatabaseTimeoutException.dart';
 import 'package:chat/Domain/Exception/FirebaseFirestoreDatabaseException.dart';
+import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/Repository/RoomsRepositoryContract.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -50,6 +51,36 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
   @override
   Stream<QuerySnapshot<RoomDTO>> getUserRooms(String uid) {
     return database.getUserRooms(uid);
+  }
+
+  @override
+  Future<Room> getRoomById(String roomId) async{
+    try{
+      var response  = await database.getRoomById(roomId);
+      return response.toDomain();
+    }on FirebaseException catch(e){
+      var error = errorHandler.handleFirebaseFireStoreError(e.code);
+      throw FirebaseFireStoreDatabaseException(error);
+    }on TimeoutException catch(e){
+      throw FirebaseFireStoreDatabaseTimeoutException("This Operation Has Timed Out");
+    }catch (e){
+      throw FirebaseFireStoreDatabaseException("UnKnown Error");
+    }
+  }
+
+  @override
+  Future<List<Room>> getRoomsForSearch(String query) async{
+    try{
+      var response  = await database.getSearchRooms(query);
+      return response.map((e) => e.toDomain()).toList();
+    }on FirebaseException catch(e){
+      var error = errorHandler.handleFirebaseFireStoreError(e.code);
+      throw FirebaseFireStoreDatabaseException(error);
+    }on TimeoutException catch(e){
+      throw FirebaseFireStoreDatabaseTimeoutException("This Operation Has Timed Out");
+    }catch (e){
+      throw FirebaseFireStoreDatabaseException("UnKnown Error");
+    }
   }
 
 }

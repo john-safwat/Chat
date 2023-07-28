@@ -47,4 +47,17 @@ class RoomsDatabase {
     return data;
   }
 
+  // get room by id
+  Future<RoomDTO> getRoomById(String roomId)async{
+    var ref = getRoomCollectionReference();
+    var doc = await ref.doc(roomId).get();
+    return doc.data()!;
+  }
+  
+  // get rooms for search 
+  Future<List<RoomDTO>> getSearchRooms(String query)async{
+    var ref = await getRoomCollectionReference().where('name' , isEqualTo: query).get();
+    return ref.docs.map((e) => e.data()).toList();
+  }
+  
 }

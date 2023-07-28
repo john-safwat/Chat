@@ -1,11 +1,15 @@
 import 'package:chat/Data/DataSource/FirebaseAuthRemoteDataSourceImpl.dart';
+import 'package:chat/Data/DataSource/MessagesRemoteDataSourceImpl.dart';
 import 'package:chat/Data/DataSource/RoomDataRemoteDataSourceImpl.dart';
 import 'package:chat/Data/Firebase/ErrorHandeler.dart';
 import 'package:chat/Data/Firebase/FirebaseAuth.dart';
+import 'package:chat/Data/Firebase/MessagesDatabase.dart';
 import 'package:chat/Data/Firebase/RoomsDatabase.dart';
 import 'package:chat/Data/Repository/FirebaseAuthRepositoryImpl.dart';
+import 'package:chat/Data/Repository/MessagesRepositoryImpl.dart';
 import 'package:chat/Data/Repository/RoomDataRepositoryImpl.dart';
 import 'package:chat/Domain/Repository/FirebaseAuthContract.dart';
+import 'package:chat/Domain/Repository/MessagesRepositoryContract.dart';
 import 'package:chat/Domain/Repository/RoomsRepositoryContract.dart';
 
 
@@ -45,4 +49,21 @@ RoomDataRepository getRoomDataRepository(RoomDataRemoteDataSource dataSource){
 
 RoomDataRepository injectRoomDataRepo(){
   return getRoomDataRepository(getRoomDataRemoteDataSource(getRoomsDatabase(), getErrorHandler()));
+}
+
+// the dependency injection of the Messages Database
+MessagesDatabase getMessagesDatabase(){
+  return MessagesDatabase.getMessagesDatabase();
+}
+
+MessagesRemoteDataSource getMessagesRemoteDataSource(MessagesDatabase database , ErrorHandler errorHandler){
+  return MessagesRemoteDataSourceImpl(database , errorHandler);
+}
+
+MessagesRepository getMessagesRepository(MessagesRemoteDataSource dataSource){
+  return MessagesRepositoryImpl(dataSource);
+}
+
+MessagesRepository injectMessagesRepo(){
+  return getMessagesRepository(getMessagesRemoteDataSource(getMessagesDatabase(), getErrorHandler()));
 }

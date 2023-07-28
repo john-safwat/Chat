@@ -4,11 +4,8 @@ import 'package:chat/Domain/UseCase/AddRoomUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/Models/RoomCategory.dart';
 import 'package:chat/Presentation/Models/RoomType.dart';
-import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomNavigator.dart';
-import 'package:chat/Presentation/UI/Create%20Room/Widgets/CategoryDropdownButtonWidget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CreateRoomViewModel extends BaseViewModel<CreateRoomNavigator>{

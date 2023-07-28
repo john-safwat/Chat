@@ -8,5 +8,6 @@ abstract class HomeNavigator extends BaseNavigator{
   goToLoginScreen();
   goToJoinRoomScreen(Room room);
   goToChatScreen(Room room);
-  void showMyModalBottomSheet({required BuildContext context , required TextEditingController idController});
+  showMyModalBottomSheet({required TextEditingController idController});
+  hideModalBottomSheet();
 }
