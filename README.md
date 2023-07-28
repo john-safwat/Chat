@@ -24,8 +24,6 @@
 ## Description
 
 
-Sure, here is a description for a chat app using Flutter, Firebase, Clean Architecture, Repository Pattern, and MVVM:
-
 This chat app is a Flutter project that uses Firebase for authentication, data storage, and real-time communication. It is built using the Clean Architecture pattern, which separates the app's concerns into different layers. The Repository Pattern is used to manage the app's data, and the MVVM (Model-View-ViewModel) pattern is used to manage the app's UI.
 
 The app features a simple and intuitive user interface that makes it easy to chat with friends and family. Users can create a new account or sign in with their existing Google account. Once logged in, users can view a list of their contacts and start a new chat conversation. Chat conversations are displayed in real time, so users can see messages as they are sent.
