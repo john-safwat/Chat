@@ -1,5 +1,12 @@
+import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/SearchForRoomsUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
+import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Presentation/UI/Chat/ChatView.dart';
+import 'package:chat/Presentation/UI/GlobalWidgets/CardWidget.dart';
+import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
+import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Search/SearchNavigator.dart';
 import 'package:chat/Presentation/UI/Search/SearchViewModel.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -42,7 +49,7 @@ class _SearchViewState extends BaseState<SearchView , SearchViewModel> implement
                 leadingWidth: 0,
                 title: TextFormField(
                   onChanged: (value) {
-
+                    viewModel!.search(value);
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.blue),
@@ -99,6 +106,31 @@ class _SearchViewState extends BaseState<SearchView , SearchViewModel> implement
                   ),
                 )
               ),
+              body: Consumer<SearchViewModel>(
+                builder: (context, value, child) {
+                  if(value.errorMessage != null){
+                    return Center(
+                      child: Text(value.errorMessage! ,style: Theme.of(context).textTheme.displayMedium,),
+                    );
+                  }else if (value.rooms.isEmpty){
+                    return Center(
+                      child: Text("No Rooms Appear" ,style: Theme.of(context).textTheme.displayMedium,),
+                    );
+                  }else {
+                    return GridView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 20,
+                          childAspectRatio: 0.77),
+                      padding: const EdgeInsets.all(20),
+                      itemCount: value.rooms.length,
+                      itemBuilder: (context, index) => CardWidget(room: value.rooms[index], navigate: value.rooms[index].users.contains(value.uid)?value.goToChatScreen : value.goToJoinRoomScreen),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -108,6 +140,16 @@ class _SearchViewState extends BaseState<SearchView , SearchViewModel> implement
 
   @override
   SearchViewModel initialViewModel() {
-    return SearchViewModel();
+    return SearchViewModel(SearchForRoomsUseCase(injectRoomDataRepo()));
+  }
+
+  @override
+  goToChatScreen(Room room) {
+    Navigator.pushNamed(context, ChatView.routeName , arguments: room);
+  }
+
+  @override
+  goToJoinRoomScreen(Room room) {
+    Navigator.pushNamed(context, JoinRoomScreen.routeName , arguments: room);
   }
 }

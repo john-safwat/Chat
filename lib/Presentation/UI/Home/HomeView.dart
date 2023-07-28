@@ -1,6 +1,7 @@
 import 'package:animated_expandable_fab/animated_expandable_fab.dart';
 import 'package:animated_expandable_fab/expandable_fab/expandable_fab.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/AddUserToRoomByRoomIdUseCase.dart';
 import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
@@ -40,7 +41,9 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
     return HomeViewModel(
         SignOutUseCase(injectAuthRepo()),
         GetPublicRoomsUseCase(injectRoomDataRepo()),
-        GetUserRoomsUseCase(injectRoomDataRepo()));
+        GetUserRoomsUseCase(injectRoomDataRepo()),
+        AddUserToRoomByRoomIdUseCase(injectRoomDataRepo()),
+    );
   }
 
   late Animation<double> animation;
@@ -150,7 +153,9 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                               iconColor: MyTheme.white,
                               bubbleColor: MyTheme.blue,
                               icon: EvaIcons.messageCircle,
-                              onPressed: () {}),
+                              onPressed: () {
+                                viewModel!.showMyModalBottomSheet();
+                              }),
                         ],
                         onPressed: () => animationController.isCompleted
                             ? animationController.reverse()
@@ -208,7 +213,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                         animation: animation,
               ),
             ),
-          ),
+          ),)
         ],
       ),
     );
@@ -226,8 +231,9 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
       ),
     );
   }
+
   @override
-  void showMyModalBottomSheet({required BuildContext context , required TextEditingController idController})async{
+  void showMyModalBottomSheet({required TextEditingController idController})async{
     await showModalBottomSheet(context: context , builder: (context) => Wrap(
       children: [
         Padding(
@@ -243,9 +249,10 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                   validator: viewModel!.bottomSheetIdValidation
                 ),
                 Container(
+                  width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: ElevatedButton(
-                      onPressed: (){},
+                      onPressed: viewModel!.joinRoomByRoomId,
                       style: ButtonStyle(
                           backgroundColor:
                           MaterialStateProperty.all(
@@ -258,24 +265,14 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 20),
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "join room",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayMedium!
-                                  .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: MyTheme.white),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: MyTheme.white,
-                            ),
-                          ],
+                        child: Text(
+                          "Join Room",
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium!
+                              .copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: MyTheme.white),
                         ),
                       )),
                 )
@@ -315,5 +312,10 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   @override
   goToChatScreen(Room room) {
     Navigator.pushNamed(context, ChatView.routeName, arguments: room);
+  }
+
+  @override
+  hideModalBottomSheet() {
+    Navigator.pop(context);
   }
 }

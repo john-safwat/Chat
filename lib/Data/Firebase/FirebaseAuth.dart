@@ -47,10 +47,12 @@ class FirebaseAuthConfig {
     return firebase.currentUser!;
   }
 
+  // function to sign out the user
   Future<void> signOut()async{
     await firebase.signOut();
   }
 
+  // function to send the reset password email
   Future<void> resetPasswordEmail(String email)async{
     await firebase.sendPasswordResetEmail(email: email);
   }

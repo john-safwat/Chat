@@ -1,7 +1,10 @@
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
+import 'package:chat/Domain/Exception/FirebaseFireStoreDatabaseTimeoutException.dart';
+import 'package:chat/Domain/Exception/FirebaseFirestoreDatabaseException.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/AddUserToRoomByRoomIdUseCase.dart';
 import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
@@ -14,7 +17,8 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   SignOutUseCase signOutUseCase;
   GetPublicRoomsUseCase getPublicRoomsUseCase;
   GetUserRoomsUseCase getUserRoomsUseCase;
-  HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase , this.getUserRoomsUseCase);
+  AddUserToRoomByRoomIdUseCase addUserToRoomByRoomIdUseCase;
+  HomeViewModel(this.signOutUseCase , this.getPublicRoomsUseCase , this.getUserRoomsUseCase , this.addUserToRoomByRoomIdUseCase);
   TextEditingController idController = TextEditingController();
 
   List<Room> myRooms = [];
@@ -31,11 +35,9 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   void goToSearchScreen(){
     navigator!.goToSearchScreen();
   }
-
   void goToCreateRoomScreen(){
     navigator!.goToCreateRoomScreen();
   }
-
   void onSignOutPress()async{
     navigator!.showQuestionMessage(message: "Are You Sure you want to Sign out?" , posActionTitle: "Ok" , posAction: signOut , negativeActionTitle: "Cancel");
   }
@@ -44,6 +46,10 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   }
   void goToChatScreen(Room room){
     navigator!.goToChatScreen(room);
+  }
+
+  void showMyModalBottomSheet(){
+    navigator!.showMyModalBottomSheet(idController: idController);
   }
 
   void signOut()async{
@@ -63,6 +69,41 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
         navigator!.showFailMessage(message: e.toString(), posActionTitle: "Try Again");
       }
     }
+  }
+  
+  String? bottomSheetIdValidation(String id){
+    if(id.isEmpty){
+      return "required field";
+    }else{
+      return null;
+    }
+  }
+  
+  void joinRoomByRoomId()async{
+    navigator!.showLoading("Joining Room...");
+    try{
+      var response = await addUserToRoomByRoomIdUseCase.invoke(idController.text, provider!.user!.uid);
+      navigator!.removeContext();
+      if(response == "You Are Already in This Room"){
+        navigator!.showFailMessage(message: response , posActionTitle: 'Ok' , posAction: hideModalBottomSheet);
+      }else {
+        navigator!.showSuccessMessage(message: response , posActionTitle: 'Ok' , posAction: hideModalBottomSheet);
+      }
+      idController.text = '';
+    }catch(e){
+      navigator!.removeContext();
+      if (e is FirebaseFireStoreDatabaseTimeoutException){
+        navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Ok");
+      }else if (e is FirebaseFireStoreDatabaseException){
+        navigator!.showFailMessage(message: e.errorMessage , posActionTitle: "Ok");
+      }else {
+        navigator!.showFailMessage(message: e.toString() , posActionTitle: "Ok");
+      }
+    }
+  }
+
+  void hideModalBottomSheet(){
+    navigator!.hideModalBottomSheet();
   }
 
   Stream<QuerySnapshot<RoomDTO>> getPublicRooms(){
@@ -154,13 +195,5 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     }
     browseRooms = rooms;
     notifyListeners();
-  }
-
-  String? bottomSheetIdValidation(String id){
-    if(id.isEmpty){
-      return "required field";
-    }else{
-      return null;
-    }
   }
 }

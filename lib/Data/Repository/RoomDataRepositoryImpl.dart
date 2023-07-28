@@ -30,4 +30,16 @@ class RoomDataRepositoryImpl implements RoomDataRepository{
     return dataSource.getUserRooms(uid);
   }
 
+  @override
+  Future<Room> getRoomById(String roomId) async{
+    var response = await dataSource.getRoomById(roomId);
+    return response;
+  }
+
+  @override
+  Future<List<Room>> getRoomsForSearch(String query) async{
+    var response = await dataSource.getRoomsForSearch(query);
+    return response;
+  }
+
 }
