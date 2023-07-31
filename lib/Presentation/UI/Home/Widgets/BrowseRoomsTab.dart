@@ -34,6 +34,7 @@ class _BrowseRoomsTabState extends State<BrowseRoomsTab> {
               return const Center(child: Text("Can't load data"));
             } else {
               var newRooms = snapshot.data!.docs.map((e) => e.data().toDomain()).toList();
+              newRooms = viewModel.removeUsersJoinedRoomForNewRooms(newRooms);
               if(viewModel.browseRooms.isEmpty || viewModel.comingRooms != newRooms.length){
                 viewModel.comingRooms = newRooms.length;
                 viewModel.browseRooms = snapshot.data!.docs.map((e) => e.data().toDomain()).toList();

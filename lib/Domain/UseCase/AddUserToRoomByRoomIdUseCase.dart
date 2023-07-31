@@ -11,7 +11,7 @@ class AddUserToRoomByRoomIdUseCase {
       return "You Are Already in This Room";
     }else {
       room.users.add(uid);
-      var response = await repository.addRoomMember(room);
+      var response = await repository.updateRoomMembers(room);
       return response;
     }
   }

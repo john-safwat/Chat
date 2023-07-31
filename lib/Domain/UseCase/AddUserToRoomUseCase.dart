@@ -8,7 +8,7 @@ class AddUserToRoomUseCase {
 
   Future<String> invoke(Room room , String uid)async{
     room.users.add(uid);
-    var response = await repository.addRoomMember(room);
+    var response = await repository.updateRoomMembers(room);
     return response;
   }
 

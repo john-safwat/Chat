@@ -1,6 +1,8 @@
 import 'package:chat/Data/Models/Message/MessageDTO.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/DeleteRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/GetMessagesUseCase.dart';
+import 'package:chat/Domain/UseCase/RemoveUserFromRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/SendMessageUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
@@ -21,9 +23,13 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements ChatNavigator{
+
   @override
   Widget build(BuildContext context) {
-    Room room = ModalRoute.of(context)!.settings.arguments as Room;
+    if(viewModel!.room == null){
+      Room room = ModalRoute.of(context)!.settings.arguments as Room;
+      viewModel!.room = room;
+    }
     return Stack(
       children: [
         Container(
@@ -40,7 +46,53 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text(room.name),
+            title: Text(viewModel!.room!.name),
+            actions: [
+              PopupMenuButton<Widget>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem(
+                    onTap: () {
+                    },
+                    child:const Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 10.0 , vertical: 10),
+                      child: Text('View Room Details'),
+                    ),
+                  ),
+                  viewModel!.provider!.user!.uid == viewModel!.room!.ownerId? PopupMenuItem(
+                    child:InkWell(
+                      onTap: (){
+                        viewModel!.showDeleteRoomQuestionMessage();
+                      },
+                      child: const Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 10.0 , vertical: 10),
+                        child: Row(
+                          children: [
+                            Text('Delete Room'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ): PopupMenuItem(
+                    child:InkWell(
+                      onTap: (){
+                        viewModel!.showExitRoomQuestionMessage();
+                      },
+                      child:const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0 , vertical: 12),
+                        child: Row(
+                          children: [
+                            Text('Exit Room'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
           ),
           body:Column(
             children: [
@@ -61,7 +113,7 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
                   children: [
                     Expanded(
                       child:StreamBuilder<QuerySnapshot<MessageDTO>>(
-                        stream: viewModel!.getMessages(room.id),
+                        stream: viewModel!.getMessages(viewModel!.room!.id),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(
@@ -104,7 +156,7 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
                               decoration: InputDecoration(
                                 suffixIcon: InkWell(
                                   onTap: (){
-                                    viewModel!.sendMessage(room.id);
+                                    viewModel!.sendMessage(viewModel!.room!.id);
                                   },
                                   child: const Padding(
                                     padding: EdgeInsets.symmetric( vertical: 10.0 , horizontal: 20),
@@ -166,7 +218,9 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
   ChatViewModel initialViewModel() {
     return ChatViewModel(
        SendMessageUseCase(injectMessagesRepo()),
-       GetMessagesUseCase(injectMessagesRepo())
+       GetMessagesUseCase(injectMessagesRepo()),
+       RemoveUserFromRoomUseCase(injectRoomDataRepo()),
+       DeleteRoomUseCase(injectRoomDataRepo())
     );
   }
 }

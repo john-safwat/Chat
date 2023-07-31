@@ -20,8 +20,8 @@ class RoomDataRepositoryImpl implements RoomDataRepository{
   }
 
   @override
-  Future<String> addRoomMember(Room room) async{
-    var response = await dataSource.addRoomMember(room.toDataSource());
+  Future<String> updateRoomMembers(Room room) async{
+    var response = await dataSource.updateRoomMembers(room.toDataSource());
     return response;
   }
 
@@ -39,6 +39,12 @@ class RoomDataRepositoryImpl implements RoomDataRepository{
   @override
   Future<List<Room>> getRoomsForSearch(String query) async{
     var response = await dataSource.getRoomsForSearch(query);
+    return response;
+  }
+
+  @override
+  Future<String> deleteRoom(String roomId) async{
+    var response = await dataSource.deleteRoom(roomId);
     return response;
   }
 

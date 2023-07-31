@@ -59,5 +59,12 @@ class RoomsDatabase {
     var ref = await getRoomCollectionReference().where('name' , isEqualTo: query).get();
     return ref.docs.map((e) => e.data()).toList();
   }
-  
+
+  // delete room from data base
+  Future<void> deleteRoom(String roomId)async{
+    var ref  =  getRoomCollectionReference();
+    var doc = ref.doc(roomId);
+    await doc.delete();
+  }
+
 }
