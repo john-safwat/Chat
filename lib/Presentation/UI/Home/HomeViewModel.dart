@@ -136,6 +136,30 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     }
   }
 
+  List<Room> removeUsersJoinedRoomForNewRooms(List<Room> browseRooms){
+    for(int i =0 ; i< browseRooms.length ; i++){
+      if(browseRooms[i].users.contains(provider!.user!.uid)){
+        browseRooms.removeWhere((element) => element.id == browseRooms[i].id);
+        i--;
+      }
+    }
+    for(int i = 0 ; i< browseRooms.length-1 ; i++){
+      var swapped= false;
+      for(int j = 0 ; j<browseRooms.length - i -1 ; j++ ){
+        if(browseRooms[j].dateTime < browseRooms[j+1].dateTime){
+          var temp = browseRooms[j];
+          browseRooms[j] = browseRooms[j+1];
+          browseRooms[j+1] = temp;
+          swapped = true;
+        }
+      }
+      if (swapped == false) {
+        break;
+      }
+    }
+    return browseRooms;
+  }
+
   void sortRoomsByOldRooms(){
     var rooms = browseRooms;
     for(int i = 0 ; i< rooms.length-1 ; i++){

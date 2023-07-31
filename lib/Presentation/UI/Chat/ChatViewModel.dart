@@ -2,7 +2,10 @@ import 'package:chat/Data/Models/Message/MessageDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseFireStoreDatabaseTimeoutException.dart';
 import 'package:chat/Domain/Exception/FirebaseFirestoreDatabaseException.dart';
 import 'package:chat/Domain/Models/Message/Message.dart';
+import 'package:chat/Domain/Models/Room/Room.dart';
+import 'package:chat/Domain/UseCase/DeleteRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/GetMessagesUseCase.dart';
+import 'package:chat/Domain/UseCase/RemoveUserFromRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/SendMessageUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Chat/ChatNavigator.dart';
@@ -12,10 +15,13 @@ import 'package:flutter/cupertino.dart';
 class ChatViewModel extends BaseViewModel<ChatNavigator> {
   SendMessageUseCase sendMessageUseCase;
   GetMessagesUseCase getMessagesUseCase;
-  ChatViewModel(this.sendMessageUseCase , this.getMessagesUseCase);
+  RemoveUserFromRoomUseCase removeUserFromRoomUseCase;
+  DeleteRoomUseCase deleteRoomUseCase;
+  ChatViewModel(this.sendMessageUseCase , this.getMessagesUseCase , this.removeUserFromRoomUseCase , this.deleteRoomUseCase);
 
   List<Message> messages = [];
   TextEditingController messageController = TextEditingController();
+  Room? room;
 
   void sendMessage(String roomId) async {
     if (messageController.text.isNotEmpty){
@@ -60,6 +66,59 @@ class ChatViewModel extends BaseViewModel<ChatNavigator> {
       }
       if (swapped == false) {
         break;
+      }
+    }
+  }
+
+  void showExitRoomQuestionMessage()async{
+    navigator!.showQuestionMessage(message: "Are You Sure You Want To Exit ?" , posActionTitle: "Exit" , posAction: exitRoom, negativeActionTitle: "Cancel");
+  }
+
+  void exitRoom()async{
+    navigator!.showLoading("Loading...");
+    try{
+      var response  = await removeUserFromRoomUseCase.invoke(room! , provider!.user!.uid);
+      navigator!.removeContext();
+      navigator!.showSuccessMessage(message: response , posActionTitle: "ok", posAction:goToHomeScreen );
+    } catch (e) {
+      navigator!.removeContext();
+      if (e is FirebaseFireStoreDatabaseTimeoutException) {
+        navigator!
+            .showFailMessage(message: e.errorMessage, posActionTitle: "Ok");
+      } else if (e is FirebaseFireStoreDatabaseException) {
+        navigator!
+            .showFailMessage(message: e.errorMessage, posActionTitle: "Ok");
+      } else {
+        navigator!.showFailMessage(message: e.toString(), posActionTitle: "Ok");
+      }
+    }
+  }
+
+  void goToHomeScreen(){
+    navigator!.removeContext();
+    navigator!.removeContext();
+  }
+
+  void showDeleteRoomQuestionMessage()async{
+    navigator!.showQuestionMessage(message: "Are You Sure You Want To Delete This Room ?" , posActionTitle: "Delete" , posAction: deleteRoom, negativeActionTitle: "Cancel");
+  }
+
+  void deleteRoom()async{
+    navigator!.showLoading("Loading...");
+    try{
+      var response  = await deleteRoomUseCase.invoke(room!.id);
+      navigator!.removeContext();
+      navigator!.showSuccessMessage(message: response , posActionTitle: "ok", posAction:goToHomeScreen );
+    } catch (e) {
+      navigator!.removeContext();
+      if (e is FirebaseFireStoreDatabaseTimeoutException) {
+        navigator!
+            .showFailMessage(message: e.errorMessage, posActionTitle: "Ok");
+      } else if (e is FirebaseFireStoreDatabaseException) {
+        navigator!
+            .showFailMessage(message: e.errorMessage, posActionTitle: "Ok");
+      } else {
+        navigator!.showFailMessage(message: e.toString(), posActionTitle: "Ok");
       }
     }
   }

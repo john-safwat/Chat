@@ -6,16 +6,18 @@ abstract class RoomDataRemoteDataSource {
   Future<String> addRoom(RoomDTO room);
   Stream<QuerySnapshot<RoomDTO>>getPublicRooms();
   Stream<QuerySnapshot<RoomDTO>>getUserRooms(String uid);
-  Future<String> addRoomMember(RoomDTO room);
+  Future<String> updateRoomMembers(RoomDTO room);
   Future<Room> getRoomById(String roomId);
   Future<List<Room>> getRoomsForSearch(String query);
+  Future<String> deleteRoom(String roomId);
 }
 
 abstract class RoomDataRepository{
   Future<String> addRoom(Room room);
   Stream<QuerySnapshot<RoomDTO>>getPublicRooms();
   Stream<QuerySnapshot<RoomDTO>>getUserRooms(String uid);
-  Future<String> addRoomMember(Room room);
+  Future<String> updateRoomMembers(Room room);
   Future<Room> getRoomById(String roomId);
   Future<List<Room>> getRoomsForSearch(String query);
+  Future<String> deleteRoom(String roomId);
 }
