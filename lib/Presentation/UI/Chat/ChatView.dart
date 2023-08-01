@@ -10,6 +10,8 @@ import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatNavigator.dart';
 import 'package:chat/Presentation/UI/Chat/ChatViewModel.dart';
 import 'package:chat/Presentation/UI/Chat/Widgets/MessageWidget.dart';
+import 'package:chat/Presentation/UI/Chat/Widgets/RoomDetailsWidget.dart';
+import 'package:chat/Presentation/UI/Home/HomeView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -52,14 +54,21 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)
                 ),
-                itemBuilder: (BuildContext context) => [
+                itemBuilder: (context) => [
                   PopupMenuItem(
-                    onTap: () {
-                    },
-                    child:const Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 10.0 , vertical: 10),
-                      child: Text('View Room Details'),
-                    ),
+                      child: InkWell(
+                        onTap: (){
+                          RoomDetailsWidget(viewModel!.room!);
+                        },
+                        child: const Padding(
+                          padding:  EdgeInsets.symmetric(horizontal: 10 ,vertical: 10),
+                          child: Row(
+                            children: [
+                              Text("View Room Details"),
+                            ],
+                          ),
+                        ),
+                      )
                   ),
                   viewModel!.provider!.user!.uid == viewModel!.room!.ownerId? PopupMenuItem(
                     child:InkWell(

@@ -98,7 +98,5 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
       throw FirebaseAuthRemoteDataSourceException(e.toString());
     }
   }
-
-
 }
 
