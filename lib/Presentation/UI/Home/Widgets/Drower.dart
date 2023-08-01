@@ -2,6 +2,7 @@ import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreenDrawer extends StatelessWidget {
   User user;
@@ -28,12 +29,33 @@ class HomeScreenDrawer extends StatelessWidget {
             decoration: const BoxDecoration(
               color: MyTheme.blue,
             ),
-            child: Text(
-              user.displayName!,
-              style: Theme.of(context)
-                  .textTheme
-                  .displayLarge!
-                  .copyWith(color: MyTheme.white),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user.displayName!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(color: MyTheme.white),
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SelectableText(user.uid.toString() ,style:
+                        Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: MyTheme.white
+                        )
+                      ),
+                    IconButton(icon: const Icon(EvaIcons.copyOutline) , color: MyTheme.gray ,
+                      onPressed: (){
+                       Clipboard.setData(ClipboardData(text: user.uid));
+                      },
+                    )
+                  ],
+                )
+              ],
             ),
           ),
           Container(
