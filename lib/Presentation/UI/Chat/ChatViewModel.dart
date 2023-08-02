@@ -9,7 +9,6 @@ import 'package:chat/Domain/UseCase/RemoveUserFromRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/SendMessageUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Chat/ChatNavigator.dart';
-import 'package:chat/Presentation/UI/Chat/Widgets/RoomDetailsWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -121,5 +120,9 @@ class ChatViewModel extends BaseViewModel<ChatNavigator> {
         navigator!.showFailMessage(message: e.toString(), posActionTitle: "Ok");
       }
     }
+  }
+
+  void goToRoomDetailsScreen(){
+    navigator!.goToRoomDetailsScreen(room!);
   }
 }

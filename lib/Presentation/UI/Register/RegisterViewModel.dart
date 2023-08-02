@@ -2,7 +2,6 @@ import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
 import 'package:chat/Domain/UseCase/CreateAccountUseCase.dart';
 import 'package:chat/Presentation/Base/BaseViewModel.dart';
-import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/UI/Register/RegisterNavigator.dart';
 import 'package:flutter/material.dart';
 

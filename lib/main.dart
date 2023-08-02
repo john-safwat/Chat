@@ -1,13 +1,13 @@
 import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
-import 'package:chat/Presentation/UI/Chat/Widgets/RoomDetailsWidget.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordView.dart';
 import 'package:chat/Presentation/UI/Register/RegisterView.dart';
+import 'package:chat/Presentation/UI/RoomDetails/RoomDetailsView.dart';
 import 'package:chat/Presentation/UI/Search/SearchView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,14 +38,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          RegisterScreen.routeName :(_) => RegisterScreen(),
-          HomeScreen.routeName:(_)=> HomeScreen(),
-          LoginScreen.routeName : (_) => LoginScreen(),
-          SearchView.routeName :(_) => SearchView(),
-          CreateRoomView.routeName :(_) => CreateRoomView(),
+          RegisterScreen.routeName :(_) =>const RegisterScreen(),
+          HomeScreen.routeName:(_)=> const HomeScreen(),
+          LoginScreen.routeName : (_) =>const LoginScreen(),
+          SearchView.routeName :(_) =>const SearchView(),
+          CreateRoomView.routeName :(_) =>const CreateRoomView(),
           ResetPasswordScreen.routeName : (_) => ResetPasswordScreen(),
           JoinRoomScreen.routeName : (_) => JoinRoomScreen(),
-          ChatView.routeName :(_) => ChatView(),
+          ChatView.routeName :(_) =>const ChatView(),
+          RoomDetailsView.routeName :(_) => RoomDetailsView(),
         },
         initialRoute: user == null?LoginScreen.routeName: HomeScreen.routeName,
         theme: MyTheme.light,

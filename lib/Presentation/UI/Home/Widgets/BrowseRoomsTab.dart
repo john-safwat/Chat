@@ -1,5 +1,4 @@
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
-import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CardWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

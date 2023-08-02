@@ -10,4 +10,5 @@ abstract class HomeNavigator extends BaseNavigator{
   goToChatScreen(Room room);
   showMyModalBottomSheet({required TextEditingController idController});
   hideModalBottomSheet();
+  showSuccessNotification();
 }

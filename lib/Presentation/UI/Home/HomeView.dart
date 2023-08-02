@@ -1,5 +1,3 @@
-import 'package:animated_expandable_fab/animated_expandable_fab.dart';
-import 'package:animated_expandable_fab/expandable_fab/expandable_fab.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/AddUserToRoomByRoomIdUseCase.dart';
 import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
@@ -20,6 +18,8 @@ import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/Search/SearchView.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
+import 'package:elegant_notification/elegant_notification.dart';
+import 'package:elegant_notification/resources/arrays.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +106,9 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
               ),
               drawer: HomeScreenDrawer(
                   user: viewModel!.provider!.user!,
-                  onSignOutPress: viewModel!.onSignOutPress),
+                  onSignOutPress: viewModel!.onSignOutPress,
+                  onCopyIdPress: viewModel!.onCopyIdPress,
+              ),
               body: ContainedTabBarView(
                 onChange: (index) {
                   viewModel!.changeSelectedTabIndex(index);
@@ -318,4 +320,32 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   hideModalBottomSheet() {
     Navigator.pop(context);
   }
+
+  @override
+  showSuccessNotification() {
+    ElegantNotification(
+      icon:const Icon(EvaIcons.copyOutline , color: MyTheme.white,),
+      width: MediaQuery.of(context).size.width,
+      background: MyTheme.blue,
+      animation: AnimationType.fromBottom,
+      radius: 10,
+      height: 60,
+      closeButton:  (dismissNotification) => InkWell(
+        onTap: dismissNotification,
+        child:const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: Icon(EvaIcons.close , color: Colors.white,),
+        ),
+      ),
+      notificationPosition: NotificationPosition.bottomCenter,
+      toastDuration: const Duration(seconds: 2),
+      progressIndicatorColor: Colors.transparent,
+      progressIndicatorBackground: Colors.transparent,
+      animationDuration:const Duration(milliseconds: 500),
+      // title: const Text("Success" ,style: TextStyle(fontWeight: FontWeight.bold)) ,
+      description: const Text("ID Coped Successfully" , style: TextStyle(color: MyTheme.white),),
+    ).show(context);
+  }
+
+
 }
