@@ -5,7 +5,6 @@ import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CardWidget.dart';
-import 'package:chat/Presentation/UI/Home/HomeViewModel.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
 import 'package:chat/Presentation/UI/Search/SearchNavigator.dart';
 import 'package:chat/Presentation/UI/Search/SearchViewModel.dart';

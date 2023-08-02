@@ -41,6 +41,10 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   void onSignOutPress()async{
     navigator!.showQuestionMessage(message: "Are You Sure you want to Sign out?" , posActionTitle: "Ok" , posAction: signOut , negativeActionTitle: "Cancel");
   }
+
+  void onCopyIdPress(){
+    navigator!.showSuccessNotification();
+  }
   void goToJoinRoomScreen(Room room){
     navigator!.goToJoinRoomScreen(room);
   }

@@ -1,7 +1,6 @@
 import 'package:chat/Domain/UseCase/CreateAccountUseCase.dart';
 import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';

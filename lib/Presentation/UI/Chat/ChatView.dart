@@ -10,8 +10,7 @@ import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatNavigator.dart';
 import 'package:chat/Presentation/UI/Chat/ChatViewModel.dart';
 import 'package:chat/Presentation/UI/Chat/Widgets/MessageWidget.dart';
-import 'package:chat/Presentation/UI/Chat/Widgets/RoomDetailsWidget.dart';
-import 'package:chat/Presentation/UI/Home/HomeView.dart';
+import 'package:chat/Presentation/UI/RoomDetails/RoomDetailsView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +57,7 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
                   PopupMenuItem(
                       child: InkWell(
                         onTap: (){
-                          RoomDetailsWidget(viewModel!.room!);
+                          viewModel!.goToRoomDetailsScreen();
                         },
                         child: const Padding(
                           padding:  EdgeInsets.symmetric(horizontal: 10 ,vertical: 10),
@@ -231,5 +230,10 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
        RemoveUserFromRoomUseCase(injectRoomDataRepo()),
        DeleteRoomUseCase(injectRoomDataRepo())
     );
+  }
+
+  @override
+  goToRoomDetailsScreen(Room room) {
+    Navigator.pushReplacementNamed(context, RoomDetailsView.routeName , arguments: room);
   }
 }
