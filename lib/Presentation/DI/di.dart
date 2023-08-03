@@ -1,10 +1,12 @@
 import 'package:chat/Data/DataSource/FirebaseAuthRemoteDataSourceImpl.dart';
+import 'package:chat/Data/DataSource/FirebaseUsersRemoteDataSourceImpl.dart';
 import 'package:chat/Data/DataSource/MessagesRemoteDataSourceImpl.dart';
 import 'package:chat/Data/DataSource/RoomDataRemoteDataSourceImpl.dart';
 import 'package:chat/Data/Firebase/ErrorHandeler.dart';
 import 'package:chat/Data/Firebase/FirebaseAuth.dart';
 import 'package:chat/Data/Firebase/MessagesDatabase.dart';
 import 'package:chat/Data/Firebase/RoomsDatabase.dart';
+import 'package:chat/Data/Firebase/UsersDataBase.dart';
 import 'package:chat/Data/Repository/FirebaseAuthRepositoryImpl.dart';
 import 'package:chat/Data/Repository/MessagesRepositoryImpl.dart';
 import 'package:chat/Data/Repository/RoomDataRepositoryImpl.dart';
@@ -22,16 +24,22 @@ ErrorHandler getErrorHandler(){
 FirebaseAuthConfig getFirebaseAuthConfig(){
   return FirebaseAuthConfig.getFirebaseAuthConfig();
 }
+UsersDataBase getUserDataBase(){
+  return UsersDataBase.getUserDatabaseInstance();
+}
+FirebaseUsersRemoteDataSource getFirebaseUsersRemoteDataSource(UsersDataBase usersDataBase){
+  return FirebaseUsersRemoteDataSourceImpl(usersDataBase);
+}
 
-FirebaseAuthRemoteDataSource getFirebaseAuthRemoteDataSource(FirebaseAuthConfig firebaseAuthConfig, ErrorHandler errorHandler){
+FirebaseAuthRemoteDataSource getFirebaseAuthRemoteDataSource(FirebaseAuthConfig firebaseAuthConfig, ErrorHandler errorHandler , ){
   return FirebaseAuthRemoteDataSourceImpl(firebaseAuthConfig , errorHandler);
 }
-FirebaseAuthRepository getFirebaseAuthRepository(FirebaseAuthRemoteDataSource remoteDataSource){
-  return FirebaseAuthRepositoryImpl(remoteDataSource);
+FirebaseAuthRepository getFirebaseAuthRepository(FirebaseAuthRemoteDataSource remoteDataSource, FirebaseUsersRemoteDataSource usersRemoteDataSource){
+  return FirebaseAuthRepositoryImpl(remoteDataSource , usersRemoteDataSource);
 }
 
 FirebaseAuthRepository injectAuthRepo(){
-  return getFirebaseAuthRepository(getFirebaseAuthRemoteDataSource(getFirebaseAuthConfig() , getErrorHandler()));
+  return getFirebaseAuthRepository(getFirebaseAuthRemoteDataSource(getFirebaseAuthConfig() , getErrorHandler()) , getFirebaseUsersRemoteDataSource(getUserDataBase()));
 }
 
 // the dependency injection of the Rooms Database

@@ -324,7 +324,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   @override
   showSuccessNotification() {
     ElegantNotification(
-      icon:const Icon(EvaIcons.copyOutline , color: MyTheme.white,),
+      icon:const Icon(EvaIcons.copyOutline , color: MyTheme.white),
       width: MediaQuery.of(context).size.width,
       background: MyTheme.blue,
       animation: AnimationType.fromBottom,

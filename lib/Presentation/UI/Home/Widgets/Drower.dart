@@ -60,13 +60,16 @@ class HomeScreenDrawer extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SelectableText(
-                  user.uid,
-                  style: Theme.of(context).textTheme.bodyMedium!,
-                  onTap: (){
-                    Clipboard.setData(ClipboardData(text: user.uid));
-                    onCopyIdPress();
-                  },
+                Expanded(
+                  child: SelectableText(
+                    maxLines: 1,
+                    user.uid,
+                    style: Theme.of(context).textTheme.bodyMedium!,
+                    onTap: (){
+                      Clipboard.setData(ClipboardData(text: user.uid));
+                      onCopyIdPress();
+                    },
+                  ),
                 ),
                 IconButton(icon: const Icon(EvaIcons.copyOutline) , color: MyTheme.blue ,
                   onPressed: (){

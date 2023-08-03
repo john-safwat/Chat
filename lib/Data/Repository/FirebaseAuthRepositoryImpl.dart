@@ -1,11 +1,12 @@
+import 'package:chat/Data/Models/User/UserDTO.dart';
 import 'package:chat/Domain/Models/User/Users.dart';
 import 'package:chat/Domain/Repository/FirebaseAuthContract.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
-
   FirebaseAuthRemoteDataSource remoteDataSource;
-  FirebaseAuthRepositoryImpl(this.remoteDataSource);
+  FirebaseUsersRemoteDataSource usersRemoteDataSource;
+  FirebaseAuthRepositoryImpl(this.remoteDataSource ,this.usersRemoteDataSource);
 
   @override
   Future<User> createUser(Users user) async{
@@ -37,4 +38,8 @@ class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
     return response;
   }
 
+  @override
+  Future<void> addUser(UserDTO user) async{
+    await usersRemoteDataSource.addUser(user);
+  }
 }
