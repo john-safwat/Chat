@@ -25,7 +25,7 @@ class _CreateRoomViewState
     implements CreateRoomNavigator {
   @override
   CreateRoomViewModel initialViewModel() {
-    return CreateRoomViewModel(AddRoomUseCase(injectRoomDataRepo()));
+    return CreateRoomViewModel(AddRoomUseCase(injectRoomDataRepo(), injectUserRepo()));
   }
   @override
   void initState() {

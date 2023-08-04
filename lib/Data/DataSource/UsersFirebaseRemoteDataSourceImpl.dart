@@ -1,21 +1,24 @@
 import 'dart:async';
 
 import 'package:chat/Data/Firebase/ErrorHandeler.dart';
-import 'package:chat/Data/Firebase/UsersDataBase.dart';
+import 'package:chat/Data/Firebase/RoomUsersDataBase.dart';
 import 'package:chat/Data/Models/User/UserDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseFireStoreDatabaseTimeoutException.dart';
 import 'package:chat/Domain/Exception/FirebaseFirestoreDatabaseException.dart';
-import 'package:chat/Domain/Repository/FirebaseAuthContract.dart';
+import 'package:chat/Domain/Repository/UsersRepositoryContract.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseUsersRemoteDataSourceImpl implements FirebaseUsersRemoteDataSource{
-  UsersDataBase usersDataBase;
+class UsersFirebaseRemoteDataSourceImpl implements UsersFirebaseRemoteDataSource {
+  RoomUsersDatabase database;
   ErrorHandler errorHandler;
-  FirebaseUsersRemoteDataSourceImpl(this.usersDataBase , this.errorHandler);
+
+  UsersFirebaseRemoteDataSourceImpl(this.database , this.errorHandler);
+
   @override
-  Future<void> addUser(UserDTO user) async{
+  Future<String> addUser(String roomId, UserDTO user) async{
     try{
-      await usersDataBase.addUser(user);
+      await database.addRoomMember(roomId, user);
+      return "User Added Successfully";
     }on FirebaseException catch(e){
       var error = errorHandler.handleFirebaseFireStoreError(e.code);
       throw FirebaseFireStoreDatabaseException(error);
@@ -27,10 +30,10 @@ class FirebaseUsersRemoteDataSourceImpl implements FirebaseUsersRemoteDataSource
   }
 
   @override
-  Future<bool> userExist(String uid)async {
+  Future<String> removeUser(String roomId, String userId)async {
     try{
-      var response = await usersDataBase.userExist(uid);
-      return response;
+      await database.removeRoomMember(roomId, userId);
+      return "User Removed Successfully";
     }on FirebaseException catch(e){
       var error = errorHandler.handleFirebaseFireStoreError(e.code);
       throw FirebaseFireStoreDatabaseException(error);

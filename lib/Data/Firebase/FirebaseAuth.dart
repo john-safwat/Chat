@@ -52,6 +52,10 @@ class FirebaseAuthConfig {
     await firebase.signOut();
   }
 
+  Future<void> deleteUser()async{
+    await firebase.currentUser!.delete();
+  }
+
   // function to send the reset password email
   Future<void> resetPasswordEmail(String email)async{
     await firebase.sendPasswordResetEmail(email: email);

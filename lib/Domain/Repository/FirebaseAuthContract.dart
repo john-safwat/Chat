@@ -12,6 +12,7 @@ abstract class FirebaseAuthRemoteDataSource {
 }
 abstract class FirebaseUsersRemoteDataSource{
   Future<void> addUser(UserDTO user);
+  Future<bool> userExist(String uid);
 }
 
 abstract class FirebaseAuthRepository {
@@ -20,7 +21,8 @@ abstract class FirebaseAuthRepository {
   Future<User> signInWithGoogle();
   Future<String> signOut();
   Future<String> resetPassword(String email);
-  Future<void> addUser(UserDTO user);
+  Future<void> addUser(Users user);
+  Future<bool> userExist(String uid);
 }
 
 

@@ -9,6 +9,7 @@ class CreateAccountUseCase {
 
   Future<User> invoke({required String email ,required String name ,required String password})async{
     var response = await repository.createUser(Users( uid: '', name: name, email: email, password: password));
+    await repository.addUser(Users(uid: response.uid, name: name, email: email, password: password));
     return response;
   }
 }

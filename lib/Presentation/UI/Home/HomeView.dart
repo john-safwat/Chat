@@ -42,7 +42,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
         SignOutUseCase(injectAuthRepo()),
         GetPublicRoomsUseCase(injectRoomDataRepo()),
         GetUserRoomsUseCase(injectRoomDataRepo()),
-        AddUserToRoomByRoomIdUseCase(injectRoomDataRepo()),
+        AddUserToRoomByRoomIdUseCase(injectRoomDataRepo(), injectUserRepo()),
     );
   }
 

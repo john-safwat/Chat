@@ -13,7 +13,7 @@ class JoinRoomViewModel extends BaseViewModel<JoinRoomNavigator>{
   void joinRoom(Room room)async{
     navigator!.showLoading("Joining...");
     try{
-      var response = await addUserToRoomUseCase.invoke(room, provider!.user!.uid);
+      var response = await addUserToRoomUseCase.invoke(room, provider!.user!);
       navigator!.removeContext();
       navigator!.showSuccessMessage(message: response  , posAction: goToChatScreen, posActionTitle:"Ok" );
     }catch (e){

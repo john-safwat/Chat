@@ -86,7 +86,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   void joinRoomByRoomId()async{
     navigator!.showLoading("Joining Room...");
     try{
-      var response = await addUserToRoomByRoomIdUseCase.invoke(idController.text, provider!.user!.uid);
+      var response = await addUserToRoomByRoomIdUseCase.invoke(idController.text, provider!.user!);
       navigator!.removeContext();
       if(response == "You Are Already in This Room"){
         navigator!.showFailMessage(message: response , posActionTitle: 'Ok' , posAction: hideModalBottomSheet);

@@ -32,4 +32,8 @@ class MessagesDatabase {
     return ref.snapshots();
   }
 
+  Future<void> deleteMessage(String roomId, String messageId)async{
+    await getCollectionReference(roomId).doc(messageId).delete();
+  }
+
 }
