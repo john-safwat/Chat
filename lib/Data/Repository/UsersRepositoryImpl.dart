@@ -19,4 +19,10 @@ class UsersRepositoryImpl implements UsersRepository{
     return response;
   }
 
+  @override
+  Future<List<Users>> getUsersList(String roomId) async{
+    var response = await remoteDataSource.getUsersList(roomId);
+    return response;
+  }
+
 }
