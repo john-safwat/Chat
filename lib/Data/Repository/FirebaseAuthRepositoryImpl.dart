@@ -1,4 +1,3 @@
-import 'package:chat/Data/Models/User/UserDTO.dart';
 import 'package:chat/Domain/Models/User/Users.dart';
 import 'package:chat/Domain/Repository/FirebaseAuthContract.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +38,13 @@ class FirebaseAuthRepositoryImpl implements  FirebaseAuthRepository{
   }
 
   @override
-  Future<void> addUser(UserDTO user) async{
-    await usersRemoteDataSource.addUser(user);
+  Future<void> addUser(Users user) async{
+    await usersRemoteDataSource.addUser(user.toDataSource());
+  }
+
+  @override
+  Future<bool> userExist(String uid) async{
+    var response = await usersRemoteDataSource.userExist(uid);
+    return response;
   }
 }

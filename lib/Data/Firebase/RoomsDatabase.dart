@@ -20,11 +20,12 @@ class RoomsDatabase {
   }
 
   // add room to the database
-  Future<void> addRoom(RoomDTO room)async{
+  Future<String> addRoom(RoomDTO room)async{
     var ref = getRoomCollectionReference();
     var doc = ref.doc();
     room.id = doc.id;
     await doc.set(room);
+    return room.id;
   }
 
   Future<void> updateRoomData(RoomDTO room)async{

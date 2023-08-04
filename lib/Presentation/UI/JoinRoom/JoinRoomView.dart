@@ -133,7 +133,7 @@ class _JoinRoomScreenState extends BaseState<JoinRoomScreen, JoinRoomViewModel>
 
   @override
   JoinRoomViewModel initialViewModel() {
-    return JoinRoomViewModel(AddUserToRoomUseCase(injectRoomDataRepo()));
+    return JoinRoomViewModel(AddUserToRoomUseCase(injectRoomDataRepo() , injectUserRepo()));
   }
 
   @override

@@ -9,6 +9,7 @@ class UsersDataBase{
     _instance ??= UsersDataBase._();
     return _instance;
   }
+
   CollectionReference<UserDTO> getCollectionReference(){
     return FirebaseFirestore.instance.collection("Users").withConverter(
         fromFirestore: (snapshot, options) => UserDTO.fromFirebase(snapshot.data()!),
@@ -20,5 +21,10 @@ class UsersDataBase{
     var ref = getCollectionReference();
     var doc = ref.doc(user.uid);
     await doc.set(user);
+  }
+  Future<bool> userExist(String uid)async{
+    var ref = getCollectionReference();
+    var doc = await ref.doc(uid).get();
+    return doc.exists;
   }
 }

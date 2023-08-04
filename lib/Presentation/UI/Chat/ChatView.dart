@@ -227,7 +227,7 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
     return ChatViewModel(
        SendMessageUseCase(injectMessagesRepo()),
        GetMessagesUseCase(injectMessagesRepo()),
-       RemoveUserFromRoomUseCase(injectRoomDataRepo()),
+       RemoveUserFromRoomUseCase(injectRoomDataRepo(), injectUserRepo()),
        DeleteRoomUseCase(injectRoomDataRepo())
     );
   }

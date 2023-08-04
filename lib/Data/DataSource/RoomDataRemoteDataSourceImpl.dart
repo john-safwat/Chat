@@ -16,8 +16,8 @@ class RoomDataRemoteDataSourceImpl implements RoomDataRemoteDataSource{
   @override
   Future<String> addRoom(RoomDTO room) async {
     try{
-      await database.addRoom(room).timeout(const Duration(seconds: 15));
-      return "Room Created Successfully";
+      var response = await database.addRoom(room).timeout(const Duration(seconds: 15));
+      return response;
     }on FirebaseException catch(e){
       var error = errorHandler.handleFirebaseFireStoreError(e.code);
       throw FirebaseFireStoreDatabaseException(error);
