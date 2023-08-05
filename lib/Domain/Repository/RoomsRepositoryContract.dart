@@ -10,6 +10,7 @@ abstract class RoomDataRemoteDataSource {
   Future<Room> getRoomById(String roomId);
   Future<List<Room>> getRoomsForSearch(String query);
   Future<String> deleteRoom(String roomId);
+  Future<void> updateRoomData(RoomDTO room);
 }
 
 abstract class RoomDataRepository{
@@ -20,4 +21,5 @@ abstract class RoomDataRepository{
   Future<Room> getRoomById(String roomId);
   Future<List<Room>> getRoomsForSearch(String query);
   Future<String> deleteRoom(String roomId);
+  Future<void> updateRoomData(Room room);
 }

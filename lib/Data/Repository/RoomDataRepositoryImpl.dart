@@ -48,4 +48,11 @@ class RoomDataRepositoryImpl implements RoomDataRepository{
     return response;
   }
 
+  @override
+  Future<void> updateRoomData(Room room) async{
+    await dataSource.updateRoomData(room.toDataSource());
+  }
+
+
+
 }
