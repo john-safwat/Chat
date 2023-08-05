@@ -29,4 +29,8 @@ class UserDTO {
       'uid' : uid,
     };
   }
+
+  Users toDomain(){
+    return Users(uid: uid, name: name, email: email, password: password);
+  }
 }
