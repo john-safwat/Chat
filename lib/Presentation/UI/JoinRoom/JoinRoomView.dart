@@ -1,8 +1,8 @@
+import 'package:chat/Core/Base/BaseState.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/AddUserToRoomUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomNavigator.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomViewModel.dart';
@@ -31,12 +31,10 @@ class _JoinRoomScreenState extends BaseState<JoinRoomScreen, JoinRoomViewModel>
           width: double.infinity,
           color: MyTheme.white,
         ),
-        SizedBox(
+        Image.asset(
+          'assets/images/bgShape.png',
           width: double.infinity,
-          child: Image.asset(
-            'assets/images/bgShape.png',
-            fit: BoxFit.cover,
-          ),
+          fit: BoxFit.cover,
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
@@ -101,13 +99,6 @@ class _JoinRoomScreenState extends BaseState<JoinRoomScreen, JoinRoomViewModel>
                             onPressed: () {
                               viewModel!.joinRoom(room!);
                             },
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(MyTheme.blue),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ))),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),

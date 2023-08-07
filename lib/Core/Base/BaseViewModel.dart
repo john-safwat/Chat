@@ -1,4 +1,4 @@
-import 'package:chat/Presentation/Base/BaseNavigator.dart';
+import 'package:chat/Core/Base/BaseNavigator.dart';
 import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
 import 'package:flutter/material.dart';
 

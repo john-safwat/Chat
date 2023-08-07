@@ -1,5 +1,5 @@
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Presentation/Providers/AppConfigProvider.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';
@@ -8,6 +8,7 @@ import 'package:chat/Presentation/UI/Login/LoginView.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordView.dart';
 import 'package:chat/Presentation/UI/Register/RegisterView.dart';
 import 'package:chat/Presentation/UI/RoomDetails/RoomDetailsView.dart';
+import 'package:chat/Presentation/UI/UpdateRoomDetails/UpdateRoomDetailsView.dart';
 import 'package:chat/Presentation/UI/Search/SearchView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           JoinRoomScreen.routeName : (_) => JoinRoomScreen(),
           ChatView.routeName :(_) =>const ChatView(),
           RoomDetailsView.routeName :(_) => RoomDetailsView(),
+          UpdateRoomDetailsView.routeName :(_) => UpdateRoomDetailsView(),
         },
         initialRoute: user == null?LoginScreen.routeName: HomeScreen.routeName,
         theme: MyTheme.light,

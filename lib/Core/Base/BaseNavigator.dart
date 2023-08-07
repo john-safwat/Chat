@@ -23,5 +23,6 @@ abstract class BaseNavigator {
     String? negativeActionTitle,
     VoidCallback? negativeAction,
   });
+  showNotification();
   removeContext();
 }

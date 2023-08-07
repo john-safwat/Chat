@@ -1,16 +1,17 @@
+import 'package:chat/Core/Base/BaseState.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Data/Models/Message/MessageDTO.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/DeleteRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/GetMessagesUseCase.dart';
 import 'package:chat/Domain/UseCase/RemoveUserFromRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/SendMessageUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatNavigator.dart';
 import 'package:chat/Presentation/UI/Chat/ChatViewModel.dart';
 import 'package:chat/Presentation/UI/Chat/Widgets/MessageWidget.dart';
 import 'package:chat/Presentation/UI/RoomDetails/RoomDetailsView.dart';
+import 'package:chat/Presentation/UI/UpdateRoomDetails/UpdateRoomDetailsView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,7 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
   @override
   Widget build(BuildContext context) {
     if(viewModel!.room == null){
-      Room room = ModalRoute.of(context)!.settings.arguments as Room;
-      viewModel!.room = room;
+      viewModel!.room = ModalRoute.of(context)!.settings.arguments as Room;
     }
     return Stack(
       children: [
@@ -38,12 +38,10 @@ class _ChatViewState extends BaseState<ChatView , ChatViewModel> implements Chat
           width: double.infinity,
           color: MyTheme.white,
         ),
-        SizedBox(
+        Image.asset(
+          'assets/images/bgShape.png',
           width: double.infinity,
-          child: Image.asset(
-            'assets/images/bgShape.png',
-            fit: BoxFit.cover,
-          ),
+          fit: BoxFit.cover,
         ),
         Scaffold(
           appBar: AppBar(
