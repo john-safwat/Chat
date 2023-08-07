@@ -1,7 +1,7 @@
+import 'package:chat/Core/Base/BaseState.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/UseCase/ResetPasswordUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordNavigator.dart';
 import 'package:chat/Presentation/UI/ResetPassword/ResetPasswordViewModel.dart';
@@ -26,12 +26,10 @@ class _ResetPasswordScreenState
         width: double.infinity,
         color: MyTheme.white,
       ),
-      SizedBox(
+      Image.asset(
+        'assets/images/bgShape.png',
         width: double.infinity,
-        child: Image.asset(
-          'assets/images/bgShape.png',
-          fit: BoxFit.cover,
-        ),
+        fit: BoxFit.cover,
       ),
       Scaffold(
         appBar: AppBar(
@@ -78,12 +76,6 @@ class _ResetPasswordScreenState
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                 child: ElevatedButton(
                     onPressed: viewModel!.resetPassword,
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(MyTheme.blue),
-                        elevation: MaterialStateProperty.all(4),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ))),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 20),

@@ -13,4 +13,16 @@ class RoomType {
       RoomType(icon: EvaIcons.lockOutline, title: "Private"),
     ];
   }
+
+  static RoomType getRoomType(String id){
+    var types = getTypesList();
+    switch (id){
+      case "Public":
+        return types[0];
+      case "Private":
+        return types[1];
+      default:
+        return RoomType(icon: EvaIcons.peopleOutline, title: "Public") ;
+    }
+  }
 }

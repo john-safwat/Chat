@@ -1,8 +1,8 @@
+import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
 import 'package:chat/Domain/UseCase/LoginAccountUseCase.dart';
 import 'package:chat/Domain/UseCase/SignInWithGoogleUseCase.dart';
-import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Login/LoginNavigator.dart';
 import 'package:flutter/material.dart';
 

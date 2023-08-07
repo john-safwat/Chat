@@ -1,9 +1,9 @@
+import 'package:chat/Core/Base/BaseState.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/UseCase/AddRoomUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
 import 'package:chat/Presentation/Models/RoomCategory.dart';
 import 'package:chat/Presentation/Models/RoomType.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomNavigator.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomViewModel.dart';
 import 'package:chat/Presentation/UI/Create%20Room/Widgets/CategoryDropdownButtonWidget.dart';
@@ -46,12 +46,10 @@ class _CreateRoomViewState
               width: double.infinity,
               color: MyTheme.white,
             ),
-            SizedBox(
+            Image.asset(
+              'assets/images/bgShape.png',
               width: double.infinity,
-              child: Image.asset(
-                'assets/images/bgShape.png',
-                fit: BoxFit.cover,
-              ),
+              fit: BoxFit.cover,
             ),
             Scaffold(
               appBar: AppBar(
@@ -177,12 +175,6 @@ class _CreateRoomViewState
                                   width: double.infinity,
                                   margin:const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
                                   child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all(MyTheme.blue),
-                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ))
-                                    ),
                                     onPressed: value.addRoom,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),

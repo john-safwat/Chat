@@ -1,6 +1,6 @@
-import 'package:chat/Presentation/Dialogs/NegativeActionButton.dart';
-import 'package:chat/Presentation/Dialogs/PosActionButton.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Core/Dialogs/NegativeActionButton.dart';
+import 'package:chat/Core/Dialogs/PosActionButton.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 

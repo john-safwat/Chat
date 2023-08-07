@@ -1,4 +1,4 @@
-import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
           borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(
             width: 1,
-            color: MyTheme.gray ,
+            color: MyTheme.blue ,
           ),
         ),
         focusedBorder: OutlineInputBorder(
@@ -65,7 +65,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
       maxLines: widget.maxLines,
       validator: (value) => widget.validator(value),
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.black),
+      style: Theme.of(context).textTheme.displayMedium!.copyWith(color: MyTheme.blue),
       readOnly: readonly,
     );
   }

@@ -1,8 +1,8 @@
+import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Domain/Exception/FirebaseFireStoreDatabaseTimeoutException.dart';
 import 'package:chat/Domain/Exception/FirebaseFirestoreDatabaseException.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/AddUserToRoomUseCase.dart';
-import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomNavigator.dart';
 
 class JoinRoomViewModel extends BaseViewModel<JoinRoomNavigator>{

@@ -1,11 +1,11 @@
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/AddUserToRoomByRoomIdUseCase.dart';
 import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
+import 'package:chat/Core/Base/BaseState.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/Create%20Room/CreateRoomView.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
@@ -33,8 +33,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
-    with SingleTickerProviderStateMixin
+class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel> with SingleTickerProviderStateMixin
     implements HomeNavigator {
   @override
   HomeViewModel initialViewModel() {
@@ -74,12 +73,10 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
             width: double.infinity,
             color: MyTheme.white,
           ),
-          SizedBox(
+          Image.asset(
+            'assets/images/bgShape.png',
             width: double.infinity,
-            child: Image.asset(
-              'assets/images/bgShape.png',
-              fit: BoxFit.cover,
-            ),
+            fit: BoxFit.cover,
           ),
           DefaultTabController(
             length: 2,
@@ -320,32 +317,5 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   hideModalBottomSheet() {
     Navigator.pop(context);
   }
-
-  @override
-  showSuccessNotification() {
-    ElegantNotification(
-      icon:const Icon(EvaIcons.copyOutline , color: MyTheme.white),
-      width: MediaQuery.of(context).size.width,
-      background: MyTheme.blue,
-      animation: AnimationType.fromBottom,
-      radius: 10,
-      height: 60,
-      closeButton:  (dismissNotification) => InkWell(
-        onTap: dismissNotification,
-        child:const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Icon(EvaIcons.close , color: Colors.white,),
-        ),
-      ),
-      notificationPosition: NotificationPosition.bottomCenter,
-      toastDuration: const Duration(seconds: 2),
-      progressIndicatorColor: Colors.transparent,
-      progressIndicatorBackground: Colors.transparent,
-      animationDuration:const Duration(milliseconds: 500),
-      // title: const Text("Success" ,style: TextStyle(fontWeight: FontWeight.bold)) ,
-      description: const Text("ID Coped Successfully" , style: TextStyle(color: MyTheme.white),),
-    ).show(context);
-  }
-
 
 }
