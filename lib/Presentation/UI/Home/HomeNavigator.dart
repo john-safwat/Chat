@@ -1,5 +1,5 @@
+import 'package:chat/Core/Base/BaseNavigator.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
-import 'package:chat/Presentation/Base/BaseNavigator.dart';
 import 'package:flutter/material.dart';
 
 abstract class HomeNavigator extends BaseNavigator{
@@ -10,5 +10,4 @@ abstract class HomeNavigator extends BaseNavigator{
   goToChatScreen(Room room);
   showMyModalBottomSheet({required TextEditingController idController});
   hideModalBottomSheet();
-  showSuccessNotification();
 }

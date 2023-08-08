@@ -1,8 +1,8 @@
+import 'package:chat/Core/Base/BaseState.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/Models/Room/Room.dart';
 import 'package:chat/Domain/UseCase/SearchForRoomsUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/Chat/ChatView.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CardWidget.dart';
 import 'package:chat/Presentation/UI/JoinRoom/JoinRoomView.dart';
@@ -34,12 +34,10 @@ class _SearchViewState extends BaseState<SearchView , SearchViewModel> implement
               width: double.infinity,
               color: MyTheme.white,
             ),
-            SizedBox(
+            Image.asset(
+              'assets/images/bgShape.png',
               width: double.infinity,
-              child: Image.asset(
-                'assets/images/bgShape.png',
-                fit: BoxFit.cover,
-              ),
+              fit: BoxFit.cover,
             ),
             Scaffold(
               appBar: AppBar(

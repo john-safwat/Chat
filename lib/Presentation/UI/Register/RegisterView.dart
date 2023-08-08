@@ -1,7 +1,7 @@
+import 'package:chat/Core/Base/BaseState.dart';
+import 'package:chat/Core/Theme/MyTheme.dart';
 import 'package:chat/Domain/UseCase/CreateAccountUseCase.dart';
-import 'package:chat/Presentation/Base/BaseState.dart';
 import 'package:chat/Presentation/DI/di.dart';
-import 'package:chat/Presentation/Theme/MyTheme.dart';
 import 'package:chat/Presentation/UI/GlobalWidgets/CustomTextFormField.dart';
 import 'package:chat/Presentation/UI/Home/HomeView.dart';
 import 'package:chat/Presentation/UI/Login/LoginView.dart';
@@ -42,12 +42,10 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
               width: double.infinity,
               color: MyTheme.white,
             ),
-            SizedBox(
+            Image.asset(
+              'assets/images/bgShape.png',
               width: double.infinity,
-              child: Image.asset(
-                'assets/images/bgShape.png',
-                fit: BoxFit.cover,
-              ),
+              fit: BoxFit.cover,
             ),
             Scaffold(
               body: SingleChildScrollView(
@@ -98,15 +96,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                               margin: const EdgeInsets.all(20),
                               child: ElevatedButton(
                                   onPressed: value.register,
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              MyTheme.blue),
-                                      elevation: MaterialStateProperty.all(4),
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ))),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 30, vertical: 15),

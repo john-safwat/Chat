@@ -1,3 +1,4 @@
+import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Data/Models/Message/MessageDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseFireStoreDatabaseTimeoutException.dart';
 import 'package:chat/Domain/Exception/FirebaseFirestoreDatabaseException.dart';
@@ -7,7 +8,6 @@ import 'package:chat/Domain/UseCase/DeleteRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/GetMessagesUseCase.dart';
 import 'package:chat/Domain/UseCase/RemoveUserFromRoomUseCase.dart';
 import 'package:chat/Domain/UseCase/SendMessageUseCase.dart';
-import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Chat/ChatNavigator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';

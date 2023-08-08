@@ -1,3 +1,4 @@
+import 'package:chat/Core/Base/BaseViewModel.dart';
 import 'package:chat/Data/Models/Room/RoomDTO.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthException.dart';
 import 'package:chat/Domain/Exception/FirebaseAuthTimeoutException.dart';
@@ -8,7 +9,6 @@ import 'package:chat/Domain/UseCase/AddUserToRoomByRoomIdUseCase.dart';
 import 'package:chat/Domain/UseCase/GetUserRoomsUseCase.dart';
 import 'package:chat/Domain/UseCase/SignOutUseCase.dart';
 import 'package:chat/Domain/UseCase/GetPublicRoomsUseCase.dart';
-import 'package:chat/Presentation/Base/BaseViewModel.dart';
 import 'package:chat/Presentation/UI/Home/HomeNavigator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,7 +43,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
   }
 
   void onCopyIdPress(){
-    navigator!.showSuccessNotification();
+    navigator!.showNotification();
   }
   void goToJoinRoomScreen(Room room){
     navigator!.goToJoinRoomScreen(room);
