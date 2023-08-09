@@ -52,123 +52,125 @@ class _UpdateRoomDetailsViewState
             appBar: AppBar(
               title: Text("${viewModel!.room!.name} - Details"),
             ),
-            body: Column(
-              children: [
-                Expanded(
-                    child: Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: MyTheme.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                            color: MyTheme.black.withOpacity(0.3),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5))
-                      ]),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding:const  EdgeInsets.all(20),
-                      child: Form(
-                        key: viewModel!.formKey,
-                        child: Column(
-                          children: [
-                            Text(viewModel!.room!.name ,
-                              style: Theme.of(context).textTheme.displayLarge,
-                            ),
-                            VirtecalWhiteSpace(),
-                            Image.asset("assets/icons/${viewModel!.selectedCategory.image}"),
-                            VirtecalWhiteSpace(),
-                            MyTextFormField(
-                              hintText: "Room Name",
-                              controller: viewModel!.roomNameController,
-                              validator: viewModel!.nameValidation,
-                            ),
-                            VirtecalWhiteSpace(),
-                            MyTextFormField(
-                              hintText: "Room Description",
-                              controller: viewModel!.roomDescriptionController,
-                              validator: viewModel!.descriptionValidation,
-                            ),
-                            VirtecalWhiteSpace(),
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: MyTheme.white,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(width: 1 , color: MyTheme.blue),
+            body: Consumer<UpdateRoomDetailsViewModel>(
+              builder: (context, value, child) => Column(
+                children: [
+                  Expanded(
+                      child: Container(
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: MyTheme.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                              color: MyTheme.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5))
+                        ]),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding:const  EdgeInsets.all(20),
+                        child: Form(
+                          key: viewModel!.formKey,
+                          child: Column(
+                            children: [
+                              Text(viewModel!.room!.name ,
+                                style: Theme.of(context).textTheme.displayLarge,
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-                              child: DropdownButton<RoomCategory>(
-                                icon: const Icon(EvaIcons.arrowDown ),
-                                iconEnabledColor: MyTheme.blue,
-                                isExpanded: true,
-                                underline: Container(),
-                                borderRadius: BorderRadius.circular(20),
-                                value: viewModel!.selectedCategory,
-                                items: viewModel!.categories.map<DropdownMenuItem<RoomCategory>>(
-                                        (category) => DropdownMenuItem<RoomCategory>(
-                                      value: category,
-                                      child: CategoryDropdownButtonWidget(category: category,),
-                                    )).toList(),
-                                onChanged: (value) {
-                                  viewModel!.changeSelectedItem(value!);
-                                },
+                              VirtecalWhiteSpace(),
+                              Image.asset("assets/icons/${viewModel!.selectedCategory.image}"),
+                              VirtecalWhiteSpace(),
+                              MyTextFormField(
+                                hintText: "Room Name",
+                                controller: viewModel!.roomNameController,
+                                validator: viewModel!.nameValidation,
                               ),
-                            ),
-                            VirtecalWhiteSpace(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: MyTheme.white,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(width: 1 ,color: MyTheme.blue),
+                              VirtecalWhiteSpace(),
+                              MyTextFormField(
+                                hintText: "Room Description",
+                                controller: viewModel!.roomDescriptionController,
+                                validator: viewModel!.descriptionValidation,
                               ),
-                              child: DropdownButton<RoomType>(
-                                isExpanded: true,
-                                underline: Container(),
-                                value: viewModel!.selectedType,
-                                borderRadius: BorderRadius.circular(20),
-                                icon: const Icon(EvaIcons.arrowDown ),
-                                iconEnabledColor: MyTheme.blue,
-                                items: viewModel!.types.map<DropdownMenuItem<RoomType>>(
-                                        (e) => DropdownMenuItem<RoomType>(
-                                      value: e,
-                                      child: TypeDropdownButtonWidget(roomType: e,),
-                                    )
-                                ).toList(),
-                                onChanged: (value) => viewModel!.changeSelectedType(value!),
-                              ),
-                            ),
-                            VirtecalWhiteSpace(),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  onPressed: (){
-                                    viewModel!.updateRoom();
+                              VirtecalWhiteSpace(),
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: MyTheme.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(width: 1 , color: MyTheme.blue),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+                                child: DropdownButton<RoomCategory>(
+                                  icon: const Icon(EvaIcons.arrowDown ),
+                                  iconEnabledColor: MyTheme.blue,
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  borderRadius: BorderRadius.circular(20),
+                                  value: viewModel!.selectedCategory,
+                                  items: viewModel!.categories.map<DropdownMenuItem<RoomCategory>>(
+                                          (category) => DropdownMenuItem<RoomCategory>(
+                                        value: category,
+                                        child: CategoryDropdownButtonWidget(category: category,),
+                                      )).toList(),
+                                  onChanged: (value) {
+                                    viewModel!.changeSelectedItem(value!);
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 20),
-                                    child: Text(
-                                      "Update Room Info",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium!
-                                          .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: MyTheme.white),
-                                    ),
-                                  )),
-                            ),
-                          ],
+                                ),
+                              ),
+                              VirtecalWhiteSpace(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: MyTheme.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(width: 1 ,color: MyTheme.blue),
+                                ),
+                                child: DropdownButton<RoomType>(
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  value: viewModel!.selectedType,
+                                  borderRadius: BorderRadius.circular(20),
+                                  icon: const Icon(EvaIcons.arrowDown ),
+                                  iconEnabledColor: MyTheme.blue,
+                                  items: viewModel!.types.map<DropdownMenuItem<RoomType>>(
+                                          (e) => DropdownMenuItem<RoomType>(
+                                        value: e,
+                                        child: TypeDropdownButtonWidget(roomType: e,),
+                                      )
+                                  ).toList(),
+                                  onChanged: (value) => viewModel!.changeSelectedType(value!),
+                                ),
+                              ),
+                              VirtecalWhiteSpace(),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: (){
+                                      viewModel!.updateRoom();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 20),
+                                      child: Text(
+                                        "Update Room Info",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayMedium!
+                                            .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: MyTheme.white),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )),
-              ],
+                  )),
+                ],
+              ),
             ),
           )
         ],
