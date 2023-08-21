@@ -43,23 +43,24 @@ If you are looking for a chat app that is built using modern technologies and be
 
 ### Dependencies
 
-  * cupertino_icons: ^1.0.2
-  * flutter_native_splash: ^2.3.1
-  * icons_launcher: ^2.1.3
-  * provider: ^6.0.5
-  * firebase_core: ^2.15.0
-  * firebase_auth: ^4.7.0
-  * eva_icons_flutter: ^3.1.0
-  * firebase_performance: ^0.9.2+4
-  * google_sign_in: ^6.1.4
-  * shared_preferences: ^2.2.0
-  * firebase_database: ^10.2.4
-  * cloud_firestore: ^4.8.3
-  * flutter_svg: ^2.0.7
-  * intl: ^0.18.1
-  * contained_tab_bar_view: ^0.8.0
-  * animated_expandable_fab: ^0.0.2
-  * floating_action_bubble_custom: ^1.0.0+2
+    * cupertino_icons: ^1.0.2
+    * flutter_native_splash: ^2.3.1
+    * icons_launcher: ^2.1.3
+    * provider: ^6.0.5
+    * firebase_core: ^2.15.0
+    * firebase_auth: ^4.7.0
+    * eva_icons_flutter: ^3.1.0
+    * firebase_performance: ^0.9.2+4
+    * google_sign_in: ^6.1.4
+    * shared_preferences: ^2.2.0
+    * firebase_database: ^10.2.4
+    * cloud_firestore: ^4.8.3
+    * flutter_svg: ^2.0.7
+    * intl: ^0.18.1
+    * contained_tab_bar_view: ^0.8.0
+    * animated_expandable_fab: ^0.0.2
+    * floating_action_bubble_custom: ^1.0.0+2
+    * elegant_notification: ^1.10.1
 
 
 ### Installing
